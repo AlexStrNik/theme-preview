@@ -96,14 +96,27 @@ function make_prev(sesId,path) {
             if(theme[attheme.IMAGE_KEY]){
                 fs.writeFileSync('./res'+sesId+'.jpg',new Buffer(btoa(theme[attheme.IMAGE_KEY]),'base64'));
                 let dimensions = sizeOf('./res'+sesId+'.jpg');
-                let k = Math.max(dimensions.width/480, dimensions.height/720);
+                let imgRatio = (dimensions.height / dimensions.width) ;
+                let containerRatio = (720 / 480);
+                let finalHeight;
+                let finalWidth;
+                if (containerRatio > imgRatio)
+                {
+                    finalHeight = 720;
+                    finalWidth = (720 * imgRatio);
+                }
+                else
+                {
+                    finalWidth = 480;
+                    finalHeight = (480 * imgRatio);
+                }// original img ratio
                 let image = btoa(theme[attheme.IMAGE_KEY]);
                 getElementsByClassName(chat,'chat_wallpaper')[0].setAttribute('fill','rgba(0,0,0,0)');
                 let zq = getElementsByClassName(chat,"IMG")[0];
                 zq.setAttribute('xlink:href',`data:image/jpg;base64,${image}`);
-                zq.setAttribute('width',480*k);
-                zq.setAttribute('height',720*k);
-                zq.setAttribute('y',62-(720*k-720)/2);
+                zq.setAttribute('width',finalWidth);
+                zq.setAttribute('height',finalHeight);
+                zq.setAttribute('y',62-(finalHeight-720)/2);
                 fs.unlinkSync('./res'+sesId+'.jpg');
             }
             let merge = read_xml('./merge.svg');
