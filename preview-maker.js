@@ -117,7 +117,7 @@ function make_prev(sesId,path) {
                 if (containerRatio > imgRatio)
                 {
                     finalHeight = 720;
-                    finalWidth = (720 * imgRatio);
+                    finalWidth = (720 /imgRatio);
                 }
                 else
                 {
