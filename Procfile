@@ -1,1 +1,0 @@
-web: node bot_core.js
