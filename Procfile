@@ -1,1 +1,1 @@
-worker: node bot-core.js
+worker: node ./bot_core.js
