@@ -1,0 +1,19 @@
+{
+  "name": "theme-preview",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./main.js"
+  },
+  "dependencies": {
+    "attheme-default-values": "latest",
+    "attheme-js": "^1.1.1",
+    "btoa": "^1.1.2",
+    "filereader": "^0.10.3",
+    "image-size": "^0.6.1",
+    "node-telegram-bot-api": "^0.28.0",
+    "pn": "^1.0.0",
+    "svg2png": "^4.1.1",
+    "xmldom": "^0.1.27"
+  }
+}
