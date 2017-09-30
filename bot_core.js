@@ -11,13 +11,11 @@ bot.on('message', function (msg) {
     now = now.getTime();
     if(msg.document){
         bot.downloadFile(msg.document.file_id, "./").then(function (path) {
-            bot.sendMessage(chatId,"Making Preview...");
             maker.make_prev(chatId+now+msg.document.file_id,path).then(function (donepath) {
                 bot.sendPhoto(chatId, donepath, {caption: 'Created by @ThemePreviewBot'}).then(
                     function (t) {
                         fs.unlink(path);
                         fs.unlink(donepath);
-                        bot.sendMessage(chatId,"Done!!!");
                     }
                 );
             })
