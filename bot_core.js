@@ -1,4 +1,4 @@
-const token = require('./token2').token;
+const token = process.env.TOKEN;
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const maker = require("./preview-maker");
