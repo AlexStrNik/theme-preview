@@ -80,28 +80,17 @@ function read(path) {
 function make_prev(sesId,path) {
     return new Promise((resolve, reject) => {
         read(path).then(function (content) {
-            let list = read_xml('./list.svg');
-            let chat = read_xml('./chat.svg');
+            let prev = read_xml('./theme-preview.svg');
             let theme = new attheme(content,defaultVariablesValues);
 
             for(let key in defaultVariablesValues){
-                let z = getElementsByClassName(list,key);
-                let x = getElementsByClassName(chat,key);
-                for(let node in z){
+                let z = getElementsByClassName(prev,key);
+                for(let node in z) {
                     let value = theme[key];
-                    z[node].setAttribute('fill',`rgba(${value.red}, ${value.green}, ${value.blue}, ${value.alpha / 255})`);
-                    for(let e in z[node].childNodes){
-                        if(z[node].childNodes[e].setAttribute){
-                            z[node].childNodes[e].setAttribute('fill',`rgba(${value.red}, ${value.green}, ${value.blue}, ${value.alpha / 255})`);
-                        }
-                    }
-                }
-                for(let node in x) {
-                    let value = theme[key];
-                    x[node].setAttribute('fill',`rgba(${value.red}, ${value.green}, ${value.blue}, ${value.alpha / 255})`);
-                    for(let e in x[node].childNodes){
-                        if(x[node].childNodes[e].setAttribute){
-                            x[node].childNodes[e].setAttribute('fill',`rgba(${value.red}, ${value.green}, ${value.blue}, ${value.alpha / 255})`);
+                    z[node].setAttribute('fill', `rgba(${value.red}, ${value.green}, ${value.blue}, ${value.alpha / 255})`);
+                    for (let e in z[node].childNodes) {
+                        if (z[node].childNodes[e].setAttribute) {
+                            z[node].childNodes[e].setAttribute('fill', `rgba(${value.red}, ${value.green}, ${value.blue}, ${value.alpha / 255})`);
                         }
                     }
                 }
@@ -125,18 +114,17 @@ function make_prev(sesId,path) {
                     finalHeight = (480 * imgRatio);
                 }// original img ratio
                 let image = btoa(theme[attheme.IMAGE_KEY]);
-                getElementsByClassName(chat,'chat_wallpaper')[0].setAttribute('fill','rgba(0,0,0,0)');
-                let zq = getElementsByClassName(chat,"IMG")[0];
+                getElementsByClassName(prev,'chat_wallpaper')[0].setAttribute('fill','rgba(0,0,0,0)');
+                let zq = getElementsByClassName(prev,"IMG")[0];
                 zq.setAttribute('xlink:href',`data:image/jpg;base64,${image}`);
                 zq.setAttribute('width',finalWidth);
                 zq.setAttribute('height',finalHeight);
                 zq.setAttribute('y',62-(finalHeight-720)/2);
+               // zq.setAttribute('x',0);
                 fs.unlinkSync('./res'+sesId+'.jpg');
             }
-            let merge = read_xml('./merge.svg');
-            merge.getElementById("left").appendChild(list.getElementById("left11"));
-            merge.getElementById("right").appendChild(chat.getElementById("right11"));
-            let done = svg2png.sync(new XmlSerializer().serializeToString(merge), {});
+            let done = svg2png.sync(new XmlSerializer().serializeToString(prev), {});
+            //fs.writeFileSync('./testdev.svg',new XmlSerializer().serializeToString(prev));
             fs.writeFileSync('./done'+sesId+'.png',done);
             resolve('./done'+sesId+'.png');
         });
