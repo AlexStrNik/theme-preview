@@ -7,6 +7,7 @@ const request = require('request');
 const request2 = require(`request-promise`);
 const maker = require("./preview-maker");
 
+//new update
 TelegrafContext.prototype.downloadFile=function (file_id, dir) {
     let cr = this;
     return new Promise(function (run, err) {
