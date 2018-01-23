@@ -1,4 +1,4 @@
-const token = '419395725:AAE-iNnIYmUzwlE3VDbGnWFcGXaFJ6EQnqk'//process.env.TOKEN;
+const token = process.env.TOKEN;
 const Telegraf = require('telegraf');
 const TelegrafContext = require('./node_modules/telegraf/lib/core/context');
 const bot = new Telegraf(token);
