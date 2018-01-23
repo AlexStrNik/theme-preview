@@ -1,9 +1,10 @@
-const token = process.env.TOKEN;
+const token = '419395725:AAE-iNnIYmUzwlE3VDbGnWFcGXaFJ6EQnqk'//process.env.TOKEN;
 const Telegraf = require('telegraf');
 const TelegrafContext = require('./node_modules/telegraf/lib/core/context');
 const bot = new Telegraf(token);
 const fs = require('fs');
 const request = require('request');
+const request2 = require(`request-promise`);
 const maker = require("./preview-maker");
 
 TelegrafContext.prototype.downloadFile=function (file_id, dir) {
@@ -21,6 +22,45 @@ TelegrafContext.prototype.downloadFile=function (file_id, dir) {
         });
     });
 };
+bot.command('start',async function (msg) {
+    let chatId = msg.chat.id;
+    let now = new Date();
+    now = now.getTime();
+    if(msg.message.text.split('/start ').length===2){
+        console.log('Send');
+        let id = msg.message.text.split('/start ')[1];
+        try{
+            const result = await request2({
+                uri: `https://snejugal.ru/attheme-editor/get-theme/?themeId=${id}`,
+            });
+            console.log(result);
+            const { name, content } = JSON.parse(result);
+            fs.writeFileSync('./'+chatId+now,Buffer.from(content, `base64`));
+            maker.make_prev(chatId+now+msg.message.id,'./'+chatId+now).then(function (donepath) {
+                msg.replyWithPhoto({source: donepath},{reply_to_message_id: msg.message.message_id,caption: name+'\nCreated by @ThemePreviewBot'}).then(
+                    function (t) {
+                        fs.unlink('./'+chatId+now);
+                        fs.unlink(donepath);
+                    }
+                );
+            })
+        }
+        catch (e){
+            console.error(e);
+        }
+        finally {
+
+        }
+    }
+    else {
+        msg.reply("Send me an .attheme file to create its preview")
+    }
+});
+
+bot.command('help',function (msg) {
+    msg.reply("Send me an .attheme file to create its preview")
+});
+
 bot.on('message', function (msg) {
     let chatId = msg.chat.id;
     let now = new Date();
