@@ -124,8 +124,8 @@ function make_prev(sesId,path) {
                 fs.unlinkSync('./res'+sesId+'.jpg');
             }
             let done = svg2png.sync(new XmlSerializer().serializeToString(prev), {});
-            fs.writeFileSync('./testdev.svg',new XmlSerializer().serializeToString(prev));
-            //fs.writeFileSync('./done'+sesId+'.png',done);
+            //fs.writeFileSync('./testdev.svg',new XmlSerializer().serializeToString(prev));
+            fs.writeFileSync('./done'+sesId+'.png',done);
             resolve('./done'+sesId+'.png');
         });
     });
