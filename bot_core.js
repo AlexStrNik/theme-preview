@@ -1,4 +1,4 @@
-const token = process.env.TOKEN;
+const token = process.env.TOKEN?process.env.TOKEN:require('./token2').token;
 const Telegraf = require('telegraf');
 const TelegrafContext = require('./node_modules/telegraf/lib/core/context');
 const bot = new Telegraf(token);
@@ -23,6 +23,7 @@ TelegrafContext.prototype.downloadFile=function (file_id, dir) {
         });
     });
 };
+
 bot.command('start',async function (msg) {
     let chatId = msg.chat.id;
     let now = new Date();

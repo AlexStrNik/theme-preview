@@ -120,11 +120,11 @@ function make_prev(sesId,path) {
                 zq.setAttribute('width',finalWidth);
                 zq.setAttribute('height',finalHeight);
                 zq.setAttribute('y',62-(finalHeight-720)/2);
-               // zq.setAttribute('x',0);
+                zq.setAttribute('x',-(finalWidth-480)/2);
                 fs.unlinkSync('./res'+sesId+'.jpg');
             }
             let done = svg2png.sync(new XmlSerializer().serializeToString(prev), {});
-            //fs.writeFileSync('./testdev.svg',new XmlSerializer().serializeToString(prev));
+            fs.writeFileSync('./testdev.svg',new XmlSerializer().serializeToString(prev));
             fs.writeFileSync('./done'+sesId+'.png',done);
             resolve('./done'+sesId+'.png');
         });
