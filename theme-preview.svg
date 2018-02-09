@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="782" viewBox="0 0 960 782">
-    <path class="chat_wallpaper" d="M480 122h480v660H480z"/>
     <path d="M0 0h960v782H0z"/>
     <image class="IMG" transform="translate(480)" xlink:href="AAAdataAAA" y="62" width="480" height="720"/>
+    <path class="chat_wallpaper" d="M480 122h480v660H480z"/>
     <path class="windowBackgroundWhite" d="M0 122h480v660H0z"/>
     <path class="chats_pinnedOverlay" d="M0 122h480v109H0z"/>
     <circle class="avatar_backgroundRed" cx="53" cy="176" r="39"/>
