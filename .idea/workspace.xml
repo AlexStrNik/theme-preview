@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/header.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/telegraf.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/preferred-vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/.npmignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/lib/encoding.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/lib/iconv-loader.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/encoding/test/test.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/.npmignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/Changelog.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/dbcs-codec.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/dbcs-data.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/internal.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/sbcs-codec.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/sbcs-data-generated.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/sbcs-data.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/big5-added.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/cp936.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/cp949.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/cp950.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/eucjp.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/gb18030-ranges.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/gbk-added.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/tables/shiftjis.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/utf16.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/encodings/utf7.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/lib/bom-handling.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/lib/extend-node.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/lib/index.d.ts" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/lib/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/lib/streams.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/.npmignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/CHANGELOG.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/ERROR-HANDLING.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/LICENSE.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/LIMITS.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/lib/body.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/lib/fetch-error.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/lib/headers.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/lib/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/lib/request.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/lib/response.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/test/dummy.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/test/server.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/node-fetch/test/test.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/.npmignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/.vimrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/LICENCE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/lib/sandwich-stream.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/sandwich-stream/test/sandwich-stream.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/advanced.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/context.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/docs.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/extra.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/index.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/introduction.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/telegraf.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/docs/telegram.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/core/composer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/core/context.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/core/router.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/core/session.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/helpers/extra.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/helpers/markup.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/helpers/replicators.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/network/client.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/network/error.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/network/multipart-stream.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/network/webhook.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/telegraf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/lib/telegram.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/.coveralls.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/.eslintrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/.npmignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/CHANGELOG.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/karma.conf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/node.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/src/browser.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/src/debug.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/src/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/debug/src/node.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/ms/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/ms/license.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/ms/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/node_modules/ms/readme.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/telegraf/readme.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/token2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bot_core.js" afterPath="$PROJECT_DIR$/bot_core.js" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <ignored path="$PROJECT_DIR$/.idea/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bot_core.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="69" column="61" lean-forward="false" selection-start-line="69" selection-start-column="61" selection-end-line="69" selection-end-column="61" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="preview-maker.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/preview-maker.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="theme-preview.svg" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/theme-preview.svg">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="60" lean-forward="false" selection-start-line="3" selection-start-column="60" selection-end-line="3" selection-end-column="60" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="token2.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/token2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="69" selection-end-line="0" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>actionBa</find>
+      <find>chat_ou</find>
+      <find>seek</find>
+      <find>chat_wallpaper</find>
+      <find>img</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/node_modules/xml-parse-from-string/index.js" />
+        <option value="$PROJECT_DIR$/node_modules/attheme-js/attheme.node.js" />
+        <option value="$PROJECT_DIR$/test.svg" />
+        <option value="$PROJECT_DIR$/test2.svg" />
+        <option value="$PROJECT_DIR$/test2QwA.svg" />
+        <option value="$PROJECT_DIR$/chat.svg" />
+        <option value="$PROJECT_DIR$/list.svg" />
+        <option value="$PROJECT_DIR$/merge.svg" />
+        <option value="$PROJECT_DIR$/token.js" />
+        <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/testdev.svg" />
+        <option value="$PROJECT_DIR$/BQADAQADDQAD5vgQR1caMdhqPGZoAg.file" />
+        <option value="$PROJECT_DIR$/BQADAgADZgAD39LgS1ObXR7VcmViAg.file" />
+        <option value="$PROJECT_DIR$/token2.js" />
+        <option value="$PROJECT_DIR$/theme-preview.svg" />
+        <option value="$PROJECT_DIR$/preview-maker.js" />
+        <option value="$PROJECT_DIR$/bot_core.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="676" />
+    <option name="width" value="697" />
+    <option name="height" value="735" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="theme-preview" type="b2602c69:ProjectViewProjectNode" />
+              <item name="theme-preview" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="theme-preview" type="cbb8eebc:String" user="theme-preview" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="javascript.nodejs.core.library.configured.version" value="8.9.0" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="JavaScriptPreferStrict" value="false" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\alexa\WebstormProjects\theme-preview" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alexa\WebstormProjects\theme-preview" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Node.js.bot_core.js">
+    <configuration name="bot_core.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="bot_core.js" working-dir="$PROJECT_DIR$" />
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.main" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.bot_core.js" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.bot_core.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="" />
+      <created>1506250625187</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1506250625187</updated>
+      <workItem from="1506250633632" duration="20961000" />
+      <workItem from="1506434815353" duration="13143000" />
+      <workItem from="1506448971396" duration="3482000" />
+      <workItem from="1506781809523" duration="1428000" />
+      <workItem from="1506792317804" duration="1053000" />
+      <workItem from="1506794874391" duration="141000" />
+      <workItem from="1507732374286" duration="935000" />
+      <workItem from="1508329697318" duration="2468000" />
+      <workItem from="1508343721087" duration="4059000" />
+      <workItem from="1509640440513" duration="203000" />
+      <workItem from="1509651266261" duration="504000" />
+      <workItem from="1509652773815" duration="10000" />
+      <workItem from="1509652813704" duration="48000" />
+      <workItem from="1509704668756" duration="8000" />
+      <workItem from="1509727355899" duration="44000" />
+      <workItem from="1516716614775" duration="79000" />
+      <workItem from="1516716749646" duration="2173000" />
+      <workItem from="1518100262412" duration="302000" />
+      <workItem from="1518101190999" duration="3560000" />
+      <workItem from="1518202071272" duration="1315000" />
+      <workItem from="1518618350663" duration="140000" />
+    </task>
+    <task id="LOCAL-00001" summary="new">
+      <created>1506446339608</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1506446339609</updated>
+    </task>
+    <task id="LOCAL-00002" summary="new">
+      <created>1506446779113</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1506446779113</updated>
+    </task>
+    <task id="LOCAL-00003" summary="new">
+      <created>1506447523612</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1506447523612</updated>
+    </task>
+    <task id="LOCAL-00004" summary="new">
+      <created>1506452109712</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1506452109712</updated>
+    </task>
+    <task id="LOCAL-00005" summary="new">
+      <created>1506452289682</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1506452289682</updated>
+    </task>
+    <task id="LOCAL-00006" summary="new">
+      <created>1506452751177</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1506452751177</updated>
+    </task>
+    <task id="LOCAL-00007" summary="new">
+      <created>1506453395890</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1506453395890</updated>
+    </task>
+    <task id="LOCAL-00008" summary="new">
+      <created>1506453885963</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1506453885963</updated>
+    </task>
+    <task id="LOCAL-00009" summary="new">
+      <created>1506782000792</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1506782000792</updated>
+    </task>
+    <task id="LOCAL-00010" summary="new">
+      <created>1506782534624</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1506782534624</updated>
+    </task>
+    <task id="LOCAL-00011" summary="new">
+      <created>1506792352104</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1506792352104</updated>
+    </task>
+    <task id="LOCAL-00012" summary="now on telegraf &amp;&amp; optimize svg. Thanks to @SnejUgal">
+      <created>1508347216977</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1508347216977</updated>
+    </task>
+    <task id="LOCAL-00013" summary="now on telegraf &amp;&amp; optimize svg. Thanks to @SnejUgal">
+      <created>1508347413709</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1508347413709</updated>
+    </task>
+    <task id="LOCAL-00014" summary="now on telegraf &amp;&amp; optimize svg. Thanks to @SnejUgal">
+      <created>1516718315530</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1516718315530</updated>
+    </task>
+    <task id="LOCAL-00015" summary="now on telegraf &amp;&amp; optimize svg. Thanks to @SnejUgal">
+      <created>1516718335686</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1516718335686</updated>
+    </task>
+    <task id="LOCAL-00016" summary="create preview for themes from @SnejUgal .attheme editor">
+      <created>1516718504727</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1516718504727</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fixed wallpaper offset">
+      <created>1518103790649</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1518103790649</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fixed wallpaper offset">
+      <created>1518103928563</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1518103928563</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed wallpaper offset &amp;&amp; fixed bug">
+      <created>1518104084487</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1518104084487</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed wallpaper offset &amp;&amp; fixed bug">
+      <created>1518202248388</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1518202248388</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixed wallpaper offset &amp;&amp; fixed bug">
+      <created>1518202849153</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1518202849153</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="56056000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.50446427" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31414473" sideWeight="0.49702382" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.4955357" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug Logs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Salesforce" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new" />
+    <MESSAGE value="now on telegraf &amp;&amp; optimize svg. Thanks to @SnejUgal" />
+    <MESSAGE value="create preview for themes from @SnejUgal .attheme editor" />
+    <MESSAGE value="fixed wallpaper offset" />
+    <MESSAGE value="fixed wallpaper offset &amp;&amp; fixed bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed wallpaper offset &amp;&amp; fixed bug" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/test2.png" />
+    <entry file="file://$PROJECT_DIR$/test.png" />
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/javascript/nodejs/library/node-buffer-stub.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test2QwA.svg" />
+    <entry file="file://$PROJECT_DIR$/test2QwA.png" />
+    <entry file="file://$PROJECT_DIR$/testQwA.png" />
+    <entry file="file://$PROJECT_DIR$/test1" />
+    <entry file="file://$PROJECT_DIR$/test2.svg" />
+    <entry file="file://$PROJECT_DIR$/test1.svg" />
+    <entry file="file://$PROJECT_DIR$/pic.jpg" />
+    <entry file="file://$PROJECT_DIR$/test3.svg" />
+    <entry file="file://$PROJECT_DIR$/merge.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/attheme-js/attheme.node.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="33" lean-forward="false" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/done1506702373407BQADAQADMgADy05RRs6OOrEZNGcAAQI.png" />
+    <entry file="file://$PROJECT_DIR$/done1506703088063BQADBAADCgMAAi0bUFKFCV2GIG6NbwI.png" />
+    <entry file="file://$PROJECT_DIR$/done1506703088062BQADBAADCQMAAi0bUFI5mQz0wqYb5QI.png" />
+    <entry file="file://$PROJECT_DIR$/done1506774963078BQADAgAD0wADnllQSnQdGcvNO_THAg.png" />
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/token.js" />
+    <entry file="file://$PROJECT_DIR$/_config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/javascript/nodejs/library/node-globals-stub.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-26">
+          <caret line="58" column="4" lean-forward="false" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/list.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="17" lean-forward="false" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chat.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="18" lean-forward="false" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resQwA.jpg" />
+    <entry file="file://$PROJECT_DIR$/doneQwA.png" />
+    <entry file="file://$PROJECT_DIR$/testdev.svg" />
+    <entry file="file://$PROJECT_DIR$/node_modules/telegraf/lib/core/composer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1462">
+          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/done1508598397950BQADAQADDQAD5vgQR1caMdhqPGZoAg.png" />
+    <entry file="file://$PROJECT_DIR$/done1508599240191BQADAQADDQAD5vgQR1caMdhqPGZoAg.png" />
+    <entry file="file://$PROJECT_DIR$/BQADBAADqgIAAizYQFP4LpgaMDsVQgI.file" />
+    <entry file="file://$PROJECT_DIR$/BQADAQADDQAD5vgQR1caMdhqPGZoAg.file" />
+    <entry file="file://$PROJECT_DIR$/done1508599728623BQADBQADDgADiN05V8boH5oWE7M2Ag.png" />
+    <entry file="file://$PROJECT_DIR$/BQADBQADDgADiN05V8boH5oWE7M2Ag.file" />
+    <entry file="file://$PROJECT_DIR$/done1508600153198BQADBQADDgADiN05V8boH5oWE7M2Ag.png" />
+    <entry file="file://$PROJECT_DIR$/done1509904791992BQADBAAD8QEAAptj0VOzlhtUUfSudAI.png" />
+    <entry file="file://$PROJECT_DIR$/done1509904791993BQADAgADuQAD1pPhS8qGTJ2jAAGZ4wI.png" />
+    <entry file="file://$PROJECT_DIR$/BQADAgADuQAD1pPhS8qGTJ2jAAGZ4wI.file" />
+    <entry file="file://$PROJECT_DIR$/BQADBAAD8QEAAptj0VOzlhtUUfSudAI.file" />
+    <entry file="file://$PROJECT_DIR$/done1509904716875BQADAgADuQAD1pPhS8qGTJ2jAAGZ4wI.png" />
+    <entry file="file://$PROJECT_DIR$/res1509904826970BQADAgADZgAD39LgS1ObXR7VcmViAg.jpg" />
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.attheme" />
+    <entry file="file://$PROJECT_DIR$/BQADAgADZgAD39LgS1ObXR7VcmViAg.file" />
+    <entry file="file://$PROJECT_DIR$/res1509904925666BQADAgADZgAD39LgS1ObXR7VcmViAg.jpg" />
+    <entry file="file://$USER_HOME$/Downloads/Telegram Desktop/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/token2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="69" lean-forward="false" selection-start-line="0" selection-start-column="69" selection-end-line="0" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/done1518419131325BQADBAADvgIAAse86VMCVVvhmB8okgI.png" />
+    <entry file="file://$PROJECT_DIR$/theme-preview.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="60" lean-forward="false" selection-start-line="3" selection-start-column="60" selection-end-line="3" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preview-maker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot_core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="69" column="61" lean-forward="false" selection-start-line="69" selection-start-column="61" selection-end-line="69" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

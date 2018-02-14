@@ -67,7 +67,7 @@ bot.on('message', function (msg) {
     let chatId = msg.chat.id;
     let now = new Date();
     now = now.getTime();
-    if(msg.message.document&&(msg.message.document.file_name.endsWith('.attheme')||msg.message.document.file_name.endsWith('.xml'))){
+    if(msg.message.document&&msg.message.document.file_name&&(msg.message.document.file_name.endsWith('.attheme')||msg.message.document.file_name.endsWith('.xml'))){
         msg.downloadFile(msg.message.document.file_id, "./").then(function (path) {
             maker.make_prev(chatId+now+msg.message.document.file_id,path).then(function (donepath) {
                 msg.replyWithPhoto({source: donepath},{reply_to_message_id: msg.message.message_id,caption: 'Created by @ThemePreviewBot'}).then(
