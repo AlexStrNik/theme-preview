@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="782" viewBox="0 0 960 782">
     <path d="M480 0h480v782H0z"/>
-    <path class="chat_wallpaper" d="M480 122h480v660H480z"/>
     <image class="IMG" transform="translate(480)" xlink:href="AAAdataAAA" y="62" width="480" height="720"/>
+    <path class="chat_wallpaper" d="M480 122h480v660H480z"/>
     <path d="M0 0h480v782H0z"/>
     <path class="windowBackgroundWhite" d="M0 122h480v660H0z"/>
     <path class="chats_pinnedOverlay" d="M0 122h480v109H0z"/>
@@ -72,7 +72,6 @@
     <circle class="chat_inLoader" cx="571" cy="642" r="15"/>
     <polygon class="chat_inBubble" points="572.3632813,644.2744141 572.3632813,636.5458984
 	569.6367188,636.5458984 569.6367188,644.2744141 566.4550781,644.2744141 571,648.8193359 575.5449219,644.2744141 "/>
-    <polygon class="chat_inBubble" points="537.9697266,604.109375 562.0302734,618 537.9697266,631.890625 "/>
     <circle class="chat_outLoader" cx="663.339" cy="338" r="33"/>
     <path d="M660.34 348c0 .55-.45 1-1 1h-5c-.55 0-1-.45-1-1v-20c0-.55.45-1 1-1h5c.55 0 1 .45 1 1v20zm13 0c0 .55-.45 1-1 1h-5c-.55 0-1-.45-1-1v-20c0-.55.45-1 1-1h5c.55 0 1 .45 1 1v20z" class="chat_outBubble"/>
     <path class="chat_inBubble" d="M550.34 623.002V606h-6v17.002h-7l10 10 10-10z"/>
