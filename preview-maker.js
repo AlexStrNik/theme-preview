@@ -69,7 +69,7 @@ async function make_prev(sesId, themeBuffer) {
         const imageBuffer = Buffer.from(theme[attheme.IMAGE_KEY], `binary`);
 
         const { width, height } = sizeOf(imageBuffer);
-        const imageRatio = width / height;
+        const imageRatio = height / width;
 
         let finalHeight;
         let finalWidth;
