@@ -17,26 +17,26 @@ bot.context.downloadFile = async function (fileId) {
 
 bot.command('start',async function (msg) {
     let chatId = msg.chat.id;
-    let now = new Date();
-    now = now.getTime();
     if(msg.message.text.split('/start ').length===2){
         console.log('Send');
-        let id = msg.message.text.split('/start ')[1];
+        let id = msg.message.text.slice('/start '.length);
         try{
             const result = await request({
                 uri: `https://snejugal.ru/attheme-editor/get-theme/?themeId=${id}`,
             });
             console.log(result);
             const { name, content } = JSON.parse(result);
-            fs.writeFileSync('./'+chatId+now,Buffer.from(content, `base64`));
-            maker.make_prev(chatId+now+msg.message.id,'./'+chatId+now).then(function (donepath) {
-                msg.replyWithPhoto({source: donepath},{reply_to_message_id: msg.message.message_id,caption: name+'\nCreated by @ThemePreviewBot'}).then(
-                    function (t) {
-                        fs.unlink('./'+chatId+now);
-                        fs.unlink(donepath);
-                    }
-                );
-            })
+            const previewBuffer = await maker.make_prev(chatId + msg.message.document.file_id, Buffer.from(content, `base64`));
+
+            await msg.replyWithPhoto(
+                {
+                    source: previewBuffer,
+                },
+                {
+                    reply_to_message_id: msg.message.message_id,
+                    caption: `${name}\nCreated by @ThemePreviewBot`,
+                },
+            );
         }
         catch (e){
             console.error(e);
