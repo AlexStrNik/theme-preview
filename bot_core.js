@@ -1,27 +1,18 @@
 const token = process.env.TOKEN?process.env.TOKEN:require('./token2').token;
 const Telegraf = require('telegraf');
-const TelegrafContext = require('./node_modules/telegraf/lib/core/context');
 const bot = new Telegraf(token);
-const fs = require('fs');
-const request = require('request');
-const request2 = require(`request-promise`);
+const fs = require('promise-fs');
+const request = require(`request-promise`);
 const maker = require("./preview-maker");
 
-//new update
-TelegrafContext.prototype.downloadFile=function (file_id, dir) {
-    let cr = this;
-    return new Promise(function (run, err) {
-        cr.telegram.getFile(file_id).then(function (filepath) {
-            let file = fs.createWriteStream(dir+'/'+file_id+'.file');
-            let response= request.get('http://api.telegram.org/file/bot'+token+'/'+filepath.file_path+'');
-            response.pipe(file);
-            file.on('finish', function() {
-                file.close(function () {
-                    run(dir + '/' + file_id + '.file');
-                });
-            });// close() is async, call cb after close completes.
-        });
+bot.context.downloadFile = async function (fileId) {
+    const file = await bot.telegram.getFile(fileId);
+    const fileContent = await request({
+        encoding: null,
+        uri: `http://api.telegram.org/file/bot${token}/${file.file_path}`,
     });
+
+    return fileContent;
 };
 
 bot.command('start',async function (msg) {
@@ -32,7 +23,7 @@ bot.command('start',async function (msg) {
         console.log('Send');
         let id = msg.message.text.split('/start ')[1];
         try{
-            const result = await request2({
+            const result = await request({
                 uri: `https://snejugal.ru/attheme-editor/get-theme/?themeId=${id}`,
             });
             console.log(result);
@@ -50,9 +41,6 @@ bot.command('start',async function (msg) {
         catch (e){
             console.error(e);
         }
-        finally {
-
-        }
     }
     else {
         msg.reply("Send me an .attheme file to create its preview")
@@ -63,21 +51,29 @@ bot.command('help',function (msg) {
     msg.reply("Send me an .attheme file to create its preview")
 });
 
-bot.on('message', function (msg) {
-    let chatId = msg.chat.id;
-    let now = new Date();
-    now = now.getTime();
-    if(msg.message.document&&msg.message.document.file_name&&(msg.message.document.file_name.endsWith('.attheme')||msg.message.document.file_name.endsWith('.xml'))){
-        msg.downloadFile(msg.message.document.file_id, "./").then(function (path) {
-            maker.make_prev(chatId+now+msg.message.document.file_id,path).then(function (donepath) {
-                msg.replyWithPhoto({source: donepath},{reply_to_message_id: msg.message.message_id,caption: 'Created by @ThemePreviewBot'}).then(
-                    function (t) {
-                        fs.unlink(path);
-                        fs.unlink(donepath);
-                    }
-                );
-            })
-        });
+bot.on('document', async function handler(msg) {
+    try {
+        const chatId = msg.chat.id;
+        if (msg.message.document.file_name && msg.message.document.file_name.endsWith('.attheme')) {
+            const themeBuffer = await msg.downloadFile(msg.message.document.file_id);
+            const previewBuffer = await maker.make_prev(chatId + msg.message.document.file_id, themeBuffer);
+
+            await msg.replyWithPhoto(
+                {
+                    source: previewBuffer,
+                },
+                {
+                    reply_to_message_id: msg.message.message_id,
+                    caption: 'Created by @ThemePreviewBot',
+                },
+            );
+        }
+    } catch (error) {
+        if (error.name === `RequestError`) {
+            process.nextTick(handler(msg));
+        } else {
+            throw error;
+        }
     }
 });
 bot.startPolling();
