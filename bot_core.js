@@ -17,16 +17,14 @@ bot.context.downloadFile = async function (fileId) {
 
 bot.command('start',async function (msg) {
     let chatId = msg.chat.id;
-    if(msg.message.text.split('/start ').length===2){
-        console.log('Send');
+    if (!msg.message.text.slice('/start ').includes(` `)) {
         let id = msg.message.text.slice('/start '.length);
         try{
             const result = await request({
                 uri: `https://snejugal.ru/attheme-editor/get-theme/?themeId=${id}`,
             });
-            console.log(result);
             const { name, content } = JSON.parse(result);
-            const previewBuffer = await maker.make_prev(chatId + msg.message.document.file_id, Buffer.from(content, `base64`));
+            const previewBuffer = await maker.make_prev(chatId + msg.message.message_id, Buffer.from(content, `base64`));
 
             await msg.replyWithPhoto(
                 {
