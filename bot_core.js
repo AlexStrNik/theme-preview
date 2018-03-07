@@ -17,7 +17,7 @@ bot.context.downloadFile = async function (fileId) {
 
 bot.command('start',async function (msg) {
     let chatId = msg.chat.id;
-    if (!msg.message.text.slice('/start ').includes(` `)) {
+    if (!msg.message.text.slice('/start '.length).includes(` `)) {
         let id = msg.message.text.slice('/start '.length);
         try{
             const result = await request({
