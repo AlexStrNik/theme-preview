@@ -5,7 +5,6 @@ const fs = require("promise-fs");
 const defaultVariablesValues = require("attheme-default-values");
 const { DOMParser, XMLSerializer } = require('xmldom');
 const sharp = require(`sharp`);
-const svg2png = require('svg2png');
 const { promisify } = require(`util`);
 const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
@@ -13,6 +12,8 @@ const { serializeToString: serialize } = new XMLSerializer();
 const CONTAINER_RATIO = 720 / 480;
 const PREVIEW_WIDTH = 480 * 2;
 const PREVIEW_HEIGHT = 782;
+const CHAT_WIDTH = 480;
+const CHAT_HEIGHT = 660;
 
 async function create_attheme(path) {
     const contents = await fs.readFile(path, `binary`);
@@ -53,6 +54,10 @@ async function make_prev(sesId, themeBuffer) {
     const preview = await read_xml(`./theme-preview.svg`);
 
     for (const variable in defaultVariablesValues) {
+        if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
+            continue;
+        }
+
         const elements = getElementsByClassName(preview, variable);
         const { red, green, blue, alpha } = theme[variable] || defaultVariablesValues[variable];
 
@@ -64,8 +69,10 @@ async function make_prev(sesId, themeBuffer) {
         });
     }
 
-    if (theme[attheme.IMAGE_KEY]) {
-        // using svg2png until we make sharp work with images
+    if (theme[attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+        const previewBuffer = Buffer.from(serialize(preview), `binary`);
+        const renderedPreview = await sharp(previewBuffer).png().toBuffer();
+
         const imageBuffer = Buffer.from(theme[attheme.IMAGE_KEY], `binary`);
 
         const { width, height } = sizeOf(imageBuffer);
@@ -76,35 +83,59 @@ async function make_prev(sesId, themeBuffer) {
 
         if (CONTAINER_RATIO > imageRatio) {
             finalHeight = 720;
-            finalWidth = 720 / imageRatio;
+            finalWidth = Math.round(720 / imageRatio);
         } else {
             finalWidth = 480;
-            finalHeight = 480 * imageRatio;
+            finalHeight = Math.round(480 * imageRatio);
         }
 
+        const topOffset = Math.round(62 - (finalHeight - 720) / 2);
+        const leftOffset = Math.round(PREVIEW_WIDTH - finalWidth / 2);
 
-        const encodedImage = Buffer.from(theme[attheme.IMAGE_KEY], `binary`).toString(`base64`);
-        const [colorWallpaper] = getElementsByClassName(preview, `chat_wallpaper`);
-        const [imageWallpaper] = getElementsByClassName(preview, `IMG`);
+        const resizedImage = await sharp(imageBuffer)
+            .resize(finalWidth, finalHeight)
+            .png()
+            .toBuffer();
 
-        colorWallpaper.setAttribute(`fill`, `rgba(0, 0, 0, 0)`);
+        const croppedImage = await sharp(resizedImage)
+            .resize(CHAT_WIDTH, CHAT_HEIGHT)
+            .crop()
+            .png()
+            .toBuffer();
 
-        imageWallpaper.setAttribute('xlink:href', `data:image/jpg;base64,${encodedImage}`);
-        imageWallpaper.setAttribute('width', finalWidth);
-        imageWallpaper.setAttribute('height', finalHeight);
-        imageWallpaper.setAttribute('y', 62 - (finalHeight - 720) / 2);
-        imageWallpaper.setAttribute('x', -(finalWidth - 480) / 2);
+        const backdrop = await sharp({
+            create: {
+                width: PREVIEW_WIDTH,
+                height: PREVIEW_HEIGHT,
+                channels: 3,
+                background: {
+                    r: 0,
+                    g: 0,
+                    b: 0,
+                    alpha: 255,
+                },
+            },
+        })
+            .overlayWith(croppedImage, {
+                top: 122,
+                left: 480,
+            })
+            .png()
+            .toBuffer();
 
-        const previewBuffer = Buffer.from(serialize(preview), `binary`);
-        const renderedPreview = await svg2png(previewBuffer);
+        const overlayed = await sharp(backdrop)
+            .overlayWith(renderedPreview, {
+                top: 0,
+                left: 0,
+            })
+            .png()
+            .toBuffer();
 
-        return renderedPreview;
+        return overlayed;
     }
 
     const previewBuffer = Buffer.from(serialize(preview), `binary`);
     const renderedPreview = await sharp(previewBuffer).png().toBuffer();
-
-    fs.writeFile(`./test.png`, renderedPreview);
 
     return renderedPreview;
 }
