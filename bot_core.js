@@ -26,7 +26,6 @@ bot.command(`start`, async (msg) => {
     if (id.length === 0 || id.includes(` `)) {
         msg.reply(`Send me an .attheme file to create its preview`);
     } else {
-
         try {
             const result = await request({
                 uri: `snejugal.ru/attheme-editor/get-theme/?themeId=${id}`,

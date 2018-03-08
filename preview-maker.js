@@ -1,6 +1,6 @@
 
 
-const Attheme = require(`Attheme-js`);
+const Attheme = require(`attheme-js`);
 const fs = require(`promise-fs`);
 const defaultVariablesValues = require(`Attheme-default-values`);
 const { DOMParser, XMLSerializer } = require(`xmldom`);
