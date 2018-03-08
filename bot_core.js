@@ -21,13 +21,11 @@ bot.context.downloadFile = async function (fileId) {
 bot.command(`start`, async (msg) => {
     const chatId = msg.chat.id;
 
-    if (
-        msg.message.text.length > `/start`.length &&
-        msg.message.text.slice(`/start `.length).includes(` `)
-    ) {
+    const id = msg.message.text.slice(`/start `.length).trim();
+
+    if (id.length === 0 || id.includes(` `)) {
         msg.reply(`Send me an .attheme file to create its preview`);
     } else {
-        const id = msg.message.text.slice(`/start `.length);
 
         try {
             const result = await request({
