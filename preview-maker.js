@@ -2,7 +2,7 @@
 
 const Attheme = require(`attheme-js`);
 const fs = require(`promise-fs`);
-const defaultVariablesValues = require(`Attheme-default-values`);
+const defaultVariablesValues = require(`attheme-default-values`);
 const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
