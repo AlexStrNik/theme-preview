@@ -80,7 +80,7 @@ bot.on(`document`, async function handler (msg) {
         if (error.name === `RequestError`) {
             process.nextTick(handler(msg));
         } else {
-            throw error;
+            console.log(error);
         }
     }
 });
