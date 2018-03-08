@@ -1,57 +1,54 @@
-"use strict";
 
-const attheme = require("attheme-js");
-const fs = require("promise-fs");
-const defaultVariablesValues = require("attheme-default-values");
-const { DOMParser, XMLSerializer } = require('xmldom');
+
+const Attheme = require(`Attheme-js`);
+const fs = require(`promise-fs`);
+const defaultVariablesValues = require(`Attheme-default-values`);
+const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
-const { promisify } = require(`util`);
 const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 
-const CONTAINER_RATIO = 720 / 480;
-const PREVIEW_WIDTH = 480 * 2;
-const PREVIEW_HEIGHT = 782;
 const CHAT_WIDTH = 480;
 const CHAT_HEIGHT = 660;
+const CONTAINER_RATIO = CHAT_HEIGHT / CHAT_WIDTH;
+const PREVIEW_WIDTH = CHAT_WIDTH * 2;
+const PREVIEW_HEIGHT = 782;
 
-async function create_attheme(path) {
-    const contents = await fs.readFile(path, `binary`);
-
-    return new attheme(contents, defaultVariablesValues);
-}
-
-async function read_xml(path) {
-    const contents = await fs.readFile(path, 'utf8');
+const readXml = async function (path) {
+    const contents = await fs.readFile(path, `utf8`);
 
     return new DOMParser().parseFromString(contents);
-}
+};
 
-function get(node, key,r) {
-    let x = [];
-    let e = node.getElementsByTagName(r);
-    for (let h in e){
-        if(e[h].getAttribute){
-            if(e[h].getAttribute('class')===key){
-                x.push(e[h])
+const get = function (node, key, r) {
+    const x = [];
+    const e = node.getElementsByTagName(r);
+
+    for (const h in e) {
+        if (e[h].getAttribute) {
+            if (e[h].getAttribute(`class`) === key) {
+                x.push(e[h]);
             }
         }
     }
-    return x;
-}
-function getElementsByClassName(node, key) {
-    let x = get(node,key,'rect');
-    let y = get(node,key,'circle');
-    let z = get(node,key,'path');
-    let d = get(node,key,'g');
-    let e = get(node,key,'polygon');
-    let f = get(node,key,'image');
-    return x.concat(y, z, d, e, f);
-}
 
-async function make_prev(sesId, themeBuffer) {
-    const theme = new attheme(themeBuffer.toString(`binary`));
-    const preview = await read_xml(`./theme-preview.svg`);
+    return x;
+};
+
+const getElementsByClassName = function (node, key) {
+    const x = get(node, key, `rect`);
+    const y = get(node, key, `circle`);
+    const z = get(node, key, `path`);
+    const d = get(node, key, `g`);
+    const e = get(node, key, `polygon`);
+    const f = get(node, key, `image`);
+
+    return x.concat(y, z, d, e, f);
+};
+
+const makePrev = async function (sesId, themeBuffer) {
+    const theme = new Attheme(themeBuffer.toString(`binary`));
+    const preview = await readXml(`./theme-preview.svg`);
 
     for (const variable in defaultVariablesValues) {
         if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
@@ -59,7 +56,8 @@ async function make_prev(sesId, themeBuffer) {
         }
 
         const elements = getElementsByClassName(preview, variable);
-        const { red, green, blue, alpha } = theme[variable] || defaultVariablesValues[variable];
+        const color = theme[variable] || defaultVariablesValues[variable];
+        const { red, green, blue, alpha } = color;
 
         elements.forEach((element) => {
             element.setAttribute(
@@ -69,11 +67,12 @@ async function make_prev(sesId, themeBuffer) {
         });
     }
 
-    if (theme[attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+    if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
         const previewBuffer = Buffer.from(serialize(preview), `binary`);
-        const renderedPreview = await sharp(previewBuffer).png().toBuffer();
+        const renderedPreview = await sharp(previewBuffer).png()
+            .toBuffer();
 
-        const imageBuffer = Buffer.from(theme[attheme.IMAGE_KEY], `binary`);
+        const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
 
         const { width, height } = sizeOf(imageBuffer);
         const imageRatio = height / width;
@@ -82,15 +81,12 @@ async function make_prev(sesId, themeBuffer) {
         let finalWidth;
 
         if (CONTAINER_RATIO > imageRatio) {
-            finalHeight = 720;
-            finalWidth = Math.round(720 / imageRatio);
+            finalHeight = CHAT_HEIGHT;
+            finalWidth = Math.round(CHAT_HEIGHT / imageRatio);
         } else {
-            finalWidth = 480;
-            finalHeight = Math.round(480 * imageRatio);
+            finalWidth = CHAT_WIDTH;
+            finalHeight = Math.round(CHAT_WIDTH * imageRatio);
         }
-
-        const topOffset = Math.round(62 - (finalHeight - 720) / 2);
-        const leftOffset = Math.round(PREVIEW_WIDTH - finalWidth / 2);
 
         const resizedImage = await sharp(imageBuffer)
             .resize(finalWidth, finalHeight)
@@ -135,13 +131,13 @@ async function make_prev(sesId, themeBuffer) {
     }
 
     const previewBuffer = Buffer.from(serialize(preview), `binary`);
-    const renderedPreview = await sharp(previewBuffer).png().toBuffer();
+    const renderedPreview = await sharp(previewBuffer).png()
+        .toBuffer();
 
     return renderedPreview;
-}
+};
 
-module.exports={
-    read_xml,
-    create_attheme,
-    make_prev,
+module.exports = {
+    readXml,
+    makePrev,
 };
