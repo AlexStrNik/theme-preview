@@ -1,5 +1,3 @@
-
-
 const Attheme = require(`attheme-js`);
 const fs = require(`promise-fs`);
 const defaultVariablesValues = require(`attheme-default-values`);
@@ -13,6 +11,7 @@ const CHAT_HEIGHT = 660;
 const CONTAINER_RATIO = CHAT_HEIGHT / CHAT_WIDTH;
 const PREVIEW_WIDTH = CHAT_WIDTH * 2;
 const PREVIEW_HEIGHT = 782;
+const WALLPAPERS_AMOUNT = 32;
 
 const readXml = async function (path) {
     const contents = await fs.readFile(path, `utf8`);
@@ -65,6 +64,16 @@ const makePrev = async function (sesId, themeBuffer) {
                 `rgba(${red}, ${green}, ${blue}, ${alpha / 255})`,
             );
         });
+    }
+
+    if (!theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+        const randomWallpaper = Math.floor(Math.random() * WALLPAPERS_AMOUNT);
+        const image = await fs.readFile(
+            `./wallpapers/${randomWallpaper}.jpg`,
+            `binary`,
+        );
+
+        theme[Attheme.IMAGE_KEY] = image;
     }
 
     if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
