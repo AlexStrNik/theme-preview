@@ -13,7 +13,7 @@
     "request": "latest",
     "request-promise": "^4.2.2",
     "sharp": "^0.20.0",
-    "telegraf": "^3.14.0",
+    "telegraf": "^3.21.1",
     "xmldom": "^0.1.27"
   }
 }
