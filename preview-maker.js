@@ -130,7 +130,7 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor) {
         element.textContent = themeName;
     });
     getElementsByClassName(preview,`theme_author`).forEach((element)=>{
-        element.textContent = themeAuthor;
+        element.textContent = `by @${themeAuthor}`;
     });
 
     const previewBuffer = Buffer.from(serialize(preview), `binary`);

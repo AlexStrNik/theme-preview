@@ -65,7 +65,7 @@ bot.on(`document`, async function handler (msg) {
             const themeBuffer = await msg.downloadFile;
             const previewBuffer = await maker.makePrev(
                 themeBuffer,
-                msg.message.document.file_name,
+                msg.message.document.file_name.replace(`.attheme`,``),
                 msg.message.from.username
             );
 
