@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/new-preview.svg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bot_core.js" afterPath="$PROJECT_DIR$/bot_core.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preview-maker.js" afterPath="$PROJECT_DIR$/preview-maker.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/theme-preview.svg" afterPath="$PROJECT_DIR$/theme-preview.svg" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,17 +22,17 @@
       <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot_core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
+            <state relative-caret-position="-73">
               <caret line="68" column="36" lean-forward="false" selection-start-line="68" selection-start-column="36" selection-end-line="68" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preview-maker.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="preview-maker.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/preview-maker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
+            <state relative-caret-position="1406">
               <caret line="131" column="36" lean-forward="false" selection-start-line="131" selection-start-column="36" selection-end-line="131" selection-end-column="36" />
               <folding />
             </state>
@@ -49,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new-preview.svg" pinned="false" current-in-tab="true">
+      <file leaf-file-name="new-preview.svg" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/new-preview.svg">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="236">
@@ -3223,7 +3220,7 @@
       <workItem from="1528124224591" duration="303000" />
       <workItem from="1528124883674" duration="593000" />
       <workItem from="1528137374610" duration="3917000" />
-      <workItem from="1528196334647" duration="10287000" />
+      <workItem from="1528196334647" duration="10402000" />
     </task>
     <task id="LOCAL-00001" summary="new">
       <created>1506446339608</created>
@@ -3379,11 +3376,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518618527805</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="fixed wallpaper offset &amp;&amp; fixed bug">
+      <created>1528207248028</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1528207248028</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71805000" />
+    <option name="totallyTimeSpent" value="71920000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -3431,7 +3435,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test2QwA.svg" />
     <entry file="file://$PROJECT_DIR$/test2QwA.png" />
     <entry file="file://$PROJECT_DIR$/testQwA.png" />
     <entry file="file://$PROJECT_DIR$/test1" />
@@ -3583,17 +3586,17 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/preview-maker.js">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="131" column="36" lean-forward="false" selection-start-line="131" selection-start-column="36" selection-end-line="131" selection-end-column="36" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bot_core.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
+        <state relative-caret-position="-73">
           <caret line="68" column="36" lean-forward="false" selection-start-line="68" selection-start-column="36" selection-end-line="68" selection-end-column="36" />
           <folding />
         </state>
@@ -3603,6 +3606,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="3897" column="58" lean-forward="false" selection-start-line="3897" selection-start-column="58" selection-end-line="3897" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preview-maker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1406">
+          <caret line="131" column="36" lean-forward="false" selection-start-line="131" selection-start-column="36" selection-end-line="131" selection-end-column="36" />
           <folding />
         </state>
       </provider>
