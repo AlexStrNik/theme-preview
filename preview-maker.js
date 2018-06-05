@@ -55,7 +55,7 @@ const fill = function(node,color) {
 
 const makePrev = async function (themeBuffer,themeName,themeAuthor) {
     const theme = new Attheme(themeBuffer.toString(`binary`));
-    const preview = await readXml(`./new-preview.svg`);
+    const preview = await readXml(`./theme-preview.svg`);
 
     for (const variable in defaultVariablesValues) {
         if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
