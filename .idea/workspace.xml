@@ -2,9 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Black.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-BlackItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Bold.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-BoldItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-ExtraBold.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-ExtraBoldItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-ExtraLight.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-ExtraLightItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Italic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Light.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-LightItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Medium.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-MediumItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-SemiBold.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-SemiBoldItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-Thin.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Montserrat-ThinItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Oswald-Bold.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Oswald-ExtraLight.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Oswald-Light.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Oswald-Medium.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Oswald-Regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Oswald-SemiBold.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Black.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-BlackItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Bold.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-BoldItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Italic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Light.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-LightItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Medium.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-MediumItalic.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-Thin.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.fonts/Roboto-ThinItalic.ttf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bot_core.js" afterPath="$PROJECT_DIR$/bot_core.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preview-maker.js" afterPath="$PROJECT_DIR$/preview-maker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/new-preview.svg" afterPath="$PROJECT_DIR$/new-preview.svg" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,10 +54,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot_core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="-85">
               <caret line="67" column="67" lean-forward="false" selection-start-line="67" selection-start-column="67" selection-end-line="67" selection-end-column="67" />
               <folding />
             </state>
@@ -32,7 +67,7 @@
       <file leaf-file-name="preview-maker.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/preview-maker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
+            <state relative-caret-position="97">
               <caret line="132" column="50" lean-forward="false" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
               <folding />
             </state>
@@ -46,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new-preview.svg" pinned="false" current-in-tab="false">
+      <file leaf-file-name="new-preview.svg" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/new-preview.svg">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="236">
-              <caret line="3897" column="58" lean-forward="false" selection-start-line="3897" selection-start-column="58" selection-end-line="3897" selection-end-column="58" />
+              <caret line="3897" column="61" lean-forward="false" selection-start-line="3897" selection-start-column="61" selection-end-line="3897" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -114,9 +149,9 @@
         <option value="$PROJECT_DIR$/theme-preview.svg" />
         <option value="$PROJECT_DIR$/test-dev.svg" />
         <option value="$PROJECT_DIR$/main.js" />
-        <option value="$PROJECT_DIR$/new-preview.svg" />
         <option value="$PROJECT_DIR$/preview-maker.js" />
         <option value="$PROJECT_DIR$/bot_core.js" />
+        <option value="$PROJECT_DIR$/new-preview.svg" />
       </list>
     </option>
   </component>
@@ -196,10 +231,12 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alexa\WebstormProjects\theme-preview\.fonts" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview\depreceated" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\alexa\WebstormProjects\theme-preview\.fonts" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview" />
     </key>
   </component>
@@ -3220,7 +3257,7 @@
       <workItem from="1528124224591" duration="303000" />
       <workItem from="1528124883674" duration="593000" />
       <workItem from="1528137374610" duration="3917000" />
-      <workItem from="1528196334647" duration="11088000" />
+      <workItem from="1528196334647" duration="11590000" />
     </task>
     <task id="LOCAL-00001" summary="new">
       <created>1506446339608</created>
@@ -3397,11 +3434,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528207882160</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="fixed wallpaper offset &amp;&amp; fixed bug">
+      <created>1528208032769</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1528208032769</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72606000" />
+    <option name="totallyTimeSpent" value="73108000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -3616,26 +3660,26 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/new-preview.svg">
+    <entry file="file://$PROJECT_DIR$/bot_core.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="3897" column="58" lean-forward="false" selection-start-line="3897" selection-start-column="58" selection-end-line="3897" selection-end-column="58" />
+        <state relative-caret-position="-85">
+          <caret line="67" column="67" lean-forward="false" selection-start-line="67" selection-start-column="67" selection-end-line="67" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/preview-maker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
+        <state relative-caret-position="97">
           <caret line="132" column="50" lean-forward="false" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot_core.js">
+    <entry file="file://$PROJECT_DIR$/new-preview.svg">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="67" column="67" lean-forward="false" selection-start-line="67" selection-start-column="67" selection-end-line="67" selection-end-column="67" />
+        <state relative-caret-position="236">
+          <caret line="3897" column="61" lean-forward="false" selection-start-line="3897" selection-start-column="61" selection-end-line="3897" selection-end-column="61" />
           <folding />
         </state>
       </provider>

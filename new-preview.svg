@@ -3894,8 +3894,8 @@ DvRrmjeeBwB2E+76CgC8Jz8FGACa/rVUaZzLgQAAAABJRU5ErkJggg==" transform="matrix(1 0 
 <g class="top_overlay" >
 	<rect width="1560" height="982" fill="url(#g2)"/>
 	<text transform="matrix(1 0 0 1 1460 245.2422)">
-		<tspan text-anchor="end" class="theme_name" x="0" y="0" fill="rgba(255, 255, 255, 1)"  font-size="112">Default Theme</tspan>
-		<tspan text-anchor="end" class="theme_author" x="0" y="81.6" fill="rgba(255, 255, 255, 0.5)" font-size="34">by @snejugal</tspan>
+		<tspan text-anchor="end" font-family="Montserrat-Bold" class="theme_name" x="0" y="0" fill="rgba(255, 255, 255, 1)"  font-size="112">Default Theme</tspan>
+		<tspan text-anchor="end" font-family="Montserrat-Bold" class="theme_author" x="0" y="81.6" fill="rgba(255, 255, 255, 0.5)" font-size="34">by @snejugal</tspan>
 	</text>
 </g>
 </svg>
