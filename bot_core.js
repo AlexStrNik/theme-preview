@@ -65,8 +65,8 @@ bot.on(`document`, async function handler (msg) {
             const themeBuffer = await msg.downloadFile;
             const previewBuffer = await maker.makePrev(
                 themeBuffer,
-                msg.message.document.file_name.replace(`.attheme`),
-                msg.message.username
+                msg.message.document.file_name,
+                msg.message.from.username
             );
 
             await msg.replyWithPhoto(
