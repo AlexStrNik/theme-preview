@@ -14,7 +14,6 @@ bot.context.downloadFile = async function (fileId) {
         encoding: null,
         uri: `http://api.telegram.org/file/bot${token}/${file.file_path}`,
     });
-
     return fileContent;
 };
 
@@ -62,7 +61,7 @@ bot.on(`document`, async function handler (msg) {
             msg.message.document.file_name.endsWith(`.attheme`)
         ) {
             const { message: { document } } = msg;
-            const themeBuffer = await msg.downloadFile;
+            const themeBuffer = await msg.downloadFile();
             const previewBuffer = await maker.makePrev(
                 themeBuffer,
                 msg.message.document.file_name.replace(`.attheme`,``),
