@@ -31,8 +31,9 @@ bot.command(`start`, async (msg) => {
             });
             const { name, content } = JSON.parse(result);
             const previewBuffer = await maker.make_prev(
-                chatId + msg.message.message_id,
                 Buffer.from(content, `base64`),
+                msg.message.document.file_name.replace(`.attheme`,``),
+                ""
             );
 
             await msg.replyWithPhoto(
@@ -65,7 +66,7 @@ bot.on(`document`, async function handler (msg) {
             const previewBuffer = await maker.makePrev(
                 themeBuffer,
                 msg.message.document.file_name.replace(`.attheme`,``),
-                msg.message.from.username
+                ""
             );
 
             await msg.replyWithPhoto(

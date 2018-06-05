@@ -5,6 +5,7 @@ const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
+const Color = require(`./color`).color;
 
 const WALLPAPERS_AMOUNT = 32;
 
@@ -37,12 +38,18 @@ const getElementsByClassName = function (node, key) {
     const e = get(node, key, `polygon`);
     const f = get(node, key, `image`);
     const q = get(node, key, `tspan`);
+    const s = get(node, key, `stop`);
 
-    return x.concat(y, z, d, e, f, q);
+    return x.concat(y, z, d, e, f, q, s);
 };
 
 const fill = function(node,color) {
-  node.setAttribute('fill', `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`);
+  if(node.tagName===`stop`){
+      node.setAttribute(`stop-color`, `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`);
+  }
+  else{
+      node.setAttribute(`fill`, `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`);
+  }
   if(node.childNodes){
     for (let child in node.childNodes) {
       child = node.childNodes[child];
@@ -56,6 +63,14 @@ const fill = function(node,color) {
 const makePrev = async function (themeBuffer,themeName,themeAuthor) {
     const theme = new Attheme(themeBuffer.toString(`binary`));
     const preview = await readXml(`./theme-preview.svg`);
+
+    if(Color.brightness(theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`])
+      > Color.brightness(theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`])){
+      theme['chat_{in/out}Bubble__darkest'] = theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`];
+    }
+    else {
+      theme['chat_{in/out}Bubble__darkest'] = theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`];
+    }
 
     for (const variable in defaultVariablesValues) {
         if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
@@ -126,15 +141,22 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor) {
     });
     await  Promise.all(imgs.map((f)=>f()));
 
+    console.log(themeName);
+    let byi = themeName.search(/ [bB]y @?[a-zA-Z0-9]/);
+    if(themeAuthor===""&&byi!==-1){
+        themeAuthor = themeName.slice(byi);
+        themeName = themeName.slice(0,byi);
+    }
+
     getElementsByClassName(preview,`theme_name`).forEach((element)=>{
         element.textContent = themeName;
     });
     getElementsByClassName(preview,`theme_author`).forEach((element)=>{
-        element.textContent = `by @${themeAuthor}`;
+        element.textContent = `${themeAuthor}`;
     });
 
     const previewBuffer = Buffer.from(serialize(preview), `binary`);
-    const renderedPreview = await sharp(previewBuffer).png()
+    const renderedPreview = await sharp(previewBuffer,{density: 150}).png()
         .toBuffer();
 
     return renderedPreview;

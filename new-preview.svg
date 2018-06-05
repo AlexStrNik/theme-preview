@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1560px"
 	 height="982px" viewBox="0 0 1560 982" enable-background="new 0 0 1560 982" xml:space="preserve">
 <g class="background">
@@ -7,8 +6,8 @@
 		  <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
 		</filter>
   	</defs>
-	<rect width="1560" height="982"/>
-	<image class="IMG" width="1560" height="982" overflow="visible" filter="url(#f1)"/>
+	<rect class="windowBackgroundWhite" width="1560" height="982"/>
+	<image class="IMG" width="1560" height="982" overflow="visible" opacity="0.6" filter="url(#f1)"/>
 	<rect class="chat_wallpaper" fill="rgba(0, 0, 0, 0)" width="1560" height="982"/>
 </g>
 <g class="left_part">
@@ -3755,7 +3754,7 @@ DvRrmjeeBwB2E+76CgC8Jz8FGACa/rVUaZzLgQAAAABJRU5ErkJggg==" transform="matrix(1 0 
 			<rect x="580" y="100" fill="#527DA3" width="480" height="122"/>
 		</g>
 	</g>
-	<g class="actionBsrDefaultTitle">
+	<g class="actionBarDefaultTitle">
 		<path fill="#FFFFFF" d="M704.919,172.367h-6.65v18.34h-3.678v-18.34h-6.592v-2.988h16.92V172.367z"/>
 		<path fill="#FFFFFF" d="M710.88,176.586c0.547-0.635,1.191-1.13,1.934-1.487s1.568-0.535,2.477-0.535
 			c0.771,0,1.475,0.107,2.109,0.322s1.176,0.559,1.625,1.033s0.797,1.089,1.041,1.846s0.365,1.672,0.365,2.747v10.195h-3.559
@@ -3887,15 +3886,15 @@ DvRrmjeeBwB2E+76CgC8Jz8FGACa/rVUaZzLgQAAAABJRU5ErkJggg==" transform="matrix(1 0 
 </image>
 <defs>
 	<linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" stop-color="black" stop-opacity="0"/>
-        <stop offset="100%" stop-color="black" stop-opacity="0.5"/>
+        <stop class="chat_{in/out}Bubble__darkest" offset="0%" stop-color="black" stop-opacity="0"/>
+        <stop class="chat_{in/out}Bubble__darkest" offset="100%" stop-color="black" stop-opacity="0.8"/>
   	</linearGradient>
 </defs>
 <g class="top_overlay" >
 	<rect width="1560" height="982" fill="url(#g2)"/>
 	<text transform="matrix(1 0 0 1 1460 245.2422)">
-		<tspan text-anchor="end" font-family="Montserrat-Bold" class="theme_name" x="0" y="0" fill="rgba(255, 255, 255, 1)"  font-size="112">Default Theme</tspan>
-		<tspan text-anchor="end" font-family="Montserrat-Bold" class="theme_author" x="0" y="81.6" fill="rgba(255, 255, 255, 0.5)" font-size="34">by @snejugal</tspan>
+		<tspan text-anchor="end" font-family="Montserrat-Bold, Montserrat" class="theme_name" x="0" y="0" fill="rgba(255, 255, 255, 1)"  font-size="112">Default Theme</tspan>
+		<tspan text-anchor="end" font-family="Montserrat-Bold, Montserrat" class="theme_author" x="0" y="81.6" fill="rgba(255, 255, 255, 0.5)" font-size="34">by @snejugal</tspan>
 	</text>
 </g>
 </svg>

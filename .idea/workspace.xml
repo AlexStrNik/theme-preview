@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/color.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bot_core.js" afterPath="$PROJECT_DIR$/bot_core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/new-preview.svg" afterPath="$PROJECT_DIR$/new-preview.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preview-maker.js" afterPath="$PROJECT_DIR$/preview-maker.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,18 +25,8 @@
       <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot_core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="63" column="57" lean-forward="false" selection-start-line="63" selection-start-column="57" selection-end-line="63" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="token2.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/token2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="62" lean-forward="false" selection-start-line="0" selection-start-column="62" selection-end-line="0" selection-end-column="62" />
+            <state relative-caret-position="148">
+              <caret line="81" column="20" lean-forward="false" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -51,8 +45,18 @@
       <file leaf-file-name="preview-maker.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/preview-maker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="57" column="57" lean-forward="false" selection-start-line="57" selection-start-column="57" selection-end-line="57" selection-end-column="57" />
+            <state relative-caret-position="106">
+              <caret line="64" column="42" lean-forward="false" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="color.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/color.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="123">
+              <caret line="20" column="20" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -61,8 +65,8 @@
       <file leaf-file-name="new-preview.svg" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/new-preview.svg">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="3897" column="61" lean-forward="false" selection-start-line="3897" selection-start-column="61" selection-end-line="3897" selection-end-column="61" />
+            <state relative-caret-position="-2181">
+              <caret line="3756" column="22" lean-forward="false" selection-start-line="3756" selection-start-column="22" selection-end-line="3756" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -97,6 +101,9 @@
       <find>chat_inReplyName</find>
       <find>chat_inAudio</find>
       <find>chat_inAudioPerformerText</find>
+      <find>actio</find>
+      <find>chat_inBubble</find>
+      <find>actionBarDefau</find>
     </findStrings>
     <replaceStrings>
       <replace>class</replace>
@@ -125,9 +132,11 @@
         <option value="$PROJECT_DIR$/theme-preview.svg" />
         <option value="$PROJECT_DIR$/test-dev.svg" />
         <option value="$PROJECT_DIR$/main.js" />
-        <option value="$PROJECT_DIR$/new-preview.svg" />
         <option value="$PROJECT_DIR$/token2.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/bot_core.js" />
+        <option value="$PROJECT_DIR$/color.js" />
+        <option value="$PROJECT_DIR$/new-preview.svg" />
         <option value="$PROJECT_DIR$/preview-maker.js" />
       </list>
     </option>
@@ -178,6 +187,11 @@
               <item name="theme-preview" type="b2602c69:ProjectViewProjectNode" />
               <item name="theme-preview" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="theme-preview" type="b2602c69:ProjectViewProjectNode" />
+              <item name="theme-preview" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -208,13 +222,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alexa\WebstormProjects\theme-preview\test" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview\.fonts" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview\depreceated" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\alexa\WebstormProjects\theme-preview\.fonts" />
       <recent name="C:\Users\alexa\WebstormProjects\theme-preview" />
+      <recent name="C:\Users\alexa\WebstormProjects\theme-preview\.fonts" />
     </key>
   </component>
   <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
@@ -3234,7 +3249,7 @@
       <workItem from="1528124224591" duration="303000" />
       <workItem from="1528124883674" duration="593000" />
       <workItem from="1528137374610" duration="3917000" />
-      <workItem from="1528196334647" duration="13181000" />
+      <workItem from="1528196334647" duration="20631000" />
     </task>
     <task id="LOCAL-00001" summary="new">
       <created>1506446339608</created>
@@ -3432,11 +3447,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528209524899</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="fixed wallpaper offset &amp;&amp; fixed bug">
+      <created>1528210419264</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1528210419264</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74699000" />
+    <option name="totallyTimeSpent" value="82149000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -3484,8 +3506,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test2.svg" />
-    <entry file="file://$PROJECT_DIR$/test1.svg" />
     <entry file="file://$PROJECT_DIR$/pic.jpg" />
     <entry file="file://$PROJECT_DIR$/test3.svg" />
     <entry file="file://$PROJECT_DIR$/depreceated/merge.svg">
@@ -3560,13 +3580,6 @@
     <entry file="file://$PROJECT_DIR$/res1509904925666BQADAgADZgAD39LgS1ObXR7VcmViAg.jpg" />
     <entry file="file://$USER_HOME$/Downloads/Telegram Desktop/index.js" />
     <entry file="file://$PROJECT_DIR$/done1518419131325BQADBAADvgIAAse86VMCVVvhmB8okgI.png" />
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/depreceated/token2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3587,22 +3600,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testdev.svg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/theme-preview.svg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="60" column="9088" lean-forward="false" selection-start-line="60" selection-start-column="9064" selection-end-line="60" selection-end-column="9088" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test-dev.svg">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-883">
@@ -3611,15 +3608,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.attheme">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/test/test.attheme">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -3637,15 +3626,15 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qQQ.png">
+    <entry file="file://$PROJECT_DIR$/test/qQQ.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/new-preview.svg">
+    <entry file="file://$PROJECT_DIR$/test/testdev.svg">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="3897" column="61" lean-forward="false" selection-start-line="3897" selection-start-column="61" selection-end-line="3897" selection-end-column="61" />
+        <state relative-caret-position="351">
+          <caret line="3891" column="6" lean-forward="true" selection-start-line="3891" selection-start-column="6" selection-end-line="3891" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -3654,6 +3643,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="62" lean-forward="false" selection-start-line="0" selection-start-column="62" selection-end-line="0" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="5" lean-forward="false" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -3668,16 +3673,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bot_core.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="63" column="57" lean-forward="false" selection-start-line="63" selection-start-column="57" selection-end-line="63" selection-end-column="57" />
+        <state relative-caret-position="148">
+          <caret line="81" column="20" lean-forward="false" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/theme-preview.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="24" column="1184" lean-forward="true" selection-start-line="24" selection-start-column="1184" selection-end-line="24" selection-end-column="1184" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/color.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="20" column="20" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test2.attheme">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new-preview.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2181">
+          <caret line="3756" column="22" lean-forward="false" selection-start-line="3756" selection-start-column="22" selection-end-line="3756" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/preview-maker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="57" column="57" lean-forward="false" selection-start-line="57" selection-start-column="57" selection-end-line="57" selection-end-column="57" />
+        <state relative-caret-position="106">
+          <caret line="64" column="42" lean-forward="false" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
           <folding />
         </state>
       </provider>
