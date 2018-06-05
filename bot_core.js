@@ -62,10 +62,11 @@ bot.on(`document`, async function handler (msg) {
             msg.message.document.file_name.endsWith(`.attheme`)
         ) {
             const { message: { document } } = msg;
-            const themeBuffer = await msg.downloadFile();
+            const themeBuffer = await msg.downloadFile;
             const previewBuffer = await maker.makePrev(
-                chatId + document.file_id,
                 themeBuffer,
+                msg.message.document.file_name.replace(`.attheme`),
+                msg.message.username
             );
 
             await msg.replyWithPhoto(

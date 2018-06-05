@@ -6,11 +6,6 @@ const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 
-const CHAT_WIDTH = 480;
-const CHAT_HEIGHT = 660;
-const CONTAINER_RATIO = CHAT_HEIGHT / CHAT_WIDTH;
-const PREVIEW_WIDTH = CHAT_WIDTH * 2;
-const PREVIEW_HEIGHT = 782;
 const WALLPAPERS_AMOUNT = 32;
 
 const readXml = async function (path) {
@@ -41,13 +36,26 @@ const getElementsByClassName = function (node, key) {
     const d = get(node, key, `g`);
     const e = get(node, key, `polygon`);
     const f = get(node, key, `image`);
+    const q = get(node, key, `tspan`);
 
-    return x.concat(y, z, d, e, f);
+    return x.concat(y, z, d, e, f, q);
 };
 
-const makePrev = async function (sesId, themeBuffer) {
+const fill = function(node,color) {
+  node.setAttribute('fill', `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`);
+  if(node.childNodes){
+    for (let child in node.childNodes) {
+      child = node.childNodes[child];
+      if (child.setAttribute) {
+        fill(child,color);
+      }
+    }
+  }
+};
+
+const makePrev = async function (themeBuffer,themeName,themeAuthor) {
     const theme = new Attheme(themeBuffer.toString(`binary`));
-    const preview = await readXml(`./theme-preview.svg`);
+    const preview = await readXml(`./new-preview.svg`);
 
     for (const variable in defaultVariablesValues) {
         if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
@@ -56,88 +64,74 @@ const makePrev = async function (sesId, themeBuffer) {
 
         const elements = getElementsByClassName(preview, variable);
         const color = theme[variable] || defaultVariablesValues[variable];
-        const { red, green, blue, alpha } = color;
 
         elements.forEach((element) => {
-            element.setAttribute(
-                `fill`,
-                `rgba(${red}, ${green}, ${blue}, ${alpha / 255})`,
-            );
+            fill(element,color)
         });
     }
 
     if (!theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
         const randomWallpaper = Math.floor(Math.random() * WALLPAPERS_AMOUNT);
         const image = await fs.readFile(
-            `./wallpapers/${randomWallpaper}.jpg`,
-            `binary`,
+          `./wallpapers/${randomWallpaper}.jpg`,
+          `binary`,
         );
 
         theme[Attheme.IMAGE_KEY] = image;
     }
 
-    if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
-        const previewBuffer = Buffer.from(serialize(preview), `binary`);
-        const renderedPreview = await sharp(previewBuffer).png()
-            .toBuffer();
+    const elements = getElementsByClassName(preview, 'IMG');
+    const imgs = elements.map((element) => {
+        return async ()=>{
+            let CHAT_WIDTH = Number(element.getAttribute('width'));
+            let CHAT_HEIGHT = Number(element.getAttribute('height'));
+            console.log(CHAT_WIDTH,CHAT_HEIGHT);
+            let CONTAINER_RATIO = CHAT_HEIGHT / CHAT_WIDTH;
 
-        const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
+            if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+                const previewBuffer = Buffer.from(serialize(preview), `binary`);
+                const renderedPreview = await sharp(previewBuffer).png()
+                    .toBuffer();
 
-        const { width, height } = sizeOf(imageBuffer);
-        const imageRatio = height / width;
+                const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
 
-        let finalHeight;
-        let finalWidth;
+                const { width, height } = sizeOf(imageBuffer);
+                const imageRatio = height / width;
 
-        if (CONTAINER_RATIO > imageRatio) {
-            finalHeight = CHAT_HEIGHT;
-            finalWidth = Math.round(CHAT_HEIGHT / imageRatio);
-        } else {
-            finalWidth = CHAT_WIDTH;
-            finalHeight = Math.round(CHAT_WIDTH * imageRatio);
+                let finalHeight;
+                let finalWidth;
+
+                if (CONTAINER_RATIO > imageRatio) {
+                    finalHeight = CHAT_HEIGHT;
+                    finalWidth = Math.round(CHAT_HEIGHT / imageRatio);
+                } else {
+                    finalWidth = CHAT_WIDTH;
+                    finalHeight = Math.round(CHAT_WIDTH * imageRatio);
+                }
+
+                const resizedImage = await sharp(imageBuffer)
+                    .resize(finalWidth, finalHeight)
+                    .png()
+                    .toBuffer();
+
+                const croppedImage = await sharp(resizedImage)
+                    .resize(CHAT_WIDTH, CHAT_HEIGHT)
+                    .crop()
+                    .png()
+                    .toBuffer();
+
+                element.setAttribute(`xlink:href`,`data:image/png;base64,`+croppedImage.toString(`base64`));
+            }
         }
+    });
+    await  Promise.all(imgs.map((f)=>f()));
 
-        const resizedImage = await sharp(imageBuffer)
-            .resize(finalWidth, finalHeight)
-            .png()
-            .toBuffer();
-
-        const croppedImage = await sharp(resizedImage)
-            .resize(CHAT_WIDTH, CHAT_HEIGHT)
-            .crop()
-            .png()
-            .toBuffer();
-
-        const backdrop = await sharp({
-            create: {
-                width: PREVIEW_WIDTH,
-                height: PREVIEW_HEIGHT,
-                channels: 3,
-                background: {
-                    r: 0,
-                    g: 0,
-                    b: 0,
-                    alpha: 255,
-                },
-            },
-        })
-            .overlayWith(croppedImage, {
-                top: 122,
-                left: 480,
-            })
-            .png()
-            .toBuffer();
-
-        const overlayed = await sharp(backdrop)
-            .overlayWith(renderedPreview, {
-                top: 0,
-                left: 0,
-            })
-            .png()
-            .toBuffer();
-
-        return overlayed;
-    }
+    getElementsByClassName(preview,`theme_name`).forEach((element)=>{
+        element.textContent = themeName;
+    });
+    getElementsByClassName(preview,`theme_author`).forEach((element)=>{
+        element.textContent = themeAuthor;
+    });
 
     const previewBuffer = Buffer.from(serialize(preview), `binary`);
     const renderedPreview = await sharp(previewBuffer).png()

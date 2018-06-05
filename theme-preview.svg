@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="782" viewBox="0 0 960 782">
+    <image class="IMG" x="480" y="122" width="480" height="660"/>
     <path class="chat_wallpaper" d="M480 122h480v660H480z" fill="rgba(0, 0, 0, 0)"/>
     <path d="M0 0h480v782H0z"/>
     <path class="windowBackgroundWhite" d="M0 122h480v660H0z"/>
