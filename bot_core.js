@@ -29,11 +29,11 @@ bot.command(`start`, async (msg) => {
         msg.reply(`Send me an .attheme file to create its preview`);
     } else {
         try {
-            const { name, content } = await atthemeEditorApi.downloadTheme(id);
+            const { name, theme } = await atthemeEditorApi.downloadTheme(id);
             console.log(name);
-            console.log(content);
+            console.log(theme);
             const previewBuffer = await maker.makePrev(
-                Buffer.from(content, `base64`),
+                Buffer.from(theme, `base64`),
                 name,
                 ""
             );
