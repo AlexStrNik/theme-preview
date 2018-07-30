@@ -61,11 +61,12 @@ const fill = function(node,color) {
 };
 
 const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
-    if(typeof themeBuffer === Buffer){
-      const theme = new Attheme(themeBuffer.toString(`binary`));
+    let theme;
+    if(themeBuffer instanceof Buffer){
+        theme = new Attheme(themeBuffer.toString(`binary`));
     }
     else {
-        const theme = themeBuffer;
+        theme = themeBuffer;
     }
     const preview = await readXml(tempPath);
 
