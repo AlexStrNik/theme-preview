@@ -30,8 +30,6 @@ bot.command(`start`, async (msg) => {
     } else {
         try {
             const { name, theme } = await atthemeEditorApi.downloadTheme(id);
-            console.log(name);
-            console.log(theme);
             const previewBuffer = await maker.makePrev(
                 theme,
                 name,

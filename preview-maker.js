@@ -70,8 +70,6 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
     }
     const preview = await readXml(tempPath);
 
-    console.log(theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`]);
-
     if(Color.brightness(theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`])
       > Color.brightness(theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`])){
       theme['chat_{in/out}Bubble__darkest'] = theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`];
@@ -166,7 +164,7 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
     const previewBuffer = Buffer.from(serialize(preview), `binary`);
     const renderedPreview = await sharp(previewBuffer,{density: 150}).png()
         .toBuffer();
-
+    console.log(`Done!`);
     return renderedPreview;
 };
 
