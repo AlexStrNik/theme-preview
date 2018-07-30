@@ -3,6 +3,7 @@ const Telegraf = require(`telegraf`);
 const bot = new Telegraf(token);
 const request = require(`request-promise`);
 const maker = require(`./preview-maker`);
+const atthemeEditorApi = require(`attheme-editor-api`);
 
 bot.context.downloadFile = async function (fileId) {
     if (!fileId) {
@@ -26,11 +27,8 @@ bot.command(`start`, async (msg) => {
         msg.reply(`Send me an .attheme file to create its preview`);
     } else {
         try {
-            const result = await request({
-                uri: `snejugal.ru/attheme-editor/get-theme/?themeId=${id}`,
-            });
-            const { name, content } = JSON.parse(result);
-            const previewBuffer = await maker.make_prev(
+            const { name, content } = await atthemeEditorApi.downloadTheme(id);
+            const previewBuffer = await maker.makePrev(
                 Buffer.from(content, `base64`),
                 msg.message.document.file_name.replace(`.attheme`,``),
                 ""
