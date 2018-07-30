@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="b4060c52-e034-437a-8c05-a68dfce8de42" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,31 +15,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="bot_core.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bot_core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="683">
+            <state relative-caret-position="734">
               <caret line="72" column="18" lean-forward="false" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="theme-preview.svg" pinned="false" current-in-tab="true">
+      <file leaf-file-name="theme-preview.svg" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/theme-preview.svg">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-255">
               <caret line="0" column="36" lean-forward="true" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="preview-maker.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/preview-maker.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="49" column="7" lean-forward="false" selection-start-line="49" selection-start-column="7" selection-end-line="49" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -109,6 +97,7 @@
       <find>actio</find>
       <find>chat_inBubble</find>
       <find>actionBarDefau</find>
+      <find>wallpa</find>
     </findStrings>
     <replaceStrings>
       <replace>class</replace>
@@ -303,7 +292,7 @@
       <workItem from="1528196334647" duration="22794000" />
       <workItem from="1528225974846" duration="649000" />
       <workItem from="1528538510371" duration="98000" />
-      <workItem from="1532955714427" duration="3480000" />
+      <workItem from="1532955714427" duration="3552000" />
     </task>
     <task id="LOCAL-00001" summary="new">
       <created>1506446339608</created>
@@ -519,7 +508,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88539000" />
+    <option name="totallyTimeSpent" value="88611000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -698,18 +687,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot_core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="72" column="18" lean-forward="false" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/preview-maker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="49" column="7" lean-forward="false" selection-start-line="49" selection-start-column="7" selection-end-line="49" selection-end-column="7" />
+        <state relative-caret-position="101">
+          <caret line="94" column="26" lean-forward="false" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -718,6 +699,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-255">
           <caret line="0" column="36" lean-forward="true" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot_core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="734">
+          <caret line="72" column="18" lean-forward="false" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="18" />
           <folding />
         </state>
       </provider>

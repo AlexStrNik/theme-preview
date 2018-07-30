@@ -36,7 +36,7 @@ bot.command(`start`, async (msg) => {
                 theme,
                 name,
                 ``,
-                `./test/new-preview.svg`
+                `./new-preview.svg`
             );
 
             await msg.replyWithPhoto(
