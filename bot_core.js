@@ -30,9 +30,10 @@ bot.command(`start`, async (msg) => {
     } else {
         try {
             const { name, content } = await atthemeEditorApi.downloadTheme(id);
+            console.log(name);
             const previewBuffer = await maker.makePrev(
                 Buffer.from(content, `base64`),
-                msg.message.document.file_name.replace(`.attheme`,``),
+                name,
                 ""
             );
 
