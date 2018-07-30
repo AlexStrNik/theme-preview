@@ -33,9 +33,10 @@ bot.command(`start`, async (msg) => {
             console.log(name);
             console.log(theme);
             const previewBuffer = await maker.makePrev(
-                Buffer.from(theme, `base64`),
+                theme,
                 name,
-                ""
+                ``,
+                `./test/new-preview.svg`
             );
 
             await msg.replyWithPhoto(
@@ -68,7 +69,8 @@ bot.on(`document`, async function handler (msg) {
             const previewBuffer = await maker.makePrev(
                 themeBuffer,
                 msg.message.document.file_name.replace(`.attheme`,``),
-                ""
+                ``,
+                `./theme-preview.svg`
             );
 
             await msg.replyWithPhoto(

@@ -60,9 +60,14 @@ const fill = function(node,color) {
   }
 };
 
-const makePrev = async function (themeBuffer,themeName,themeAuthor) {
-    const theme = new Attheme(themeBuffer.toString(`binary`));
-    const preview = await readXml(`./theme-preview.svg`);
+const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
+    if(typeof themeBuffer === Buffer){
+      const theme = new Attheme(themeBuffer.toString(`binary`));
+    }
+    else {
+        const theme = themeBuffer;
+    }
+    const preview = await readXml(tempPath);
 
     if(Color.brightness(theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`])
       > Color.brightness(theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`])){
