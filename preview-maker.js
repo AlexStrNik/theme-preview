@@ -5,7 +5,7 @@ const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
-const Color = require(`./color`).color;
+const Color = require(`@snejugal/color`);
 
 const parser = new DOMParser();
 
