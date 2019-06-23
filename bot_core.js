@@ -1,4 +1,5 @@
-const token = process.env.TOKEN ? process.env.TOKEN : require(`./token2`).token;
+const token = process.env.TOKEN;
+
 const Telegraf = require(`telegraf`);
 const bot = new Telegraf(token);
 const request = require(`request-promise`);
