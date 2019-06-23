@@ -96,4 +96,5 @@ bot.on(`document`, (context) => {
     handleDocument(context);
 });
 
+bot.polling.offset = -100;
 bot.startPolling();
