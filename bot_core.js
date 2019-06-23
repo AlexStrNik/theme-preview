@@ -18,7 +18,7 @@ bot.context.downloadFile = async function (fileId) {
     return fileContent;
 };
 
-bot.command(`start`, async (msg) => {
+const handleStart = async (msg) => {
     const chatId = msg.chat.id;
 
     const id = msg.message.text.slice(`/start `.length).trim();
@@ -48,13 +48,17 @@ bot.command(`start`, async (msg) => {
             console.error(e);
         }
     }
+};
+
+bot.command(`start`, (context) => {
+    handleStart(context);
 });
 
 bot.command(`help`, (msg) => {
     msg.reply(`Send me an .attheme file to create its preview`);
 });
 
-bot.on(`document`, async function handler (msg) {
+const handleDocument = async (msg) => {
     try {
         const chatId = msg.chat.id;
 
@@ -66,7 +70,7 @@ bot.on(`document`, async function handler (msg) {
             const themeBuffer = await msg.downloadFile();
             const previewBuffer = await maker.makePrev(
                 themeBuffer,
-                msg.message.document.file_name.replace(`.attheme`,``),
+                msg.message.document.file_name.replace(`.attheme`, ``),
                 ``,
                 `./theme-preview.svg`
             );
@@ -81,11 +85,15 @@ bot.on(`document`, async function handler (msg) {
         }
     } catch (error) {
         if (error.name === `RequestError`) {
-            process.nextTick(handler(msg));
+            process.nextTick(handleDocument(msg));
         } else {
             console.log(error);
         }
     }
+};
+
+bot.on(`document`, (context) => {
+    handleDocument(context);
 });
 
 bot.startPolling();
