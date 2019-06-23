@@ -24,7 +24,7 @@ const render = async ({ theme, name, template, resolve, reject }) => {
 
     renderersNumber--;
 
-    if (query.length > 0) {
+    if (queue.length > 0) {
         render(queue.shift());
     }
 };
