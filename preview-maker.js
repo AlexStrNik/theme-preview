@@ -7,6 +7,10 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 
+const RENDER_CONFIG = {
+    density: 150,
+};
+
 const parser = new DOMParser();
 
 const REGULAR_TEMPLATE = Symbol();
@@ -29,67 +33,66 @@ for (let index = 0; index < WALLPAPERS_AMOUNT; index++) {
     wallpapers.push(wallpaper);
 }
 
-const get = function (node, key, r) {
-    const x = [];
-    const e = node.getElementsByTagName(r);
+const get = (node, className, tag) => Array.from(node.getElementsByTagName(tag))
+    .filter((element) => (
+        element.getAttribute
+        && element.getAttribute(`class`) === className
+    ));
 
-    for (const h in e) {
-        if (e[h].getAttribute) {
-            if (e[h].getAttribute(`class`) === key) {
-                x.push(e[h]);
+const getElementsByClassName = (node, className) => [
+    ...get(node, className, `rect`),
+    ...get(node, className, `circle`),
+    ...get(node, className, `path`),
+    ...get(node, className, `g`),
+    ...get(node, className, `polygon`),
+    ...get(node, className, `image`),
+    ...get(node, className, `tspan`),
+    ...get(node, className, `stop`),
+];
+
+const fill = (node, color) => {
+    const { red, green, blue, alpha } = color;
+    const rgba = `rgba(${red}, ${green}, ${blue}, ${alpha / 255})`;
+
+    if (node.tagName === `stop`) {
+        node.setAttribute(`stop-color`, rgba);
+    } else {
+        node.setAttribute(`fill`, rgba);
+    }
+
+    if (node.childNodes) {
+        for (let child of Array.from(node.childNodes)) {
+            if (child.setAttribute) {
+                fill(child, color);
             }
         }
     }
-
-    return x;
 };
 
-const getElementsByClassName = function (node, key) {
-    const x = get(node, key, `rect`);
-    const y = get(node, key, `circle`);
-    const z = get(node, key, `path`);
-    const d = get(node, key, `g`);
-    const e = get(node, key, `polygon`);
-    const f = get(node, key, `image`);
-    const q = get(node, key, `tspan`);
-    const s = get(node, key, `stop`);
-
-    return x.concat(y, z, d, e, f, q, s);
-};
-
-const fill = function(node,color) {
-  if(node.tagName===`stop`){
-      node.setAttribute(`stop-color`, `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`);
-  }
-  else{
-      node.setAttribute(`fill`, `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`);
-  }
-  if(node.childNodes){
-    for (let child in node.childNodes) {
-      child = node.childNodes[child];
-      if (child.setAttribute) {
-        fill(child,color);
-      }
-    }
-  }
-};
-
-const makePrev = async function (themeBuffer,themeName,themeAuthor,template){
+const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     let theme;
-    if(themeBuffer instanceof Buffer){
+
+    if (themeBuffer instanceof Buffer) {
         theme = new Attheme(themeBuffer.toString(`binary`));
-    }
-    else {
+    } else {
         theme = themeBuffer;
     }
+
     const preview = parser.parseFromString(templates[template]);
 
-    if(Color.brightness(theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`])
-      > Color.brightness(theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`])){
-      theme['chat_{in/out}Bubble__darkest'] = theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`];
-    }
-    else {
-      theme['chat_{in/out}Bubble__darkest'] = theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`];
+    const inBubble = (
+        theme[`chat_inBubble`]
+        || defaultVariablesValues[`chat_inBubble`]
+    );
+    const outBubble = (
+        theme[`chat_outBubble`]
+        || defaultVariablesValues[`chat_outBubble`]
+    );
+
+    if (Color.brightness(inBubble) > Color.brightness(outBubble)) {
+        theme['chat_{in/out}Bubble__darkest'] = inBubble;
+    } else {
+        theme['chat_{in/out}Bubble__darkest'] = outBubble;
     }
 
     for (const variable in defaultVariablesValues) {
@@ -100,9 +103,9 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,template){
         const elements = getElementsByClassName(preview, variable);
         const color = theme[variable] || defaultVariablesValues[variable];
 
-        elements.forEach((element) => {
-            fill(element,color)
-        });
+        for (const element of elements) {
+            fill(element, color);
+        }
     }
 
     if (!theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
@@ -113,67 +116,65 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,template){
     }
 
     const elements = getElementsByClassName(preview, 'IMG');
-    const imgs = elements.map((element) => {
-        return async ()=>{
-            let CHAT_WIDTH = Number(element.getAttribute('width'));
-            let CHAT_HEIGHT = Number(element.getAttribute('height'));
-            let CONTAINER_RATIO = CHAT_HEIGHT / CHAT_WIDTH;
 
-            if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
-                const previewBuffer = Buffer.from(serialize(preview), `binary`);
-                const renderedPreview = await sharp(previewBuffer).png()
-                    .toBuffer();
+    await Promise.all(elements.map(async (element) => {
+        let chatWidth = Number(element.getAttribute('width'));
+        let chatHeight = Number(element.getAttribute('height'));
+        let ratio = chatHeight / chatWidth;
 
-                const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
+        if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+            const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
 
-                const { width, height } = sizeOf(imageBuffer);
-                const imageRatio = height / width;
+            const { width, height } = sizeOf(imageBuffer);
+            const imageRatio = height / width;
 
-                let finalHeight;
-                let finalWidth;
+            let finalHeight;
+            let finalWidth;
 
-                if (CONTAINER_RATIO > imageRatio) {
-                    finalHeight = CHAT_HEIGHT;
-                    finalWidth = Math.round(CHAT_HEIGHT / imageRatio);
-                } else {
-                    finalWidth = CHAT_WIDTH;
-                    finalHeight = Math.round(CHAT_WIDTH * imageRatio);
-                }
-
-                const resizedImage = await sharp(imageBuffer)
-                    .resize(finalWidth, finalHeight)
-                    .png()
-                    .toBuffer();
-
-                const croppedImage = await sharp(resizedImage)
-                    .resize(CHAT_WIDTH, CHAT_HEIGHT)
-                    .crop()
-                    .png()
-                    .toBuffer();
-
-                element.setAttribute(`xlink:href`,`data:image/png;base64,`+croppedImage.toString(`base64`));
+            if (ratio > imageRatio) {
+                finalHeight = chatHeight;
+                finalWidth = Math.round(chatHeight / imageRatio);
+            } else {
+                finalWidth = chatWidth;
+                finalHeight = Math.round(chatWidth * imageRatio);
             }
-        }
-    });
-    await  Promise.all(imgs.map((f)=>f()));
 
-    let byi = themeName.search(/ [bB]y @?[a-zA-Z0-9]/);
-    if(themeAuthor===""&&byi!==-1){
-        themeAuthor = themeName.slice(byi);
-        themeName = themeName.slice(0,byi);
+            const resizedImage = await sharp(imageBuffer)
+                .resize(finalWidth, finalHeight)
+                .png()
+                .toBuffer();
+
+            const croppedImage = await sharp(resizedImage)
+                .resize(chatWidth, chatHeight)
+                .crop()
+                .png()
+                .toBuffer();
+
+            element.setAttribute(
+                `xlink:href`,
+                `data:image/png;base64,${croppedImage.toString(`base64`)}`,
+            );
+        }
+    }));
+
+    const authorIndex = themeName.search(/ [bB]y @?[a-zA-Z0-9]/);
+
+    if (themeAuthor === "" && authorIndex !== -1) {
+        themeAuthor = themeName.slice(authorIndex);
+        themeName = themeName.slice(0, authorIndex);
     }
 
-    getElementsByClassName(preview,`theme_name`).forEach((element)=>{
+    for (const element of getElementsByClassName(preview, `theme_name`)) {
         element.textContent = themeName;
-    });
-    getElementsByClassName(preview,`theme_author`).forEach((element)=>{
-        element.textContent = `${themeAuthor}`;
-    });
+    }
 
-    const previewBuffer = Buffer.from(serialize(preview), `binary`);
-    const renderedPreview = await sharp(previewBuffer,{density: 150}).png()
-        .toBuffer();
-    return renderedPreview;
+    for (const element of getElementsByClassName(preview, `theme_author`)) {
+        element.textContent = themeAuthor;
+    };
+
+    const templateBuffer = Buffer.from(serialize(preview), `binary`);
+
+    return sharp(templateBuffer, RENDER_CONFIG).png().toBuffer();
 };
 
 module.exports = {
