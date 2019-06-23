@@ -2,7 +2,7 @@ const token = process.env.TOKEN ? process.env.TOKEN : require(`./token2`).token;
 const Telegraf = require(`telegraf`);
 const bot = new Telegraf(token);
 const request = require(`request-promise`);
-const render = require(`./render-poll`);
+const render = require(`./render-pool`);
 const atthemeEditorApi = require(`attheme-editor-api`);
 
 bot.context.downloadFile = async function (fileId) {
