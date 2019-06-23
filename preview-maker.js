@@ -1,5 +1,5 @@
 const Attheme = require(`attheme-js`);
-const fs = require(`promise-fs`);
+const fs = require(`fs`);
 const defaultVariablesValues = require(`attheme-default-values`).default;
 const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
@@ -7,13 +7,27 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`./color`).color;
 
-const WALLPAPERS_AMOUNT = 32;
+const parser = new DOMParser();
 
-const readXml = async function (path) {
-    const contents = await fs.readFile(path, `utf8`);
+const REGULAR_TEMPLATE = Symbol();
+const NEW_TEMPLATE = Symbol();
 
-    return new DOMParser().parseFromString(contents);
+const templates = {
+    [REGULAR_TEMPLATE]: fs.readFileSync(`./theme-preview.svg`, `utf8`),
+    [NEW_TEMPLATE]: fs.readFileSync(`./new-preview.svg`, `utf8`),
 };
+
+const WALLPAPERS_AMOUNT = 32;
+const wallpapers = [];
+
+for (let index = 0; index < WALLPAPERS_AMOUNT; index++) {
+    const wallpaper = fs.readFileSync(
+        `./wallpapers/${index}.jpg`,
+        `binary`,
+    );
+
+    wallpapers.push(wallpaper);
+}
 
 const get = function (node, key, r) {
     const x = [];
@@ -60,7 +74,7 @@ const fill = function(node,color) {
   }
 };
 
-const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
+const makePrev = async function (themeBuffer,themeName,themeAuthor,template){
     let theme;
     if(themeBuffer instanceof Buffer){
         theme = new Attheme(themeBuffer.toString(`binary`));
@@ -68,7 +82,7 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
     else {
         theme = themeBuffer;
     }
-    const preview = await readXml(tempPath);
+    const preview = parser.parseFromString(templates[template]);
 
     if(Color.brightness(theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`])
       > Color.brightness(theme[`chat_outBubble`] || defaultVariablesValues[`chat_outBubble`])){
@@ -93,10 +107,7 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
 
     if (!theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
         const randomWallpaper = Math.floor(Math.random() * WALLPAPERS_AMOUNT);
-        const image = await fs.readFile(
-          `./wallpapers/${randomWallpaper}.jpg`,
-          `binary`,
-        );
+        const image = wallpapers[randomWallpaper];
 
         theme[Attheme.IMAGE_KEY] = image;
     }
@@ -166,6 +177,7 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
 };
 
 module.exports = {
-    readXml,
+    REGULAR_TEMPLATE,
+    NEW_TEMPLATE,
     makePrev,
 };

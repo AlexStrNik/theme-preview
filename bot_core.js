@@ -4,6 +4,7 @@ const bot = new Telegraf(token);
 const request = require(`request-promise`);
 const render = require(`./render-pool`);
 const atthemeEditorApi = require(`attheme-editor-api`);
+const { REGULAR_TEMPLATE, NEW_TEMPLATE } = require(`./preview-maker`);
 
 bot.context.downloadFile = async function (fileId) {
     if (!fileId) {
@@ -30,7 +31,7 @@ const handleStart = async (msg) => {
         const previewBuffer = await render({
             theme,
             name,
-            template: `./new-preview.svg`,
+            template: NEW_TEMPLATE,
         });
         const sendPreview = async () => {
             try {
@@ -77,7 +78,7 @@ const handleDocument = async (msg) => {
         const previewBuffer = await render({
             theme,
             name: msg.message.document.file_name.replace(`.attheme`,``),
-            template: `./theme-preview.svg`,
+            template: REGULAR_TEMPLATE,
         });
 
         const sendPreview = async () => {
