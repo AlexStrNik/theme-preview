@@ -106,7 +106,6 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
         return async ()=>{
             let CHAT_WIDTH = Number(element.getAttribute('width'));
             let CHAT_HEIGHT = Number(element.getAttribute('height'));
-            console.log(CHAT_WIDTH,CHAT_HEIGHT);
             let CONTAINER_RATIO = CHAT_HEIGHT / CHAT_WIDTH;
 
             if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
@@ -147,7 +146,6 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
     });
     await  Promise.all(imgs.map((f)=>f()));
 
-    console.log(themeName);
     let byi = themeName.search(/ [bB]y @?[a-zA-Z0-9]/);
     if(themeAuthor===""&&byi!==-1){
         themeAuthor = themeName.slice(byi);
@@ -164,7 +162,6 @@ const makePrev = async function (themeBuffer,themeName,themeAuthor,tempPath){
     const previewBuffer = Buffer.from(serialize(preview), `binary`);
     const renderedPreview = await sharp(previewBuffer,{density: 150}).png()
         .toBuffer();
-    console.log(`Done!`);
     return renderedPreview;
 };
 

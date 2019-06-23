@@ -23,8 +23,6 @@ const handleStart = async (msg) => {
 
     const id = msg.message.text.slice(`/start `.length).trim();
 
-    console.log(id);
-
     if (id.length === 0 || id.includes(` `)) {
         msg.reply(`Send me an .attheme file to create its preview`);
     } else {
