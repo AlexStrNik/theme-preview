@@ -28,24 +28,34 @@ const handleStart = async (msg) => {
     if (id.length === 0 || id.includes(` `)) {
         msg.reply(`Send me an .attheme file to create its preview`);
     } else {
-        try {
-            const { name, theme } = await atthemeEditorApi.downloadTheme(id);
-            const previewBuffer = await render({
-                theme,
-                name,
-                template: `./new-preview.svg`,
-            });
+        const { name, theme } = await atthemeEditorApi.downloadTheme(id);
+        const previewBuffer = await render({
+            theme,
+            name,
+            template: `./new-preview.svg`,
+        });
+        const sendPreview = async () => {
+            try {
+                await msg.replyWithPhoto(
+                    { source: previewBuffer },
+                    { // eslint-disable-next-line camelcase
+                        reply_to_message_id: msg.message.message_id,
+                        caption: `${name}\nCreated by @ThemePreviewBot`,
+                    },
+                );
+            } catch(error) {
+                if (
+                    error.name === `RequestError`
+                    || error.name === `FetchError`
+                ) {
+                    process.nextTick(sendPreview);
+                } else {
+                    console.error(error);
+                }
+            }
+        };
 
-            await msg.replyWithPhoto(
-                { source: previewBuffer },
-                { // eslint-disable-next-line camelcase
-                    reply_to_message_id: msg.message.message_id,
-                    caption: `${name}\nCreated by @ThemePreviewBot`,
-                },
-            );
-        } catch (e) {
-            console.error(e);
-        }
+        sendPreview();
     }
 };
 
@@ -58,35 +68,42 @@ bot.command(`help`, (msg) => {
 });
 
 const handleDocument = async (msg) => {
-    try {
-        const chatId = msg.chat.id;
+    const chatId = msg.chat.id;
 
-        if (
-            msg.message.document.file_name &&
-            msg.message.document.file_name.endsWith(`.attheme`)
-        ) {
-            const { message: { document } } = msg;
-            const theme = await msg.downloadFile();
-            const previewBuffer = await render({
-                theme,
-                name: msg.message.document.file_name.replace(`.attheme`,``),
-                template: `./theme-preview.svg`,
-            });
+    if (
+        msg.message.document.file_name &&
+        msg.message.document.file_name.endsWith(`.attheme`)
+    ) {
+        const { message: { document } } = msg;
+        const theme = await msg.downloadFile();
+        const previewBuffer = await render({
+            theme,
+            name: msg.message.document.file_name.replace(`.attheme`,``),
+            template: `./theme-preview.svg`,
+        });
 
-            await msg.replyWithPhoto(
-                { source: previewBuffer },
-                { // eslint-disable-next-line camelcase
-                    reply_to_message_id: msg.message.message_id,
-                    caption: `Created by @ThemePreviewBot`,
-                },
-            );
-        }
-    } catch (error) {
-        if (error.name === `RequestError`) {
-            process.nextTick(handleDocument(msg));
-        } else {
-            console.log(error);
-        }
+        const sendPreview = async () => {
+            try {
+                await msg.replyWithPhoto(
+                    { source: previewBuffer },
+                    { // eslint-disable-next-line camelcase
+                        reply_to_message_id: msg.message.message_id,
+                        caption: `Created by @ThemePreviewBot`,
+                    },
+                );
+            } catch(error) {
+                if (
+                    error.name === `RequestError`
+                    || error.name === `FetchError`
+                ) {
+                    process.nextTick(sendPreview);
+                } else {
+                    console.error(error);
+                }
+            }
+        };
+
+        sendPreview();
     }
 };
 
