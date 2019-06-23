@@ -6,6 +6,8 @@ const render = require(`./render-pool`);
 const atthemeEditorApi = require(`attheme-editor-api`);
 const { REGULAR_TEMPLATE, NEW_TEMPLATE } = require(`./preview-maker`);
 
+const RESEND_ON_ERRORS = [`RequestError`, `FetchError`];
+
 bot.context.downloadFile = async function (fileId) {
     if (!fileId) {
         fileId = this.message.document.file_id;
@@ -16,85 +18,67 @@ bot.context.downloadFile = async function (fileId) {
         encoding: null,
         uri: `http://api.telegram.org/file/bot${token}/${file.file_path}`,
     });
+
     return fileContent;
 };
 
-const handleStart = async (msg) => {
-    const chatId = msg.chat.id;
+const handleStart = async (context) => {
+    const id = context.message.text.slice(`/start `.length).trim();
 
-    const id = msg.message.text.slice(`/start `.length).trim();
-
-    if (id.length === 0 || id.includes(` `)) {
-        msg.reply(`Send me an .attheme file to create its preview`);
-    } else {
-        const { name, theme } = await atthemeEditorApi.downloadTheme(id);
-        const previewBuffer = await render({
-            theme,
-            name,
-            template: NEW_TEMPLATE,
-        });
-        const sendPreview = async () => {
-            try {
-                await msg.replyWithPhoto(
-                    { source: previewBuffer },
-                    { // eslint-disable-next-line camelcase
-                        reply_to_message_id: msg.message.message_id,
-                        caption: `${name}\nCreated by @ThemePreviewBot`,
-                    },
-                );
-            } catch(error) {
-                if (
-                    error.name === `RequestError`
-                    || error.name === `FetchError`
-                ) {
-                    process.nextTick(sendPreview);
-                } else {
-                    console.error(error);
-                }
-            }
-        };
-
-        sendPreview();
+    if (id.length === 0) {
+        await context.reply(`Send me an .attheme file to create its preview`);
+        return;
     }
+    const { name, theme } = await atthemeEditorApi.downloadTheme(id);
+    const preview = await render({
+        theme,
+        name,
+        template: NEW_TEMPLATE,
+    });
+
+    const sendPreview = async () => {
+        try {
+            await context.replyWithPhoto(
+                { source: preview },
+                { // eslint-disable-next-line camelcase
+                    reply_to_message_id: context.message.message_id,
+                    caption: `${name}\nCreated by @ThemePreviewBot`,
+                },
+            );
+        } catch(error) {
+            if (RESEND_ON_ERRORS.includes(error)) {
+                process.nextTick(sendPreview);
+            } else {
+                console.error(error);
+            }
+        }
+    };
+
+    sendPreview();
 };
 
-bot.command(`start`, (context) => {
-    handleStart(context);
-});
+const handleDocument = async (context) => {
+    const fileName = context.message.document.file_name;
 
-bot.command(`help`, (msg) => {
-    msg.reply(`Send me an .attheme file to create its preview`);
-});
-
-const handleDocument = async (msg) => {
-    const chatId = msg.chat.id;
-
-    if (
-        msg.message.document.file_name &&
-        msg.message.document.file_name.endsWith(`.attheme`)
-    ) {
-        const { message: { document } } = msg;
-        const theme = await msg.downloadFile();
-        const previewBuffer = await render({
+    if (fileName && fileName.endsWith(`.attheme`)) {
+        const theme = await context.downloadFile();
+        const preview = await render({
             theme,
-            name: msg.message.document.file_name.replace(`.attheme`,``),
+            name: fileName.replace(`.attheme`,``),
             template: REGULAR_TEMPLATE,
         });
 
         const sendPreview = async () => {
             try {
-                await msg.replyWithPhoto(
-                    { source: previewBuffer },
+                await context.replyWithPhoto(
+                    { source: preview },
                     { // eslint-disable-next-line camelcase
-                        reply_to_message_id: msg.message.message_id,
+                        reply_to_message_id: context.message.message_id,
                         caption: `Created by @ThemePreviewBot`,
                     },
                 );
             } catch(error) {
-                if (
-                    error.name === `RequestError`
-                    || error.name === `FetchError`
-                ) {
+                if (RESEND_ON_ERRORS.includes(error.name)) {
                     process.nextTick(sendPreview);
                 } else {
                     console.error(error);
@@ -105,6 +89,14 @@ const handleDocument = async (msg) => {
         sendPreview();
     }
 };
+
+bot.start((context) => {
+    handleStart(context);
+});
+
+bot.help((context) => {
+    context.reply(`Send me an .attheme file to create its preview`);
+});
 
 bot.on(`document`, (context) => {
     handleDocument(context);
