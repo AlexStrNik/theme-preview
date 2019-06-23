@@ -7,7 +7,6 @@ const queue = [];
 
 const render = async ({ theme, name, template, resolve, reject }) => {
     renderersNumber++;
-    console.log(`starting, renderers: `, renderersNumber);
 
     try {
         let preview = await maker.makePrev(
@@ -24,7 +23,6 @@ const render = async ({ theme, name, template, resolve, reject }) => {
     }
 
     renderersNumber--;
-    console.log(`ended, renderers: `, renderersNumber);
 
     if (query.length > 0) {
         render(queue.shift());
@@ -39,10 +37,8 @@ module.exports = (previewParameters) => new Promise((resolve, reject) => {
     };
 
     if (renderersNumber < MAX_RENDERERS_AT_ONCE) {
-        console.log(`below threshold`);
         render(renderParameters);
     } else {
-        console.log(`above threshold`);
         queue.push(renderParameters);
     }
 });
