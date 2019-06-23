@@ -2,7 +2,7 @@ const token = process.env.TOKEN ? process.env.TOKEN : require(`./token2`).token;
 const Telegraf = require(`telegraf`);
 const bot = new Telegraf(token);
 const request = require(`request-promise`);
-const maker = require(`./preview-maker`);
+const render = require(`./render-poll`);
 const atthemeEditorApi = require(`attheme-editor-api`);
 
 bot.context.downloadFile = async function (fileId) {
@@ -30,12 +30,11 @@ const handleStart = async (msg) => {
     } else {
         try {
             const { name, theme } = await atthemeEditorApi.downloadTheme(id);
-            const previewBuffer = await maker.makePrev(
+            const previewBuffer = await render({
                 theme,
                 name,
-                ``,
-                `./new-preview.svg`
-            );
+                template: `./new-preview.svg`,
+            });
 
             await msg.replyWithPhoto(
                 { source: previewBuffer },
@@ -67,13 +66,12 @@ const handleDocument = async (msg) => {
             msg.message.document.file_name.endsWith(`.attheme`)
         ) {
             const { message: { document } } = msg;
-            const themeBuffer = await msg.downloadFile();
-            const previewBuffer = await maker.makePrev(
-                themeBuffer,
-                msg.message.document.file_name.replace(`.attheme`, ``),
-                ``,
-                `./theme-preview.svg`
-            );
+            const theme = await msg.downloadFile();
+            const previewBuffer = await render({
+                theme,
+                name: msg.message.document.file_name.replace(`.attheme`,``),
+                template: `./theme-preview.svg`,
+            });
 
             await msg.replyWithPhoto(
                 { source: previewBuffer },
