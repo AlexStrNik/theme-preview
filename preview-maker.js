@@ -153,7 +153,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
             fill(element, color);
         }
     }
-    let array = []
+    let colors = []
     for (const accentAtribut of accentAtributs) {
         const colorChoose = theme[accentAtribut] || defaultVariablesValues[accentAtribut]
         const chooseHsl = rgbToHsl(colorChoose)
@@ -161,21 +161,23 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
             const red = colorChoose.red
             const green = colorChoose.green
             const blue = colorChoose.blue
-            array[array.length] = `${red},${green},${blue}`
+            colors[colors.length] = `${red},${green},${blue}`
         }
     }
-    if (array.length != 0) {
-        Object.defineProperty(Array.prototype, 'max', {
-            value () {
-                return Array.from(
-                    this.reduce((map, value) => map.set(value, map.has(value) ? map.get(value) + 1 : 1),new Map()).entries())
-                .reduce((max, entry) => entry[1] > max[1] ? entry : max).reduce((item, count) => ({ item, count }))
-            },
-            configurable: true,
-            writable: true
-        })
-        const arraySplit = array.max().item.split(',')
-        accentColor = {red: parseInt(arraySplit[0]), green: parseInt(arraySplit[1]), blue: parseInt(arraySplit[2])}
+    if (colors.length != 0) {
+        var colorsquantity = {}
+        var max = 0
+        var color = null
+        for (const colornow of colors) {
+            if (colorsquantity[colornow] == null) {colorsquantity[colornow] = 0}
+                colorsquantity[colornow] += 1
+            if (colorsquantity[colornow] > max) {
+                color = colornow
+                max = colorsquantity[colornow]
+            }
+        }
+        const accentSplit = color.split(',')
+        accentColor = {red: parseInt(accentSplit[0]), green: parseInt(accentSplit[1]), blue: parseInt(accentSplit[2])}
     } else {
         accentColor = theme['chats_actionBackground'] || defaultVariablesValues['chats_actionBackground']
     }
