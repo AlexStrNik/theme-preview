@@ -161,7 +161,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
             const red = colorChoose.red
             const green = colorChoose.green
             const blue = colorChoose.blue
-            colors[colors.length] = `${red},${green},${blue}`
+            colors.push(`${red},${green},${blue}`);
         }
     }
     if (colors.length != 0) {
