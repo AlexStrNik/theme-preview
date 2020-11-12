@@ -13,10 +13,12 @@ const RENDER_CONFIG = {
 
 const parser = new DOMParser();
 
+const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
 const NEW_TEMPLATE = Symbol();
 
 const templates = {
+    [MINIMALISTIC_TEMPLATE]: fs.readFileSync(`./new-theme-preview.svg`, `utf8`),
     [REGULAR_TEMPLATE]: fs.readFileSync(`./theme-preview.svg`, `utf8`),
     [NEW_TEMPLATE]: fs.readFileSync(`./new-preview.svg`, `utf8`),
 };
@@ -300,6 +302,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
 };
 
 module.exports = {
+    MINIMALISTIC_TEMPLATE,
     REGULAR_TEMPLATE,
     NEW_TEMPLATE,
     makePrev,
