@@ -1,6 +1,6 @@
 const Attheme = require(`attheme-js`);
 const fs = require(`fs`);
-const defaultVariablesValues = require(`attheme-default-values`).default;
+const defaultVariablesValues = require(`./attheme-default-values`).default;
 const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
@@ -122,7 +122,7 @@ const fillHSL = (node, hsl) => {
     }
 };
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
-    let theme, accentColor;
+    let theme, accentHue;
 
     if (themeBuffer instanceof Buffer) {
         theme = new Attheme(themeBuffer.toString(`binary`));
@@ -132,7 +132,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
 
     const preview = parser.parseFromString(templates[template]);
 
-    const accentAtributs = ['chats_actionBackground',"chats_onlineCircle",'chats_nameMessage','chat_messagePanelBackground','chats_secretIcon','chat_messagePanelSend']
+    const accentAtributs = ['chats_actionBackground',"chats_onlineCircle",'chats_nameMessage','chats_secretIcon','chat_messagePanelSend','chat_outBubble','chat_status','windowBackgroundWhiteGrayIcon','chat_outReplyNameText','chat_inReplyNameText','Chat_outSentCheckRead','chats_actionMessage','windowBackgroundWhiteBlueHeader','actionBarDefaultSubmemuItemIcon']
     const avatars = ["avatar_backgroundRed","avatar_backgroundOrange","avatar_backgroundViolet","avatar_backgroundGreen","avatar_backgroundCyan","avatar_backgroundBlue"]
     const inBubble = (
         theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`]
@@ -155,47 +155,50 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
             fill(element, color);
         }
     }
-    for (const chats_onlineCircle of getElementsByClassName(preview, "chats_onlineCircle")) {
-        fill(chats_onlineCircle, theme[`chats_onlineCircle`] || { red: 75, green: 203, blue: 28, alpha: 255 });
-    }
     let colors = []
     for (const accentAtribut of accentAtributs) {
-        const colorChoose = theme[accentAtribut] || defaultVariablesValues[accentAtribut]
+        var colorChoose = theme[accentAtribut] || defaultVariablesValues[accentAtribut]
         const chooseHsl = rgbToHsl(colorChoose)
         if (chooseHsl.saturation > 20) {
-            const red = colorChoose.red
-            const green = colorChoose.green
-            const blue = colorChoose.blue
-            colors.push(`${red},${green},${blue}`);
+            colors.push(chooseHsl.hue);
         }
     }
     if (colors.length != 0) {
         var colorsquantity = {}
         var max = 0
-        var color = null
         for (const colornow of colors) {
             if (colorsquantity[colornow] == null) {colorsquantity[colornow] = 0}
                 colorsquantity[colornow] += 1
             if (colorsquantity[colornow] > max) {
-                color = colornow
+                accentHue = colornow
                 max = colorsquantity[colornow]
             }
         }
-        const accentSplit = color.split(',')
-        accentColor = {red: parseInt(accentSplit[0]), green: parseInt(accentSplit[1]), blue: parseInt(accentSplit[2])}
+        var colorHue = []
+        for (const colornow of colors) {
+            if (colorsquantity[colornow] == max) {
+                colorHue.push(colornow);
+            }
+        }
+        if (colorHue.length > 1) {
+            var summ = 0
+            for (const name of colorHue) {
+                summ += name
+            }
+            accentHue = summ / colorHue.length
+        }
     } else {
-        accentColor = theme['chats_actionBackground'] || defaultVariablesValues['chats_actionBackground']
+        accentHue = rgbToHsl(theme['chats_actionBackground'] || defaultVariablesValues['chats_actionBackground']).hue
     }
     for (const outBubbleGradientelement of getElementsByClassName(preview, "chat_outBubbleGradient")){
         const chat_outBubble = theme[`chat_outBubble`] || defaultVariablesValues["chat_outBubble"];
         fill(outBubbleGradientelement, theme[`chat_outBubbleGradient`] || chat_outBubble);
     }
-    const accentHsl = rgbToHsl(accentColor);
     for (const PreviewBack of getElementsByClassName(preview, "PreviewBack")) {
-        fillHSL(PreviewBack, `hsl(${accentHsl.hue}, ${accentHsl.saturation}%, 90%)`);
+        fillHSL(PreviewBack, `hsl(${accentHue}, 100%, 90%)`);
     }
     for (const ChatShadow of getElementsByClassName(preview, "ChatShadow")) {
-        fillHSL(ChatShadow, `hsl(${accentHsl.hue}, ${accentHsl.saturation}%, 2%)`);
+        fillHSL(ChatShadow, `hsl(${accentHue}, 100%, 2%)`);
     }
     for (const avatar of avatars){
         const windowBackgroundWhite = theme['windowBackgroundWhite'] || defaultVariablesValues['windowBackgroundWhite']
@@ -205,13 +208,13 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
                 for (const avashadow of getElementsByClassName(preview, `${avatar}Shadow`)) {
                     const choose = theme['avatar_text'] || defaultVariablesValues['avatar_text'];
                     const hslChoose = rgbToHsl(choose)
-                    fillHSL(avashadow,`hsl(${hslChoose.hue}, ${hslChoose.saturation}%, ${hslChoose.lightness - 20}%)`)
+                    fillHSL(avashadow,`hsl(${hslChoose.hue}, ${hslChoose.saturation}%, ${hslChoose.lightness - hslChoose.lightness > 25 && rgbToHsl(windowBackgroundWhite).lightness < 10 ? -20 : 40 }%)`)
                 }
             } else {
                     for (const avashadow of getElementsByClassName(preview, `${avatar}Shadow`)) {
                         const choose = theme[avatar] || defaultVariablesValues[avatar];
                         const hslChoose = rgbToHsl(choose)
-                        fillHSL(avashadow,`hsl(${hslChoose.hue}, ${hslChoose.saturation}%, ${hslChoose.lightness - 20}%)`);
+                        fillHSL(avashadow,`hsl(${hslChoose.hue}, ${hslChoose.saturation}%, ${hslChoose.lightness - hslChoose.lightness > 25 && rgbToHsl(windowBackgroundWhite).lightness < 10 ? -20 : 40 }%)`);
                     }
                 }
             }
