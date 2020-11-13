@@ -156,7 +156,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         }
     }
     for (const chats_onlineCircle of getElementsByClassName(preview, "chats_onlineCircle")) {
-        fill(chats_onlineCircle, theme[`chats_onlineCircle`] || {red:75,green:103,blue:28,alpha:255});
+        fill(chats_onlineCircle, theme[`chats_onlineCircle`] || { red: 75, green: 203, blue: 28, alpha: 255 });
     }
     let colors = []
     for (const accentAtribut of accentAtributs) {
