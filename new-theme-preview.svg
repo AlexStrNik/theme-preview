@@ -1,5 +1,6 @@
 <svg width="1088" height="1088" viewBox="0 0 1088 1088" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g clip-path="url(#clip0)">
+<rect width="1088" height="1088" fill="url(#preview_linear)"/>
 <rect class="PreviewBack" width="1088" height="1088" fill="#ffd200"/>
 <g filter="url(#filter0_d)">
 <g clip-path="url(#clip1)">
@@ -250,6 +251,10 @@
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
 </filter>
+<linearGradient id="preview_linear" x1="751" y1="8.8434e-06" x2="302" y2="1088" gradientUnits="userSpaceOnUse">
+<stop class="PreviewBackLinear" stop-color="#ffd200"/>
+<stop class="PreviewBackLinearShadow" offset="1" stop-color="#ffd200"/>
+</linearGradient>
 <linearGradient id="paint0_linear" x1="778" y1="929" x2="778" y2="1022" gradientUnits="userSpaceOnUse">
 <stop class="windowBackgroundWhite" stop-color="#ffd200" stop-opacity="0"/>
 <stop class="windowBackgroundWhite" offset="0.708333" stop-color="#ffd200"/>

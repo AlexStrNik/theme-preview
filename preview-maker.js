@@ -103,7 +103,7 @@ function rgbToHsl(rgbArr){
     if(H<0){
         H += 360;
     }
-    var result = {hue: H, saturation: S,lightness: L};
+    var result = {hue: H, saturation: S, lightness: L};
     return result;
 }
 const fillHSL = (node, hsl) => {
@@ -131,8 +131,6 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     }
 
     const preview = parser.parseFromString(templates[template]);
-
-    const accentAtributs = ['chats_actionBackground',"chats_onlineCircle",'chats_nameMessage','chats_secretIcon','chat_messagePanelSend','chat_outBubble','chat_status','windowBackgroundWhiteGrayIcon','chat_outReplyNameText','chat_inReplyNameText','Chat_outSentCheckRead','chats_actionMessage','windowBackgroundWhiteBlueHeader','actionBarDefaultSubmemuItemIcon']
     const avatars = ["avatar_backgroundRed","avatar_backgroundOrange","avatar_backgroundViolet","avatar_backgroundGreen","avatar_backgroundCyan","avatar_backgroundBlue"]
     const inBubble = (
         theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`]
@@ -145,6 +143,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     } else {
         theme['chat_{in/out}Bubble__darkest'] = outBubble;
     }
+    let colors = []
     for (const variable in defaultVariablesValues) {
         if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
             continue;
@@ -154,12 +153,9 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         for (const element of elements) {
             fill(element, color);
         }
-    }
-    let colors = []
-    for (const accentAtribut of accentAtributs) {
-        var colorChoose = theme[accentAtribut] || defaultVariablesValues[accentAtribut]
-        const chooseHsl = rgbToHsl(colorChoose)
-        if (chooseHsl.saturation > 20) {
+        const windowBackgroundWhite = rgbToHsl(theme['windowBackgroundWhite'] || defaultVariablesValues['windowBackgroundWhite'])
+        const chooseHsl = rgbToHsl(color)
+        if (Math.abs(chooseHsl.hue - windowBackgroundWhite.hue) > 6) {
             colors.push(chooseHsl.hue);
         }
     }
@@ -167,25 +163,33 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         var colorsquantity = {}
         var max = 0
         for (const colornow of colors) {
-            if (colorsquantity[colornow] == null) {colorsquantity[colornow] = 0}
-                colorsquantity[colornow] += 1
-            if (colorsquantity[colornow] > max) {
-                accentHue = colornow
-                max = colorsquantity[colornow]
+            if (colornow != 0) {
+                if (colorsquantity[colornow] == null) {colorsquantity[colornow] = 0}
+                    colorsquantity[colornow] += 1
+                if (colorsquantity[colornow] > max) {
+                    accentHue = colornow
+                    max = colorsquantity[colornow]
+                }
             }
         }
-        var colorHue = []
-        for (const colornow of colors) {
+        var colorsHue = []
+        for (colornow in colorsquantity) {
             if (colorsquantity[colornow] == max) {
-                colorHue.push(colornow);
+                colorsHue.push(colornow);
             }
         }
-        if (colorHue.length > 1) {
-            var summ = 0
-            for (const name of colorHue) {
-                summ += name
+        if (colorsHue.length > 1) {
+            var minDifference = 360
+            for (const colorHue of colorsHue) {
+                for (const hue of colorsHue) {
+                    if (hue != colorHue) {
+                        if (Math.abs(hue - colorHue) < minDifference) {
+                            minDifference = Math.abs(hue - colorHue)
+                            accentHue = (hue + colorHue) / 2
+                        }
+                    }
+                }
             }
-            accentHue = summ / colorHue.length
         }
     } else {
         accentHue = rgbToHsl(theme['chats_actionBackground'] || defaultVariablesValues['chats_actionBackground']).hue
@@ -194,11 +198,22 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         const chat_outBubble = theme[`chat_outBubble`] || defaultVariablesValues["chat_outBubble"];
         fill(outBubbleGradientelement, theme[`chat_outBubbleGradient`] || chat_outBubble);
     }
+    for (const PreviewBackLinear of getElementsByClassName(preview, "PreviewBackLinear")) {
+        fillHSL(PreviewBackLinear, `hsl(${rgbToHsl(theme[`chat_outBubbleGradient`]).hue}, 100%, 90%)`);
+    }
+    for (const PreviewBackLinearShadow of getElementsByClassName(preview, "PreviewBackLinearShadow")) {
+        fillHSL(PreviewBackLinearShadow, `hsl(${rgbToHsl(theme[`chat_outBubble`] || defaultVariablesValues["chat_outBubble"]).hue}, 100%, 90%)`);
+    }
     for (const PreviewBack of getElementsByClassName(preview, "PreviewBack")) {
         fillHSL(PreviewBack, `hsl(${accentHue}, 100%, 90%)`);
     }
     for (const ChatShadow of getElementsByClassName(preview, "ChatShadow")) {
         fillHSL(ChatShadow, `hsl(${accentHue}, 100%, 2%)`);
+    }
+    if (theme[`chat_outBubbleGradient`] != undefined) {
+        for (const PreviewBack of getElementsByClassName(preview, "PreviewBack")){
+            fill(PreviewBack, {red:0,green:0,blue:0,alpha:0});
+        }
     }
     for (const avatar of avatars){
         const windowBackgroundWhite = theme['windowBackgroundWhite'] || defaultVariablesValues['windowBackgroundWhite']

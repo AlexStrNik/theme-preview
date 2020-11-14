@@ -6,7 +6,6 @@ const request = require(`request-promise`);
 const render = require(`./render-pool`);
 const atthemeEditorApi = require(`attheme-editor-api`);
 const { MINIMALISTIC_TEMPLATE, REGULAR_TEMPLATE, NEW_TEMPLATE } = require(`./preview-maker`);
-
 const RESEND_ON_ERRORS = [`RequestError`, `FetchError`];
 
 bot.context.downloadFile = async function (fileId) {
@@ -79,6 +78,8 @@ const choose = async (context) => {
 }
 
 const handleDocument = async (context) => {
+    context.deleteMessage(context.update.callback_query.message.message_id)
+    bot.telegram.sendChatAction(context.update.callback_query.message.chat.id, 'upload_photo')
     const fileName = context.update.callback_query.message.reply_to_message.document.file_name;
     const theme = await context.downloadFile();
     const sendPreview = async (preview) => {
@@ -97,7 +98,6 @@ const handleDocument = async (context) => {
                     caption: `Created by @ThemePreviewBot`,
                 },
                 );
-            context.deleteMessage(context.update.callback_query.message.message_id)
         } catch(error) {
             if (RESEND_ON_ERRORS.includes(error.name)) {
                 process.nextTick(sendPreview);
