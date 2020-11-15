@@ -1,6 +1,7 @@
 const Attheme = require(`attheme-js`);
 const fs = require(`fs`);
 const defaultVariablesValues = require(`./attheme-default-values`).default;
+const snejugalColor = require("@snejugal/color").rgbToHsl;
 const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
@@ -71,39 +72,8 @@ const fill = (node, color) => {
     }
 };
 function rgbToHsl(rgbArr){
-    var r1 = rgbArr.red / 255;
-    var g1 = rgbArr.green / 255;
-    var b1 = rgbArr.blue / 255;
- 
-    var maxColor = Math.max(r1,g1,b1);
-    var minColor = Math.min(r1,g1,b1);
-    var L = (maxColor + minColor) / 2 ;
-    var S = 0;
-    var H = 0;
-    if(maxColor != minColor){
-        if(L < 0.5){
-            S = (maxColor - minColor) / (maxColor + minColor);
-        }else{
-            S = (maxColor - minColor) / (2.0 - maxColor - minColor);
-        }
-        if(r1 == maxColor){
-            H = (g1-b1) / (maxColor - minColor);
-        }else if(g1 == maxColor){
-            H = 2.0 + (b1 - r1) / (maxColor - minColor);
-        }else{
-            H = 4.0 + (r1 - g1) / (maxColor - minColor);
-        }
-    }
-    L = L * 100;
-    S = S * 100;
-    H = H * 60;
-    L = Math.round(L);
-    S = Math.round(S);
-    H = Math.round(H);
-    if(H<0){
-        H += 360;
-    }
-    var result = {hue: H, saturation: S, lightness: L};
+    const hsl = snejugalColor(rgbArr)
+    const result = {hue: hsl.hue, saturation: hsl.saturation * 100, lightness: hsl.lightness * 100, alpha: hsl.alpha}
     return result;
 }
 const fillHSL = (node, hsl) => {
