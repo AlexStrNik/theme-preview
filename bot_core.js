@@ -39,7 +39,7 @@ const handleStart = async (context) => {
         try {
             await context.replyWithPhoto(
                 { source: preview },
-                { // eslint-disable-next-line camelcase
+                {
                     reply_to_message_id: context.message.message_id,
                     caption: `${name}\nCreated by @ThemePreviewBot`,
                 },
@@ -78,20 +78,27 @@ const choose = async (context) => {
 }
 
 const handleDocument = async (context) => {
-    context.deleteMessage(context.update.callback_query.message.message_id)
-    bot.telegram.sendChatAction(context.update.callback_query.message.chat.id, 'upload_photo')
-    const fileName = context.update.callback_query.message.reply_to_message.document.file_name;
+    const callbackQuery = context.update.callback_query
+    const callbackMessage = callbackQuery.message
+    context.deleteMessage(callbackMessage.message_id)
+    bot.telegram.sendChatAction(callbackMessage.chat.id, 'upload_photo')
+    const fileName = callbackMessage.reply_to_message.document.file_name;
     const theme = await context.downloadFile();
-    const sendPreview = async (preview) => {
+    const preview = await render({
+        theme,
+        name: fileName.replace(`.attheme`,``),
+        template: callbackQuery.data == 'ordinary' ? REGULAR_TEMPLATE : MINIMALISTIC_TEMPLATE,
+    });
+    const sendPreview = async () => {
         try {
             await context.replyWithPhoto(
                 { source: preview },
                 {
-                    reply_to_message_id: context.update.callback_query.message.reply_to_message.message_id,
+                    reply_to_message_id: callbackMessage.reply_to_message.message_id,
                     reply_markup:{
                         inline_keyboard:[[{
-                            text: context.update.callback_query.data == 'ordinary' ? "Minimalistic" : "Ordinary",
-                            callback_data: context.update.callback_query.data == 'ordinary' ? "minimalistic" : "ordinary",
+                            text: callbackQuery.data == 'ordinary' ? "Minimalistic" : "Ordinary",
+                            callback_data: callbackQuery.data == 'ordinary' ? "minimalistic" : "ordinary",
                             hide:false
                         }]]
                     }, 
@@ -106,21 +113,7 @@ const handleDocument = async (context) => {
             }
         }
     };
-    if (context.update.callback_query.data == 'ordinary') {
-        let preview = await render({
-            theme,
-            name: fileName.replace(`.attheme`,``),
-            template: REGULAR_TEMPLATE,
-        });
-        sendPreview(preview);
-    } else {
-        let preview = await render({
-            theme,
-            name: fileName.replace(`.attheme`,``),
-            template: MINIMALISTIC_TEMPLATE,
-        });
-        sendPreview(preview);
-    }
+    sendPreview()
 };
 
 bot.start((context) => {
