@@ -6,39 +6,34 @@ let renderersNumber = 0;
 const queue = [];
 
 const render = async ({ theme, name, template, resolve, reject }) => {
-    renderersNumber++;
+  renderersNumber++;
 
-    try {
-        let preview = await maker.makePrev(
-            theme,
-            name,
-            ``,
-            template,
-        );
+  try {
+    let preview = await maker.makePrev(theme, name, ``, template);
 
+    resolve(preview);
+  } catch (error) {
+    reject(error);
+  }
 
-        resolve(preview);
-    } catch (error) {
-        reject(error);
-    }
+  renderersNumber--;
 
-    renderersNumber--;
-
-    if (queue.length > 0) {
-        render(queue.shift());
-    }
+  if (queue.length > 0) {
+    render(queue.shift());
+  }
 };
 
-module.exports = (previewParameters) => new Promise((resolve, reject) => {
+module.exports = (previewParameters) =>
+  new Promise((resolve, reject) => {
     let renderParameters = {
-        ...previewParameters,
-        resolve,
-        reject,
+      ...previewParameters,
+      resolve,
+      reject,
     };
 
     if (renderersNumber < MAX_RENDERERS_AT_ONCE) {
-        render(renderParameters);
+      render(renderParameters);
     } else {
-        queue.push(renderParameters);
+      queue.push(renderParameters);
     }
-});
+  });
