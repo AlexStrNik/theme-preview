@@ -80,6 +80,24 @@ const fill = (node, color) => {
     }
   }
 };
+const preFill = (node, color) => {
+  if (color.hue == undefined) {
+    fill(
+      node,
+      `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`
+    );
+  } else {
+    fill(node, `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`);
+  }
+};
+function rgbDifferent(color1, color2) {
+  const result = Math.hypot(
+    color1.red - color2.red,
+    color1.green - color2.green,
+    color1.blue - color2.blue
+  );
+  return result;
+}
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   let theme, accentHue;
 
@@ -115,12 +133,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     const elements = getElementsByClassName(preview, variable);
     const color = theme[variable] || defaultVariablesValues[variable];
     for (const element of elements) {
-      fill(
-        element,
-        `rgba(${color.red}, ${color.green}, ${color.blue}, ${
-          color.alpha / 255
-        })`
-      );
+      preFill(element, color);
     }
     const windowBackgroundWhite = rgbToHsl(
       theme["windowBackgroundWhite"] ||
@@ -184,10 +197,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       theme[`chat_outBubbleGradient`] ||
       theme[`chat_outBubble`] ||
       defaultVariablesValues["chat_outBubble"];
-    fill(
-      outBubbleGradientelement,
-      `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`
-    );
+    preFill(outBubbleGradientelement, color);
   }
   for (const PreviewBackLinear of getElementsByClassName(
     preview,
@@ -195,56 +205,49 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   )) {
     const chatOutBubble =
       theme[`chat_outBubble`] || defaultVariablesValues["chat_outBubble"];
-    fill(
-      PreviewBackLinear,
-      `hsl(${
-        rgbToHsl(theme[`chat_outBubbleGradient`] || chatOutBubble).hue
-      }, 100%, 90%)`
-    );
+    preFill(PreviewBackLinear, {
+      hue: rgbToHsl(theme[`chat_outBubbleGradient`] || chatOutBubble).hue,
+      saturation: 100,
+      lightness: 90,
+    });
   }
   for (const PreviewBackLinearShadow of getElementsByClassName(
     preview,
     "PreviewBackLinearShadow"
   )) {
-    fill(
-      PreviewBackLinearShadow,
-      `hsl(${
-        rgbToHsl(
-          theme[`chat_outBubble`] || defaultVariablesValues["chat_outBubble"]
-        ).hue
-      }, 100%, 90%)`
-    );
+    preFill(PreviewBackLinearShadow, {
+      hue: rgbToHsl(
+        theme[`chat_outBubble`] || defaultVariablesValues["chat_outBubble"]
+      ).hue,
+      saturation: 100,
+      lightness: 90,
+    });
   }
   for (const PreviewBack of getElementsByClassName(preview, "PreviewBack")) {
-    fill(PreviewBack, `hsl(${accentHue}, 100%, 90%)`);
+    preFill(PreviewBack, { hue: accentHue, saturation: 100, lightness: 90 });
   }
   for (const ChatShadow of getElementsByClassName(preview, "ChatShadow")) {
-    fill(ChatShadow, `hsl(${accentHue}, 100%, 2%)`);
+    preFill(ChatShadow, { hue: accentHue, saturation: 100, lightness: 2 });
   }
   if (theme[`chat_outBubbleGradient`] != undefined) {
     for (const PreviewBack of getElementsByClassName(preview, "PreviewBack")) {
-      fill(PreviewBack, "rgba(0, 0, 0, 0)");
+      preFill(PreviewBack, { red: 0, green: 0, blue: 0, alpha: 0 });
     }
   }
   for (const avatar of avatars) {
     const windowBackgroundWhite =
       theme["windowBackgroundWhite"] ||
       defaultVariablesValues["windowBackgroundWhite"];
-    const avatarBackDifference = Math.hypot(
-      theme[avatar].red - windowBackgroundWhite.red,
-      theme[avatar].green - windowBackgroundWhite.green,
-      theme[avatar].blue - windowBackgroundWhite.blue
-    );
-    if (avatarBackDifference < 15) {
+    const avatarr = theme[avatar] || defaultVariablesValues[avatar];
+    const avaAndBack = rgbDifferent(avatarr, windowBackgroundWhite);
+    const avaTextColor =
+      theme["avatar_text"] || defaultVariablesValues["avatar_text"];
+    if (
+      avaAndBack < 25 &&
+      avaAndBack > rgbDifferent(avaTextColor, windowBackgroundWhite)
+    ) {
       for (const ava of getElementsByClassName(preview, avatar)) {
-        const color =
-          theme["avatar_text"] || defaultVariablesValues["avatar_text"];
-        fill(
-          ava,
-          `rgba(${color.red}, ${color.green}, ${color.blue}, ${
-            color.alpha / 255
-          })`
-        );
+        preFill(ava, avaTextColor);
       }
       for (const avashadow of getElementsByClassName(
         preview,
@@ -252,16 +255,9 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       )) {
         const choose =
           theme["avatar_text"] || defaultVariablesValues["avatar_text"];
-        const hslChoose = rgbToHsl(choose);
-        fill(
-          avashadow,
-          `hsl(${hslChoose.hue}, ${hslChoose.saturation}%, ${
-            hslChoose.lightness - hslChoose.lightness > 25 &&
-            rgbToHsl(windowBackgroundWhite).lightness < 10
-              ? -20
-              : 40
-          }%)`
-        );
+        let hslChoose = rgbToHsl(choose);
+        hslChoose.lightness -= hslChoose.lightness - 20 < 5 ? -10 : 20;
+        preFill(avashadow, hslChoose);
       }
     } else {
       for (const avashadow of getElementsByClassName(
@@ -270,15 +266,8 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       )) {
         const choose = theme[avatar] || defaultVariablesValues[avatar];
         const hslChoose = rgbToHsl(choose);
-        fill(
-          avashadow,
-          `hsl(${hslChoose.hue}, ${hslChoose.saturation}%, ${
-            hslChoose.lightness - hslChoose.lightness > 25 &&
-            rgbToHsl(windowBackgroundWhite).lightness < 10
-              ? -20
-              : 40
-          }%)`
-        );
+        hslChoose.lightness -= hslChoose.lightness - 20 < 5 ? -10 : 20;
+        preFill(avashadow, hslChoose);
       }
     }
   }
@@ -290,45 +279,32 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     theme["chat_outLoader"] || defaultVariablesValues["chat_outLoader"];
   const chatOutBubble =
     theme["chat_outBubble"] || defaultVariablesValues["chat_outBubble"];
-  const inLoaderBubbleDifference = Math.hypot(
-    chatInLoader.red - chatInBubble.red,
-    chatInLoader.green - chatInBubble.green,
-    chatInLoader.blue - chatInBubble.blue
-  );
-  if (inLoaderBubbleDifference < 15) {
+  const inLoaderAndBubble = rgbDifferent(chatInLoader, chatInBubble);
+  const outLoaderAndBubble = rgbDifferent(chatOutLoader, chatOutBubble);
+  const chatInMediaIcon =
+    theme["chat_inMediaIcon"] || defaultVariablesValues["chat_inMediaIcon"];
+  const chatOutMediaIcon =
+    theme["chat_outMediaIcon"] || defaultVariablesValues["chat_outMediaIcon"];
+  if (
+    inLoaderAndBubble < 25 &&
+    inLoaderAndBubble > rgbDifferent(chatInMediaIcon, chatInBubble)
+  ) {
     for (const chatInLoader of getElementsByClassName(
       preview,
       "chat_inLoader"
     )) {
-      const color =
-        theme["chat_inMediaIcon"] || defaultVariablesValues["chat_inMediaIcon"];
-      fill(
-        chatInLoader,
-        `rgba(${color.red}, ${color.green}, ${color.blue}, ${
-          color.alpha / 255
-        })`
-      );
+      preFill(chatInLoader, chatInMediaIcon);
     }
   }
-  const outLoaderBubbleDifference = Math.hypot(
-    chatOutLoader.red - chatOutBubble.red,
-    chatOutLoader.green - chatOutBubble.green,
-    chatOutLoader.blue - chatOutBubble.blue
-  );
-  if (outLoaderBubbleDifference < 15) {
+  if (
+    outLoaderAndBubble < 25 &&
+    outLoaderAndBubble > rgbDifferent(chatOutMediaIcon, chatOutBubble)
+  ) {
     for (const chatOutLoader of getElementsByClassName(
       preview,
       "chat_outLoader"
     )) {
-      const color =
-        theme["chat_outMediaIcon"] ||
-        defaultVariablesValues["chat_outMediaIcon"];
-      fill(
-        chatOutLoader,
-        `rgba(${color.red}, ${color.green}, ${color.blue}, ${
-          color.alpha / 255
-        })`
-      );
+      preFill(chatOutLoader, chatOutMediaIcon);
     }
   }
 
