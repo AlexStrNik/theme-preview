@@ -66,27 +66,23 @@ function rgbToHsl(rgbArr) {
   return result;
 }
 function findMostFrequentColors(colors) {
-  var colorsQuantity = {};
-  var max = 0;
-  var accentHue;
-  for (const colornow of colors) {
+  const colorsQuantity = {};
+  let max = 0;
+  let accentHue;
+  
+  for (const color of colors) {
     if (colornow != 0) {
-      if (colorsQuantity[colornow] == null) {
-        colorsQuantity[colornow] = 0;
-      }
-      colorsQuantity[colornow] += 1;
+      colorsQuantity[colornow] = (colorsQuantity[colornow] ?? 0) + 1;
+
       if (colorsQuantity[colornow] > max) {
         accentHue = colornow;
         max = colorsQuantity[colornow];
       }
     }
   }
-  var colorsHue = [];
-  for (colornow in colorsQuantity) {
-    if (colorsQuantity[colornow] == max) {
-      colorsHue.push(colornow);
-    }
-  }
+  
+  const mostFrequentColorHues = colors.filter(color => colorsQuantity[color] == max);
+  
   if (colorsHue.length > 1) {
     var minDifference = 360;
     for (var colorHue of colorsHue) {
@@ -102,8 +98,10 @@ function findMostFrequentColors(colors) {
       }
     }
   }
+
   return accentHue;
 }
+
 const fill = (node, color) => {
   if (node.tagName === `stop`) {
     node.setAttribute(`stop-color`, color);
@@ -137,6 +135,7 @@ function rgbDifferent(color1, color2) {
   );
   return result;
 }
+
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   let theme, accentHue;
 
@@ -155,6 +154,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     "avatar_backgroundCyan",
     "avatar_backgroundBlue",
   ];
+  
   const inBubble =
     theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`];
   const outBubble =
@@ -186,6 +186,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       colors.push(chooseHsl.hue);
     }
   }
+
   if (colors.length != 0) {
     accentHue = findMostFrequentColors(colors);
   } else {
@@ -194,6 +195,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         defaultVariablesValues["chats_actionBackground"]
     ).hue;
   }
+  
   for (const outBubbleGradientelement of getElementsByClassName(
     preview,
     "chat_outBubbleGradient"
@@ -239,6 +241,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       preFill(PreviewBack, { red: 0, green: 0, blue: 0, alpha: 0 });
     }
   }
+  
   for (const avatar of avatars) {
     const windowBackgroundWhite =
       theme["windowBackgroundWhite"] ||
@@ -271,11 +274,12 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       )) {
         const choose = theme[avatar] || defaultVariablesValues[avatar];
         const hslChoose = rgbToHsl(choose);
-        hslChoose.lightness -= hslChoose.lightness - 20 < 5 ? -10 : 20;
+        hslChoose.lightness += hslChoose.lightness < 25 ? 10 : -20;
         preFill(avashadow, hslChoose);
       }
     }
   }
+  
   const chatInLoader =
     theme["chat_inLoader"] || defaultVariablesValues["chat_inLoader"];
   const chatInBubble =
@@ -290,6 +294,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     theme["chat_inMediaIcon"] || defaultVariablesValues["chat_inMediaIcon"];
   const chatOutMediaIcon =
     theme["chat_outMediaIcon"] || defaultVariablesValues["chat_outMediaIcon"];
+  
   if (
     inLoaderAndBubble < 25 &&
     inLoaderAndBubble > rgbDifferent(chatInMediaIcon, chatInBubble)
