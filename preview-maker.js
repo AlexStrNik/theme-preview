@@ -84,16 +84,12 @@ function calculateAccentColor(colors) {
   const colorsHue = colors.filter(color => colorsQuantity[color] == max);
   
   if (colorsHue.length > 1) {
-    var minDifference = 360;
-    for (var colorHue of colorsHue) {
-      for (var hue of colorsHue) {
-        if (hue != colorHue) {
-          hue = Number(hue);
-          colorHue = Number(colorHue);
-          if (Math.abs(hue - colorHue) < minDifference) {
-            minDifference = Math.abs(hue - colorHue);
-            accentHue = (hue + colorHue) / 2;
-          }
+    let minDifference = 360;
+    for (const outerHue of colorsHue) {
+      for (const innerHue of colorsHue) {
+        if (hue != colorHue && Math.abs(hue - colorHue) < minDifference) {
+          minDifference = Math.abs(hue - colorHue);
+          accentHue = (hue + colorHue) / 2;
         }
       }
     }
