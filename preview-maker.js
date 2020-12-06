@@ -65,6 +65,45 @@ function rgbToHsl(rgbArr) {
   };
   return result;
 }
+function findMostFrequentColors(colors) {
+  var colorsQuantity = {};
+  var max = 0;
+  var accentHue;
+  for (const colornow of colors) {
+    if (colornow != 0) {
+      if (colorsQuantity[colornow] == null) {
+        colorsQuantity[colornow] = 0;
+      }
+      colorsQuantity[colornow] += 1;
+      if (colorsQuantity[colornow] > max) {
+        accentHue = colornow;
+        max = colorsQuantity[colornow];
+      }
+    }
+  }
+  var colorsHue = [];
+  for (colornow in colorsQuantity) {
+    if (colorsQuantity[colornow] == max) {
+      colorsHue.push(colornow);
+    }
+  }
+  if (colorsHue.length > 1) {
+    var minDifference = 360;
+    for (var colorHue of colorsHue) {
+      for (var hue of colorsHue) {
+        if (hue != colorHue) {
+          hue = Number(hue);
+          colorHue = Number(colorHue);
+          if (Math.abs(hue - colorHue) < minDifference) {
+            minDifference = Math.abs(hue - colorHue);
+            accentHue = (hue + colorHue) / 2;
+          }
+        }
+      }
+    }
+  }
+  return accentHue;
+}
 const fill = (node, color) => {
   if (node.tagName === `stop`) {
     node.setAttribute(`stop-color`, color);
@@ -148,41 +187,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     }
   }
   if (colors.length != 0) {
-    var colorsQuantity = {};
-    var max = 0;
-    for (const colornow of colors) {
-      if (colornow != 0) {
-        if (colorsQuantity[colornow] == null) {
-          colorsQuantity[colornow] = 0;
-        }
-        colorsQuantity[colornow] += 1;
-        if (colorsQuantity[colornow] > max) {
-          accentHue = colornow;
-          max = colorsQuantity[colornow];
-        }
-      }
-    }
-    var colorsHue = [];
-    for (colornow in colorsQuantity) {
-      if (colorsQuantity[colornow] == max) {
-        colorsHue.push(colornow);
-      }
-    }
-    if (colorsHue.length > 1) {
-      var minDifference = 360;
-      for (var colorHue of colorsHue) {
-        for (var hue of colorsHue) {
-          if (hue != colorHue) {
-            hue = Number(hue);
-            colorHue = Number(colorHue);
-            if (Math.abs(hue - colorHue) < minDifference) {
-              minDifference = Math.abs(hue - colorHue);
-              accentHue = (hue + colorHue) / 2;
-            }
-          }
-        }
-      }
-    }
+    accentHue = findMostFrequentColors(colors);
   } else {
     accentHue = rgbToHsl(
       theme["chats_actionBackground"] ||
