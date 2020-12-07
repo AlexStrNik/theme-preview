@@ -178,11 +178,11 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         defaultVariablesValues["windowBackgroundWhite"]
     );
     const chooseHsl = rgbToHsl(color);
-    const minDifferenceHsl = Math.min(
-      Math.abs(360 - Math.abs(chooseHsl.hue - windowBackgroundWhite.hue)),
-      Math.abs(chooseHsl.hue - windowBackgroundWhite.hue)
-    );
-    if (minDifferenceHsl > 6 && chooseHsl.saturation > 8) {
+    let hueDifference = Math.abs(chooseHsl.hue - windowBackgroundWhite.hue);
+    if hueDifference > 180 {
+      hueDifference = 360 - hueDifference;
+    }
+    if (hueDifference > 6 && chooseHsl.saturation > 8) {
       colors.push(chooseHsl.hue);
     }
   }
