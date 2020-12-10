@@ -251,8 +251,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     const avaTextColor =
       theme["avatar_text"] || defaultVariablesValues["avatar_text"];
     if (
-      avaAndBack < 25 &&
-      avaAndBack > rgbDifference(avaTextColor, windowBackgroundWhite)
+      avaAndBack < 25
     ) {
       for (const ava of getElementsByClassName(preview, avatar)) {
         fill(ava, avaTextColor);
