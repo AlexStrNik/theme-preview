@@ -179,7 +179,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     );
     const chooseHsl = rgbToHsl(color);
     let hueDifference = Math.abs(chooseHsl.hue - windowBackgroundWhite.hue);
-    if hueDifference > 180 {
+    if (hueDifference > 180) {
       hueDifference = 360 - hueDifference;
     }
     if (hueDifference > 6 && chooseHsl.saturation > 8) {
