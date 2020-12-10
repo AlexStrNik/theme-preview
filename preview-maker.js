@@ -298,8 +298,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     theme["chat_outMediaIcon"] || defaultVariablesValues["chat_outMediaIcon"];
 
   if (
-    inLoaderAndBubbleDifference < 25 &&
-    inLoaderAndBubbleDifference > rgbDifference(chatInMediaIcon, chatInBubble)
+    inLoaderAndBubbleDifference < 25
   ) {
     for (const chatInLoader of getElementsByClassName(
       preview,
@@ -309,9 +308,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     }
   }
   if (
-    outLoaderAndBubbleDifference < 25 &&
-    outLoaderAndBubbleDifference >
-      rgbDifference(chatOutMediaIcon, chatOutBubble)
+    outLoaderAndBubbleDifference < 25
   ) {
     for (const chatOutLoader of getElementsByClassName(
       preview,
