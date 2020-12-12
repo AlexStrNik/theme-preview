@@ -133,6 +133,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     `avatar_backgroundCyan`,
     `avatar_backgroundBlue`,
   ];
+  const windowBackgroundWhite = theme[`windowBackgroundWhite`] || defaultVariablesValues[`windowBackgroundWhite`];
 
   const inBubble =
     theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`];
@@ -153,12 +154,8 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     for (const element of elements) {
       fill(element, color);
     }
-    const windowBackgroundWhite = rgbToHsl(
-      theme[`windowBackgroundWhite`] ||
-        defaultVariablesValues[`windowBackgroundWhite`]
-    );
     const chooseHsl = rgbToHsl(color);
-    let hueDifference = Math.abs(chooseHsl.hue - windowBackgroundWhite.hue);
+    let hueDifference = Math.abs(chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue);
     if (hueDifference > 180) {
       hueDifference = 360 - hueDifference;
     }
@@ -217,44 +214,38 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     fill(chatShadow, { hue: accentHue, saturation: 1, lightness: 0.02 });
   }
   if (`chat_outBubbleGradient` in theme) {
-    for (const PreviewBack of getElementsByClassName(preview, `PreviewBack`)) {
-      fill(PreviewBack, { red: 0, green: 0, blue: 0, alpha: 0 });
+    for (const previewBack of getElementsByClassName(preview, `PreviewBack`)) {
+      fill(previewBack, { red: 0, green: 0, blue: 0, alpha: 0 });
     }
   }
 
-  for (const avatar of AVATAR_VARIABLES) {
-    const windowBackgroundWhite =
-      theme[`windowBackgroundWhite`] ||
-      defaultVariablesValues[`windowBackgroundWhite`];
-    const avatarColor = theme[avatar] || defaultVariablesValues[avatar];
-    const avaAndBack = rgbDifference(avatarColor, windowBackgroundWhite);
-    const avaTextColor =
-      theme[`avatar_text`] || defaultVariablesValues[`avatar_text`];
+  const avatarTextColor = theme[`avatar_text`] || defaultVariablesValues[`avatar_text`];
+  for (const avatarVariable of AVATAR_VARIABLES) {
+    const avatarColor = theme[avatarVariable] || defaultVariablesValues[avatarVariable];
+    const avatarAndBackgroundDifference = rgbDifference(avatarColor, windowBackgroundWhite);
     if (
-      avaAndBack < 25
+      avatarAndBackgroundDifference < 25
     ) {
-      for (const ava of getElementsByClassName(preview, avatar)) {
-        fill(ava, avaTextColor);
+      for (const avatar of getElementsByClassName(preview, avatarVariable)) {
+        fill(avatar, avatarTextColor);
       }
-      for (const avashadow of getElementsByClassName(
+      for (const avatarShadow of getElementsByClassName(
         preview,
-        `${avatar}Shadow`
+        `${avatarVariable}Shadow`
       )) {
-        const choose =
-          theme[`avatar_text`] || defaultVariablesValues[`avatar_text`];
-        let hslChoose = rgbToHsl(choose);
+        let hslChoose = rgbToHsl(avatarTextColor);
         hslChoose.lightness += hslChoose.lightness < 0.25 ? 0.1 : -0.2;
-        fill(avashadow, hslChoose);
+        fill(avatarShadow, hslChoose);
       }
     } else {
-      for (const avashadow of getElementsByClassName(
+      for (const avatarShadow of getElementsByClassName(
         preview,
-        `${avatar}Shadow`
+        `${avatarVariable}Shadow`
       )) {
-        const choose = theme[avatar] || defaultVariablesValues[avatar];
+        const choose = theme[avatarVariable] || defaultVariablesValues[avatarVariable];
         const hslChoose = rgbToHsl(choose);
         hslChoose.lightness += hslChoose.lightness < 0.25 ? 0.1 : -0.2;
-        fill(avashadow, hslChoose);
+        fill(avatarShadow, hslChoose);
       }
     }
   }
