@@ -49,7 +49,7 @@ const getElementsByClassName = (node, className) => [
   ...get(node, className, `tspan`),
   ...get(node, className, `stop`),
 ];
-function calculateAccentColor(colors) {
+const calculateAccentColor = (colors) => {
   let colorsQuantity = new Map();
   let max = 0;
   let accentHue;
@@ -81,7 +81,7 @@ function calculateAccentColor(colors) {
 
   return accentHue;
 }
-function getDifference(chooseHsl, windowBackgroundWhite, argument) {
+const getDifference = (chooseHsl, windowBackgroundWhite, argument) => {
   let hueDifference = Math.abs(
     chooseHsl[argument] - rgbToHsl(windowBackgroundWhite)[argument]
   );
@@ -90,7 +90,7 @@ function getDifference(chooseHsl, windowBackgroundWhite, argument) {
   }
   return hueDifference;
 }
-function rgbDifference(color1, color2) {
+const rgbDifference = (color1, color2) => {
   const result = Math.hypot(
     color1.red - color2.red,
     color1.green - color2.green,
@@ -169,16 +169,16 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       fill(element, color);
     }
     const chooseHsl = rgbToHsl(color);
-    let hueDifference = getDifference(chooseHsl, windowBackgroundWhite, "hue");
+    let hueDifference = getDifference(chooseHsl, windowBackgroundWhite, `hue`);
     let saturationDifference = getDifference(
       chooseHsl,
       windowBackgroundWhite,
-      "saturation"
+      `saturation`
     );
     let lightnessDifference = getDifference(
       chooseHsl,
       windowBackgroundWhite,
-      "lightness"
+      `lightness`
     );
     if (
       hueDifference > 2 &&
