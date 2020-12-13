@@ -64,7 +64,6 @@ function calculateAccentColor(colors) {
       }
     }
   }
-
   const colorsHue = colors.filter((color) => colorsQuantity.get(color) == max);
   colorsHue.sort((a, b) => a - b);
 
@@ -81,6 +80,15 @@ function calculateAccentColor(colors) {
   }
 
   return accentHue;
+}
+function getDifference(chooseHsl, windowBackgroundWhite, argument) {
+  let hueDifference = Math.abs(
+    chooseHsl[argument] - rgbToHsl(windowBackgroundWhite)[argument]
+  );
+  if (hueDifference > 180) {
+    hueDifference = 360 - hueDifference;
+  }
+  return hueDifference;
 }
 function rgbDifference(color1, color2) {
   const result = Math.hypot(
@@ -161,13 +169,22 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       fill(element, color);
     }
     const chooseHsl = rgbToHsl(color);
-    let hueDifference = Math.abs(
-      chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue
+    let hueDifference = getDifference(chooseHsl, windowBackgroundWhite, "hue");
+    let saturationDifference = getDifference(
+      chooseHsl,
+      windowBackgroundWhite,
+      "saturation"
     );
-    if (hueDifference > 180) {
-      hueDifference = 360 - hueDifference;
-    }
-    if (hueDifference > 6 && chooseHsl.saturation > 0.08) {
+    let lightnessDifference = getDifference(
+      chooseHsl,
+      windowBackgroundWhite,
+      "lightness"
+    );
+    if (
+      hueDifference > 2 &&
+      chooseHsl.saturation > 0.04 &&
+      saturationDifference > 0.02
+    ) {
       colors.push(Math.round(chooseHsl.hue));
     }
   }
