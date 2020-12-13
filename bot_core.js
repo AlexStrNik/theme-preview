@@ -14,8 +14,7 @@ const RESEND_ON_ERRORS = [`RequestError`, `FetchError`];
 
 bot.context.downloadFile = async function (fileId) {
   if (!fileId) {
-    fileId = this.update.callback_query.message.reply_to_message.document
-      .file_id;
+    fileId = this.callbackQuery.message.reply_to_message.document.file_id;
   }
 
   const file = await bot.telegram.getFile(fileId);
@@ -63,69 +62,126 @@ const handleStart = async (context) => {
 const choose = async (context) => {
   const fileName = context.message.document.file_name;
   if (fileName && fileName.endsWith(`.attheme`)) {
-    context.reply("Select the style", {
-      reply_markup: {
-        inline_keyboard: [
-          [
+    if (context.message.chat.type == "group") {
+      bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
+      const theme = await context.downloadFile(
+        context.message.document.file_id
+      );
+      const preview = await render({
+        theme,
+        name: fileName.replace(`.attheme`, ``),
+        template: REGULAR_TEMPLATE,
+      });
+
+      const sendPreview = async () => {
+        try {
+          await context.replyWithPhoto(
+            { source: preview },
             {
-              text: "Ordinary",
-              callback_data: "ordinary",
-              hide: false,
-            },
-            {
-              text: "Minimalistic",
-              callback_data: "minimalistic",
-              hide: false,
-            },
+              // eslint-disable-next-line camelcase
+              reply_to_message_id: context.message.message_id,
+              reply_markup: {
+                inline_keyboard: [
+                  [
+                    {
+                      text: `Minimalistic`,
+                      callback_data: `minimalistic`,
+                      hide: false,
+                    },
+                  ],
+                ],
+              },
+              caption: `Created by @ThemePreviewBot`,
+            }
+          );
+        } catch (error) {
+          if (RESEND_ON_ERRORS.includes(error.name)) {
+            process.nextTick(sendPreview);
+          } else {
+            console.error(error);
+          }
+        }
+      };
+
+      sendPreview();
+    } else {
+      context.reply(`Select the style`, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: `Ordinary`,
+                callback_data: `ordinary`,
+                hide: false,
+              },
+              {
+                text: `Minimalistic`,
+                callback_data: `minimalistic`,
+                hide: false,
+              },
+            ],
           ],
-        ],
-      },
-      reply_to_message_id: context.message.message_id,
-    });
+        },
+        reply_to_message_id: context.message.message_id,
+      });
+    }
   }
 };
 
 const handleDocument = async (context) => {
-  const callbackQuery = context.update.callback_query;
+  const callbackQuery = context.callbackQuery;
   const callbackMessage = callbackQuery.message;
-  context.deleteMessage(callbackMessage.message_id);
-  bot.telegram.sendChatAction(callbackMessage.chat.id, "upload_photo");
+  if (callbackMessage.text == `Select the style`) {
+    context.deleteMessage(callbackMessage.message_id);
+  } else {
+    bot.telegram.editMessageCaption(
+      callbackMessage.chat.id,
+      callbackMessage.message_id,
+      callbackMessage.message_id,
+      `Loading...`
+    );
+  }
+  bot.telegram.sendChatAction(callbackMessage.chat.id, `upload_photo`);
   const fileName = callbackMessage.reply_to_message.document.file_name;
   const theme = await context.downloadFile();
   const preview = await render({
     theme,
     name: fileName.replace(`.attheme`, ``),
     template:
-      callbackQuery.data == "ordinary"
+      callbackQuery.data == `ordinary`
         ? REGULAR_TEMPLATE
         : MINIMALISTIC_TEMPLATE,
   });
   const sendPreview = async () => {
-    try {
-      await context.replyWithPhoto(
-        { source: preview },
-        {
-          reply_to_message_id: callbackMessage.reply_to_message.message_id,
-          reply_markup: {
-            inline_keyboard: [
-              [
-                {
-                  text:
-                    callbackQuery.data == "ordinary"
-                      ? "Minimalistic"
-                      : "Ordinary",
-                  callback_data:
-                    callbackQuery.data == "ordinary"
-                      ? "minimalistic"
-                      : "ordinary",
-                  hide: false,
-                },
-              ],
-            ],
+    const reply_markup = {
+      inline_keyboard: [
+        [
+          {
+            text:
+              callbackQuery.data == `ordinary` ? `Minimalistic` : `Ordinary`,
+            callback_data:
+              callbackQuery.data == `ordinary` ? `minimalistic` : `ordinary`,
+            hide: false,
           },
-          caption: `Created by @ThemePreviewBot`,
-        }
-      );
+        ],
+      ],
+      caption: `Created by @ThemePreviewBot`,
+    };
+    try {
+      if (callbackMessage.text == `Select the style`) {
+        await context.replyWithPhoto(
+          { source: preview },
+          {
+            reply_to_message_id: callbackMessage.reply_to_message.message_id,
+            reply_markup,
+          }
+        );
+      } else {
+        await context.editMessageMedia(
+          { type: "photo", media: { source: preview } },
+          { reply_markup }
+        );
+      }
     } catch (error) {
       if (RESEND_ON_ERRORS.includes(error.name)) {
         process.nextTick(sendPreview);
@@ -149,7 +205,7 @@ bot.on(`document`, (context) => {
   choose(context);
 });
 
-bot.action(["ordinary", "minimalistic"], (context) => {
+bot.action([`ordinary`, `minimalistic`], (context) => {
   handleDocument(context);
 });
 

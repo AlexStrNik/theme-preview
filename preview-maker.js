@@ -1,12 +1,12 @@
 const Attheme = require(`attheme-js`);
 const fs = require(`fs`);
 const defaultVariablesValues = require(`./attheme-default-values`).default;
-const { rgbToHsl } = require(`@snejugal/color`);
 const { DOMParser, XMLSerializer } = require(`xmldom`);
 const sharp = require(`sharp`);
 const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
+const rgbToHsl = Color.rgbToHsl;
 
 const RENDER_CONFIG = {
   density: 150,
@@ -54,7 +54,6 @@ function calculateAccentColor(colors) {
   let max = 0;
   let accentHue;
 
-
   for (const color of colors) {
     if (color != 0) {
       colorsQuantity.set(color, (colorsQuantity.get(color) ?? 0) + 1);
@@ -67,13 +66,13 @@ function calculateAccentColor(colors) {
   }
 
   const colorsHue = colors.filter((color) => colorsQuantity.get(color) == max);
-  colorsHue.sort((a, b) => a - b)
+  colorsHue.sort((a, b) => a - b);
 
   if (colorsHue.length > 1) {
     let minDifference = 360;
-    for (var i = 0; i < colorsHue.length; i++) {
-      const outerHue = colorsHue[i]
-      const innerHue = colorsHue[i + 1]
+    for (let i = 0; i < colorsHue.length - 1; i++) {
+      const outerHue = colorsHue[i];
+      const innerHue = colorsHue[i + 1];
       if (Math.abs(outerHue - innerHue) < minDifference) {
         minDifference = Math.abs(outerHue - innerHue);
         accentHue = (outerHue + innerHue) / 2;
@@ -92,9 +91,14 @@ function rgbDifference(color1, color2) {
   return result;
 }
 const fill = (rootNode, color) => {
-  const cssColor = `red` in color
-    ? `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha / 255})`
-    : `hsl(${color.hue}, ${color.saturation * 100}%, ${color.lightness * 100}%)`;
+  const cssColor =
+    `red` in color
+      ? `rgba(${color.red}, ${color.green}, ${color.blue}, ${
+          color.alpha / 255
+        })`
+      : `hsl(${color.hue}, ${color.saturation * 100}%, ${
+          color.lightness * 100
+        }%)`;
 
   const innerFill = (node) => {
     if (node.tagName === `stop`) {
@@ -106,7 +110,7 @@ const fill = (rootNode, color) => {
     if (node.childNodes) {
       for (let child of Array.from(node.childNodes)) {
         if (child.setAttribute) {
-          fill(child, cssColor);
+          innerFill(child, cssColor);
         }
       }
     }
@@ -133,7 +137,9 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     `avatar_backgroundCyan`,
     `avatar_backgroundBlue`,
   ];
-  const windowBackgroundWhite = theme[`windowBackgroundWhite`] || defaultVariablesValues[`windowBackgroundWhite`];
+  const windowBackgroundWhite =
+    theme[`windowBackgroundWhite`] ||
+    defaultVariablesValues[`windowBackgroundWhite`];
 
   const inBubble =
     theme[`chat_inBubble`] || defaultVariablesValues[`chat_inBubble`];
@@ -155,7 +161,9 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       fill(element, color);
     }
     const chooseHsl = rgbToHsl(color);
-    let hueDifference = Math.abs(chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue);
+    let hueDifference = Math.abs(
+      chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue
+    );
     if (hueDifference > 180) {
       hueDifference = 360 - hueDifference;
     }
@@ -219,13 +227,16 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     }
   }
 
-  const avatarTextColor = theme[`avatar_text`] || defaultVariablesValues[`avatar_text`];
+  const avatarTextColor =
+    theme[`avatar_text`] || defaultVariablesValues[`avatar_text`];
   for (const avatarVariable of AVATAR_VARIABLES) {
-    const avatarColor = theme[avatarVariable] || defaultVariablesValues[avatarVariable];
-    const avatarAndBackgroundDifference = rgbDifference(avatarColor, windowBackgroundWhite);
-    if (
-      avatarAndBackgroundDifference < 25
-    ) {
+    const avatarColor =
+      theme[avatarVariable] || defaultVariablesValues[avatarVariable];
+    const avatarAndBackgroundDifference = rgbDifference(
+      avatarColor,
+      windowBackgroundWhite
+    );
+    if (avatarAndBackgroundDifference < 25) {
       for (const avatar of getElementsByClassName(preview, avatarVariable)) {
         fill(avatar, avatarTextColor);
       }
@@ -242,7 +253,8 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
         preview,
         `${avatarVariable}Shadow`
       )) {
-        const choose = theme[avatarVariable] || defaultVariablesValues[avatarVariable];
+        const choose =
+          theme[avatarVariable] || defaultVariablesValues[avatarVariable];
         const hslChoose = rgbToHsl(choose);
         hslChoose.lightness += hslChoose.lightness < 0.25 ? 0.1 : -0.2;
         fill(avatarShadow, hslChoose);
@@ -268,9 +280,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   const chatOutMediaIcon =
     theme[`chat_outMediaIcon`] || defaultVariablesValues[`chat_outMediaIcon`];
 
-  if (
-    inLoaderAndBubbleDifference < 25
-  ) {
+  if (inLoaderAndBubbleDifference < 25) {
     for (const chatInLoader of getElementsByClassName(
       preview,
       `chat_inLoader`
@@ -278,9 +288,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       fill(chatInLoader, chatInMediaIcon);
     }
   }
-  if (
-    outLoaderAndBubbleDifference < 25
-  ) {
+  if (outLoaderAndBubbleDifference < 25) {
     for (const chatOutLoader of getElementsByClassName(
       preview,
       `chat_outLoader`
