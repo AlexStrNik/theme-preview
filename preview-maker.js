@@ -160,7 +160,6 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       fill(element, color);
     }
     const chooseHsl = rgbToHsl(color);
-    let hueDifference = getDifference(chooseHsl, windowBackgroundWhite, `hue`);
     let hueDifference = Math.abs(chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue);
     if (hueDifference > 180) {
       hueDifference = 360 - hueDifference;
