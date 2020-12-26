@@ -7,16 +7,35 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 const rgbToHsl = Color.rgbToHsl;
+const puppeteer = require('puppeteer')
 
 const RENDER_CONFIG = {
   density: 150,
 };
-
 const parser = new DOMParser();
+
+let page = null;
+const newPage = async () => {
+  const browser = await puppeteer.launch();
+  const pageBrowser = await browser.newPage();
+  await pageBrowser.setViewport({
+      width: 1188,
+      height: 1188,
+      deviceScaleFactor: 0,
+  });
+  await pageBrowser.goto(`file://${__dirname}/blank.html`);
+  page = pageBrowser
+}
 
 const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
 const NEW_TEMPLATE = Symbol();
+
+const sizes = {
+  [MINIMALISTIC_TEMPLATE]: {width:1088,height:1088},
+  [REGULAR_TEMPLATE]: {width:960,height:782},
+  [NEW_TEMPLATE]: {width:1560,height:982},
+}
 
 const templates = {
   [MINIMALISTIC_TEMPLATE]: fs.readFileSync(`./new-theme-preview.svg`, `utf8`),
@@ -119,6 +138,9 @@ const fill = (rootNode, color) => {
 };
 
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
+  if (page === null) {
+    await newPage()
+  }
   let theme, accentHue;
 
   if (themeBuffer instanceof Buffer) {
@@ -365,8 +387,8 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   }
 
   const templateBuffer = Buffer.from(serialize(preview), `binary`);
-
-  return sharp(templateBuffer, RENDER_CONFIG).png().toBuffer();
+  await page.setContent(`${serialize(preview)}`)
+  return await page.screenshot({clip:{x:8,y:8,width:sizes[template].width,height:sizes[template].height}});
 };
 
 module.exports = {
