@@ -62,7 +62,7 @@ const handleStart = async (context) => {
 const choose = async (context) => {
   const fileName = context.message.document.file_name;
   if (fileName && fileName.endsWith(`.attheme`)) {
-    if (context.message.chat.type == "group") {
+    if (context.message.chat.type == `group` || context.message.chat.type == `supergroup`) {
       bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
       const theme = await context.downloadFile(
         context.message.document.file_id
@@ -138,7 +138,7 @@ const handleDocument = async (context) => {
       callbackMessage.chat.id,
       callbackMessage.message_id,
       callbackMessage.message_id,
-      `Loading...`
+      `Updating the preview...`
     );
   }
   bot.telegram.sendChatAction(callbackMessage.chat.id, `upload_photo`);
@@ -178,7 +178,7 @@ const handleDocument = async (context) => {
         );
       } else {
         await context.editMessageMedia(
-          { type: "photo", media: { source: preview } },
+          { type: `photo`, media: { source: preview } },
           { reply_markup }
         );
       }

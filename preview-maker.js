@@ -81,15 +81,6 @@ const calculateAccentColor = (colors) => {
 
   return accentHue;
 }
-const getDifference = (chooseHsl, windowBackgroundWhite, argument) => {
-  let hueDifference = Math.abs(
-    chooseHsl[argument] - rgbToHsl(windowBackgroundWhite)[argument]
-  );
-  if (hueDifference > 180) {
-    hueDifference = 360 - hueDifference;
-  }
-  return hueDifference;
-}
 const rgbDifference = (color1, color2) => {
   const result = Math.hypot(
     color1.red - color2.red,
@@ -170,16 +161,11 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     }
     const chooseHsl = rgbToHsl(color);
     let hueDifference = getDifference(chooseHsl, windowBackgroundWhite, `hue`);
-    let saturationDifference = getDifference(
-      chooseHsl,
-      windowBackgroundWhite,
-      `saturation`
-    );
-    let lightnessDifference = getDifference(
-      chooseHsl,
-      windowBackgroundWhite,
-      `lightness`
-    );
+    let hueDifference = Math.abs(chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue);
+    if (hueDifference > 180) {
+      hueDifference = 360 - hueDifference;
+    }
+    let saturationDifference = Math.abs(chooseHsl.saturation - windowBackgroundWhite.saturation)
     if (
       hueDifference > 2 &&
       chooseHsl.saturation > 0.04 &&
@@ -189,7 +175,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     }
   }
 
-  if (colors.length) {
+  if (colors.length > 0) {
     accentHue = calculateAccentColor(colors);
   } else {
     accentHue = rgbToHsl(
