@@ -62,7 +62,7 @@ const handleStart = async (context) => {
 const choose = async (context) => {
   const fileName = context.message.document.file_name;
   if (fileName && fileName.endsWith(`.attheme`)) {
-    if (context.message.chat.type == `group` || context.message.chat.type == `supergroup`) {
+    if ([`group`, `supergroup`].includes(context.message.chat.type)) {
       bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
       const theme = await context.downloadFile(
         context.message.document.file_id
