@@ -164,8 +164,7 @@ const handleDocument = async (context) => {
             hide: false,
           },
         ],
-      ],
-      caption: `Created by @ThemePreviewBot`,
+      ]
     };
     try {
       if (callbackMessage.text == `Select the style`) {
@@ -174,11 +173,15 @@ const handleDocument = async (context) => {
           {
             reply_to_message_id: callbackMessage.reply_to_message.message_id,
             reply_markup,
+            caption: callbackQuery.data == `minimalistic` ? `Design by @voidrainbow` : `Created by @ThemePreviewBot`
           }
         );
       } else {
         await context.editMessageMedia(
-          { type: `photo`, media: { source: preview } },
+          { type: `photo`,
+            media: { source: preview },
+            caption: callbackQuery.data == `minimalistic` ? `Design by @voidrainbow` : `Created by @ThemePreviewBot`,
+          },
           { reply_markup }
         );
       }
