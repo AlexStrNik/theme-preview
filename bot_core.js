@@ -177,12 +177,12 @@ const handleDocument = async (context) => {
           {
             reply_to_message_id: callbackMessage.reply_to_message.message_id,
             reply_markup,
-            caption: caption,
+            caption,
           }
         );
       } else {
         await context.editMessageMedia(
-          { type: `photo`, media: { source: preview }, caption: caption },
+          { type: `photo`, media: { source: preview }, caption },
           { reply_markup }
         );
       }
