@@ -165,8 +165,11 @@ const handleDocument = async (context) => {
           },
         ],
       ],
-      caption: `Created by @ThemePreviewBot`,
     };
+    const caption =
+      callbackQuery.data == `minimalistic`
+        ? `Design by @voidrainbow`
+        : `Created by @ThemePreviewBot`;
     try {
       if (callbackMessage.text == `Select the style`) {
         await context.replyWithPhoto(
@@ -174,11 +177,12 @@ const handleDocument = async (context) => {
           {
             reply_to_message_id: callbackMessage.reply_to_message.message_id,
             reply_markup,
+            caption,
           }
         );
       } else {
         await context.editMessageMedia(
-          { type: `photo`, media: { source: preview } },
+          { type: `photo`, media: { source: preview }, caption },
           { reply_markup }
         );
       }
