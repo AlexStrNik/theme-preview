@@ -14,28 +14,14 @@ const RENDER_CONFIG = {
 };
 const parser = new DOMParser();
 
-let page = null;
-const newPage = async () => {
-  const browser = await puppeteer.launch();
-  const pageBrowser = await browser.newPage();
-  await pageBrowser.setViewport({
-      width: 1188,
-      height: 1188,
-      deviceScaleFactor: 0,
-  });
-  await pageBrowser.goto(`file://${__dirname}/blank.html`);
-  page = pageBrowser
+let browser = null;
+const newBrowser = async () => {
+  browser = await puppeteer.launch();
 }
 
 const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
 const NEW_TEMPLATE = Symbol();
-
-const sizes = {
-  [MINIMALISTIC_TEMPLATE]: {width:1088,height:1088},
-  [REGULAR_TEMPLATE]: {width:960,height:782},
-  [NEW_TEMPLATE]: {width:1560,height:982},
-}
 
 const templates = {
   [MINIMALISTIC_TEMPLATE]: fs.readFileSync(`./new-theme-preview.svg`, `utf8`),
@@ -138,8 +124,8 @@ const fill = (rootNode, color) => {
 };
 
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
-  if (page === null) {
-    await newPage()
+  if (browser === null) {
+    await newBrowser()
   }
   let theme, accentHue;
 
@@ -386,9 +372,28 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     element.textContent = themeAuthor;
   }
 
-  const templateBuffer = Buffer.from(serialize(preview), `binary`);
+  const svg = preview.getElementsByTagName(`svg`)[0]
+  const widthSvg = parseInt(svg.getAttribute('width'))
+  const heightSvg = parseInt(svg.getAttribute('height'))
+
+  const page = await browser.newPage();
+  await page.setViewport({
+    width: widthSvg + 8,
+    height: heightSvg + 8,
+    deviceScaleFactor: 0,
+  });
+  await page.goto(`file://${__dirname}/blank.html`);
   await page.setContent(`${serialize(preview)}`)
-  return await page.screenshot({clip:{x:8,y:8,width:sizes[template].width,height:sizes[template].height}});
+  const screen = await page.screenshot({
+    clip:{
+      x:8,
+      y:8,
+      width:widthSvg,
+      height:heightSvg
+    }
+  });
+  await page.close()
+  return screen;
 };
 
 module.exports = {
