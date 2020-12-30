@@ -382,7 +382,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     height: heightSvg + 8,
     deviceScaleFactor: 0,
   });
-  await page.goto(`file://${__dirname}/blank.html`);
+  await page.goto(`data:text/html,`);
   await page.setContent(`${serialize(preview)}`)
   const screen = await page.screenshot({
     clip:{
