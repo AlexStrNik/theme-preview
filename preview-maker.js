@@ -7,7 +7,7 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 const rgbToHsl = Color.rgbToHsl;
-const puppeteer = require('puppeteer')
+const puppeteer = require("puppeteer");
 
 const RENDER_CONFIG = {
   density: 150,
@@ -17,7 +17,7 @@ const parser = new DOMParser();
 let browser = null;
 const newBrowser = async () => {
   browser = await puppeteer.launch();
-}
+};
 
 const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
@@ -85,7 +85,7 @@ const calculateAccentColor = (colors) => {
   }
 
   return accentHue;
-}
+};
 const rgbDifference = (color1, color2) => {
   const result = Math.hypot(
     color1.red - color2.red,
@@ -93,7 +93,7 @@ const rgbDifference = (color1, color2) => {
     color1.blue - color2.blue
   );
   return result;
-}
+};
 const fill = (rootNode, color) => {
   const cssColor =
     `red` in color
@@ -125,7 +125,7 @@ const fill = (rootNode, color) => {
 
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   if (browser === null) {
-    await newBrowser()
+    await newBrowser();
   }
   let theme, accentHue;
 
@@ -168,11 +168,15 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
       fill(element, color);
     }
     const chooseHsl = rgbToHsl(color);
-    let hueDifference = Math.abs(chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue);
+    let hueDifference = Math.abs(
+      chooseHsl.hue - rgbToHsl(windowBackgroundWhite).hue
+    );
     if (hueDifference > 180) {
       hueDifference = 360 - hueDifference;
     }
-    let saturationDifference = Math.abs(chooseHsl.saturation - windowBackgroundWhite.saturation)
+    let saturationDifference = Math.abs(
+      chooseHsl.saturation - windowBackgroundWhite.saturation
+    );
     if (
       hueDifference > 2 &&
       chooseHsl.saturation > 0.04 &&
@@ -372,27 +376,27 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
     element.textContent = themeAuthor;
   }
 
-  const svg = preview.getElementsByTagName(`svg`)[0]
-  const widthSvg = parseInt(svg.getAttribute('width'))
-  const heightSvg = parseInt(svg.getAttribute('height'))
+  const svg = preview.getElementsByTagName(`svg`)[0];
+  const widthSvg = parseInt(svg.getAttribute("width"));
+  const heightSvg = parseInt(svg.getAttribute("height"));
 
   const page = await browser.newPage();
   await page.setViewport({
-    width: widthSvg + 8,
-    height: heightSvg + 8,
+    width: widthSvg,
+    height: heightSvg,
     deviceScaleFactor: 0,
   });
   await page.goto(`data:text/html,`);
-  await page.setContent(`${serialize(preview)}`)
-  const screen = await page.screenshot({
-    clip:{
-      x:8,
-      y:8,
-      width:widthSvg,
-      height:heightSvg
-    }
-  });
-  await page.close()
+  await page.setContent(`
+    <style>
+        * {
+            margin:0;
+        }
+    </style>
+    ${serialize(preview)}
+  `);
+  const screen = await page.screenshot();
+  await page.close();
   return screen;
 };
 
