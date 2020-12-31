@@ -2,3 +2,4 @@ node_modules/
 token2.js
 token.js
 test/
+.vscode

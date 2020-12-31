@@ -8,35 +8,34 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 const rgbToHsl = Color.rgbToHsl;
-const puppeteer = require(`puppeteer`)
+const puppeteer = require(`puppeteer`);
 
 const browser = puppeteer.launch();
 
-
 const variablesList = {
   dialogsBg: {
-    historyPeer1UserpicBg:`historyPeerUserpicFg`,
-    historyPeer2UserpicBg:`historyPeerUserpicFg`,
-    historyPeer3UserpicBg:`historyPeerUserpicFg`,
-    historyPeer4UserpicBg:`historyPeerUserpicFg`,
-    historyPeer5UserpicBg:`historyPeerUserpicFg`,
-    historyPeer6UserpicBg:`historyPeerUserpicFg`,
-    historyPeer7UserpicBg:`historyPeerUserpicFg`,
-    historyPeerSavedMessagesBg:`historyPeerUserpicFg`,
-    dialogsUnreadBgMuted:`dialogsUnreadFg`, 
-    dialogsUnreadBg:`dialogsUnreadFg`
+    historyPeer1UserpicBg: `historyPeerUserpicFg`,
+    historyPeer2UserpicBg: `historyPeerUserpicFg`,
+    historyPeer3UserpicBg: `historyPeerUserpicFg`,
+    historyPeer4UserpicBg: `historyPeerUserpicFg`,
+    historyPeer5UserpicBg: `historyPeerUserpicFg`,
+    historyPeer6UserpicBg: `historyPeerUserpicFg`,
+    historyPeer7UserpicBg: `historyPeerUserpicFg`,
+    historyPeerSavedMessagesBg: `historyPeerUserpicFg`,
+    dialogsUnreadBgMuted: `dialogsUnreadFg`,
+    dialogsUnreadBg: `dialogsUnreadFg`,
   },
   titleBg: {
-    titleButtonCloseBg:`titleButtonCloseFg`,
-    titleButtonBg:`titleButtonFg`
+    titleButtonCloseBg: `titleButtonCloseFg`,
+    titleButtonBg: `titleButtonFg`,
   },
   msgInBg: {
-    msgFileInBg:`historyFileInIconFg`
+    msgFileInBg: `historyFileInIconFg`,
   },
   msgOutBg: {
-    msgFileOutBg:`historyFileOutIconFg`
+    msgFileOutBg: `historyFileOutIconFg`,
   },
-}
+};
 const userPicList = [
   `historyPeerSavedMessagesBg`,
   `historyPeer1UserpicBg`,
@@ -45,8 +44,8 @@ const userPicList = [
   `historyPeer4UserpicBg`,
   `historyPeer5UserpicBg`,
   `historyPeer6UserpicBg`,
-  `historyPeer7UserpicBg`
-]
+  `historyPeer7UserpicBg`,
+];
 
 const RENDER_CONFIG = {
   density: 150,
@@ -62,9 +61,9 @@ const templates = {
   [MINIMALISTIC_TEMPLATE]: fs.readFileSync(`./new-theme-preview.svg`, `utf8`),
   [REGULAR_TEMPLATE]: fs.readFileSync(`./theme-preview.svg`, `utf8`),
   [NEW_TEMPLATE]: fs.readFileSync(`./new-preview.svg`, `utf8`),
-  [DESKTOP_TEMPLATE]: fs.readFileSync(`./tdesktop-preview.svg`, `utf8`)
+  [DESKTOP_TEMPLATE]: fs.readFileSync(`./tdesktop-preview.svg`, `utf8`),
 };
-const defaultThemeBuffer = fs.readFileSync(`./classic.tdesktop-palette`)
+const defaultThemeBuffer = fs.readFileSync(`./classic.tdesktop-palette`);
 const defaultTheme = new TdesktopTheme(defaultThemeBuffer);
 
 const WALLPAPERS_AMOUNT = 32;
@@ -126,9 +125,9 @@ const addWallpaper = async (elements, wallpaper) => {
         `data:image/png;base64,${croppedImage.toString(`base64`)}`
       );
     })
-  )
+  );
   return result;
-}
+};
 
 function calculateAccentColor(colors) {
   let colorsQuantity = new Map();
@@ -159,7 +158,7 @@ function calculateAccentColor(colors) {
   }
 
   return accentHue;
-};
+}
 const rgbDifference = (color1, color2) => {
   const result = Math.hypot(
     color1.red - color2.red,
@@ -197,24 +196,19 @@ const fill = (rootNode, color) => {
   innerFill(rootNode);
 };
 
-
 const makePrevDesktop = async (themeBuffer) => {
   const originalTheme = new TdesktopTheme(themeBuffer);
   const theme = originalTheme.fallbackTo(defaultTheme);
-  originalTheme.free()
-
-  let accentHue;
+  originalTheme.free();
 
   const preview = parser.parseFromString(templates[DESKTOP_TEMPLATE]);
-  const variables = theme.variables()
-
+  const variables = theme.variables();
 
   let colors = [];
-  const dialogsBg = rgbToHsl(theme.resolveVariable(`dialogsBg`))
-  for (let variable in variables) {
-    variable = variables[variable]
+  const dialogsBg = rgbToHsl(theme.resolveVariable(`dialogsBg`));
+  for (const variable of variables) {
     const elements = getElementsByClassName(preview, variable);
-    const color = theme.resolveVariable(variable)
+    const color = theme.resolveVariable(variable);
     for (const element of elements) {
       fill(element, color);
     }
@@ -223,7 +217,9 @@ const makePrevDesktop = async (themeBuffer) => {
     if (hueDifference > 180) {
       hueDifference = 360 - hueDifference;
     }
-    let saturationDifference = Math.abs(chooseHsl.saturation - dialogsBg.saturation)
+    let saturationDifference = Math.abs(
+      chooseHsl.saturation - dialogsBg.saturation
+    );
     if (
       hueDifference > 2 &&
       chooseHsl.saturation > 0.04 &&
@@ -232,6 +228,8 @@ const makePrevDesktop = async (themeBuffer) => {
       colors.push(Math.round(chooseHsl.hue));
     }
   }
+
+  let accentHue;
   if (colors.length > 0) {
     accentHue = calculateAccentColor(colors);
   } else {
@@ -241,61 +239,73 @@ const makePrevDesktop = async (themeBuffer) => {
   for (const previewBack of getElementsByClassName(preview, `PreviewBack`)) {
     fill(previewBack, { hue: accentHue, saturation: 1, lightness: 0.9 });
   }
-  for (const PreviewShadow of getElementsByClassName(preview, `PreviewShadow`)) {
-    fill(PreviewShadow, { hue: accentHue, saturation: 1, lightness: 0.02 });
+  for (const previewShadow of getElementsByClassName(
+    preview,
+    `PreviewShadow`
+  )) {
+    fill(previewShadow, { hue: accentHue, saturation: 1, lightness: 0.02 });
   }
 
   for (let background in variablesList) {
     for (let elementName in variablesList[background]) {
-      const backgroundColor = theme.resolveVariable(background)
-      const elementColor = theme.resolveVariable(elementName)
-      const elementInnerColor = theme.resolveVariable(variablesList[background][elementName])
+      const backgroundColor = theme.resolveVariable(background);
+      const elementColor = theme.resolveVariable(elementName);
+      const elementInnerColor = theme.resolveVariable(
+        variablesList[background][elementName]
+      );
 
-      const difference = rgbDifference(backgroundColor,elementColor)
-      const differenceInner = rgbDifference(backgroundColor,elementInnerColor)
+      const difference = rgbDifference(backgroundColor, elementColor);
+      const differenceInner = rgbDifference(backgroundColor, elementInnerColor);
 
-      if (difference < 25 && differenceInner > difference || elementColor.alpha === 0) {
+      if (
+        (difference < 25 && differenceInner > difference) ||
+        elementColor.alpha === 0
+      ) {
         const elements = getElementsByClassName(preview, elementName);
         for (const element of elements) {
-          fill(element, elementInnerColor)
+          fill(element, elementInnerColor);
         }
       }
     }
   }
 
-  for(let userPic in userPicList) {
-    userPic = userPicList[userPic]
-    const userPicElement = getElementsByClassName(preview, userPic)[0]
-    const userPicColor = userPicElement.getAttribute(`stop-color`)
-    const color = userPicColor.slice(5,-1).split(`,`)
+  for (const userPic of userPicList) {
+    const userPicElement = getElementsByClassName(preview, userPic)[0];
+    const userPicColor = userPicElement.getAttribute(`stop-color`);
+    //rgba(255,255,255,255)
+    const color = userPicColor.slice("rgba(".length, -")".length).split(`,`);
     const colorRgb = {
-      red:parseInt(color[0]),
-      green:parseInt(color[1]),
-      blue:parseInt(color[2]),
-      alpha:parseInt(color[3]),
-    }
-    const colorHsl = rgbToHsl(colorRgb)
-    colorHsl.lightness -= 0.2
-    const userPicShadow = `${userPic}Shadow`
-    const elements = getElementsByClassName(preview, userPicShadow)
-    for (const element of elements){
-      fill(element, colorHsl)
+      red: parseInt(color[0]),
+      green: parseInt(color[1]),
+      blue: parseInt(color[2]),
+      alpha: parseInt(color[3]),
+    };
+    const colorHsl = rgbToHsl(colorRgb);
+    colorHsl.lightness -= 0.2;
+    const userPicShadow = `${userPic}Shadow`;
+    const elements = getElementsByClassName(preview, userPicShadow);
+    for (const element of elements) {
+      fill(element, colorHsl);
     }
   }
 
   const elements = getElementsByClassName(preview, `IMG`);
-  
-  if (theme.wallpaper !== null) {
-    const imageBuffer = Buffer.from(theme.wallpaper.bytes)
-    if (imageBuffer.length !== 0) {
-      await addWallpaper(elements, imageBuffer)
-    }
+
+  const wallpaper = theme.wallpaper;
+  if (wallpaper?.bytes.length > 0) {
+    await addWallpaper(elements, Buffer.from(wallpaper.bytes));
   }
-  theme.free()
-  return preview
+  wallpaper?.free();
+  theme.free();
+  return preview;
 };
 
-const makePrevAndroid = async (themeBuffer, themeName, themeAuthor, template) => {
+const makePrevAndroid = async (
+  themeBuffer,
+  themeName,
+  themeAuthor,
+  template
+) => {
   let theme, accentHue;
 
   if (themeBuffer instanceof Buffer) {
@@ -491,7 +501,7 @@ const makePrevAndroid = async (themeBuffer, themeName, themeAuthor, template) =>
 
   if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
     const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
-    await addWallpaper(elements,imageBuffer)
+    await addWallpaper(elements, imageBuffer);
   }
 
   const authorIndex = themeName.search(/ [bB]y @?[a-zA-Z0-9]/);
@@ -508,23 +518,28 @@ const makePrevAndroid = async (themeBuffer, themeName, themeAuthor, template) =>
   for (const element of getElementsByClassName(preview, `theme_author`)) {
     element.textContent = themeAuthor;
   }
-  return preview
+  return preview;
 };
 
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   let preview;
-  
+
   if (template == DESKTOP_TEMPLATE) {
-    preview = await makePrevDesktop(themeBuffer)
+    preview = await makePrevDesktop(themeBuffer);
   } else {
-    preview = await makePrevAndroid(themeBuffer, themeName, themeAuthor, template)
+    preview = await makePrevAndroid(
+      themeBuffer,
+      themeName,
+      themeAuthor,
+      template
+    );
   }
 
   const svg = preview.getElementsByTagName(`svg`)[0];
   const widthSvg = parseInt(svg.getAttribute(`width`));
   const heightSvg = parseInt(svg.getAttribute(`height`));
 
-  const page = await browser.then(browser => browser.newPage());
+  const page = await browser.then((browser) => browser.newPage());
   await page.setViewport({
     width: widthSvg,
     height: heightSvg,
