@@ -3,12 +3,13 @@ const token = process.env.TOKEN;
 const Telegraf = require(`telegraf`);
 const bot = new Telegraf(token);
 const request = require(`request-promise`);
-const render = require(`./render-pool`);
 const atthemeEditorApi = require(`attheme-editor-api`);
+const render = require(`./render-pool`);
 const {
   MINIMALISTIC_TEMPLATE,
   REGULAR_TEMPLATE,
   NEW_TEMPLATE,
+  DESKTOP_TEMPLATE
 } = require(`./preview-maker`);
 const RESEND_ON_ERRORS = [`RequestError`, `FetchError`];
 
@@ -30,9 +31,10 @@ const handleStart = async (context) => {
   const id = context.message.text.slice(`/start `.length).trim();
 
   if (id.length === 0) {
-    await context.reply(`Send me an .attheme file to create its preview`);
+    await context.reply(`Send me .attheme or .tdesktop-theme file to create its preview`);
     return;
   }
+  const { name, theme } = await atthemeEditorApi.downloadTheme(id);
   const preview = await render({
     theme,
     name,
@@ -124,6 +126,31 @@ const choose = async (context) => {
         },
         reply_to_message_id: context.message.message_id,
       });
+    }
+  } else if (fileName && fileName.endsWith(`.tdesktop-theme`)) {
+    bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
+    const theme = await context.downloadFile(
+      context.message.document.file_id
+    );
+    const preview = await render({
+      theme,
+      name: fileName.replace(`.tdesktop-theme`, ``),
+      template: DESKTOP_TEMPLATE,
+    });
+    try {
+      await context.replyWithPhoto(
+        { source: preview },
+        {
+          reply_to_message_id: context.message.message_id,
+          caption: `Design by @voidrainbow`,
+        }
+      );
+    } catch (error) {
+      if (RESEND_ON_ERRORS.includes(error.name)) {
+        process.nextTick(sendPreview);
+      } else {
+        console.error(error);
+      }
     }
   }
 };

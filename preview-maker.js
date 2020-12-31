@@ -1,4 +1,5 @@
 const Attheme = require(`attheme-js`);
+const { TdesktopTheme } = require(`tdesktop-theme/node`);
 const fs = require(`fs`);
 const defaultVariablesValues = require(`./attheme-default-values`).default;
 const { DOMParser, XMLSerializer } = require(`xmldom`);
@@ -7,24 +8,64 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 const rgbToHsl = Color.rgbToHsl;
-const puppeteer = require(`puppeteer`);
+const puppeteer = require(`puppeteer`)
+
+const browser = puppeteer.launch();
+
+
+const variablesList = {
+  dialogsBg: {
+    historyPeer1UserpicBg:`historyPeerUserpicFg`,
+    historyPeer2UserpicBg:`historyPeerUserpicFg`,
+    historyPeer3UserpicBg:`historyPeerUserpicFg`,
+    historyPeer4UserpicBg:`historyPeerUserpicFg`,
+    historyPeer5UserpicBg:`historyPeerUserpicFg`,
+    historyPeer6UserpicBg:`historyPeerUserpicFg`,
+    historyPeer7UserpicBg:`historyPeerUserpicFg`,
+    historyPeerSavedMessagesBg:`historyPeerUserpicFg`,
+    dialogsUnreadBgMuted:`dialogsUnreadFg`, 
+    dialogsUnreadBg:`dialogsUnreadFg`
+  },
+  titleBg: {
+    titleButtonCloseBg:`titleButtonCloseFg`,
+    titleButtonBg:`titleButtonFg`
+  },
+  msgInBg: {
+    msgFileInBg:`historyFileInIconFg`
+  },
+  msgOutBg: {
+    msgFileOutBg:`historyFileOutIconFg`
+  },
+}
+const userPicList = [
+  `historyPeerSavedMessagesBg`,
+  `historyPeer1UserpicBg`,
+  `historyPeer2UserpicBg`,
+  `historyPeer3UserpicBg`,
+  `historyPeer4UserpicBg`,
+  `historyPeer5UserpicBg`,
+  `historyPeer6UserpicBg`,
+  `historyPeer7UserpicBg`
+]
 
 const RENDER_CONFIG = {
   density: 150,
 };
 const parser = new DOMParser();
 
-const browser = puppeteer.launch();
-
 const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
 const NEW_TEMPLATE = Symbol();
+const DESKTOP_TEMPLATE = Symbol();
 
 const templates = {
   [MINIMALISTIC_TEMPLATE]: fs.readFileSync(`./new-theme-preview.svg`, `utf8`),
   [REGULAR_TEMPLATE]: fs.readFileSync(`./theme-preview.svg`, `utf8`),
   [NEW_TEMPLATE]: fs.readFileSync(`./new-preview.svg`, `utf8`),
+  [DESKTOP_TEMPLATE]: fs.readFileSync(`./tdesktop-preview.svg`, `utf8`)
 };
+const defaultThemeBuffer = fs.readFileSync(`./classic.tdesktop-palette`)
+const defaultTheme = new TdesktopTheme(defaultThemeBuffer);
 
 const WALLPAPERS_AMOUNT = 32;
 const wallpapers = [];
@@ -50,20 +91,56 @@ const getElementsByClassName = (node, className) => [
   ...get(node, className, `image`),
   ...get(node, className, `tspan`),
   ...get(node, className, `stop`),
+  ...get(node, className, `ellipse`),
 ];
-const calculateAccentColor = (colors) => {
+
+const addWallpaper = async (elements, wallpaper) => {
+  const result = await Promise.all(
+    elements.map(async (element) => {
+      let chatWidth = Number(element.getAttribute(`width`));
+      let chatHeight = Number(element.getAttribute(`height`));
+      let ratio = chatHeight / chatWidth;
+      const imageBuffer = Buffer.from(wallpaper, `binary`);
+
+      const { width, height } = sizeOf(imageBuffer);
+      const imageRatio = height / width;
+      let finalHeight;
+      let finalWidth;
+      if (ratio > imageRatio) {
+        finalHeight = chatHeight;
+        finalWidth = Math.round(chatHeight / imageRatio);
+      } else {
+        finalWidth = chatWidth;
+        finalHeight = Math.round(chatWidth * imageRatio);
+      }
+      const resizedImage = await sharp(imageBuffer)
+        .resize(finalWidth, finalHeight)
+        .png()
+        .toBuffer();
+      const croppedImage = await sharp(resizedImage)
+        .resize(chatWidth, chatHeight)
+        .png()
+        .toBuffer();
+      element.setAttribute(
+        `xlink:href`,
+        `data:image/png;base64,${croppedImage.toString(`base64`)}`
+      );
+    })
+  )
+  return result;
+}
+
+function calculateAccentColor(colors) {
   let colorsQuantity = new Map();
   let max = 0;
   let accentHue;
 
   for (const color of colors) {
-    if (color != 0) {
-      colorsQuantity.set(color, (colorsQuantity.get(color) ?? 0) + 1);
+    colorsQuantity.set(color, (colorsQuantity.get(color) ?? 0) + 1);
 
-      if (colorsQuantity.get(color) > max) {
-        accentHue = color;
-        max = colorsQuantity.get(color);
-      }
+    if (colorsQuantity.get(color) > max) {
+      accentHue = color;
+      max = colorsQuantity.get(color);
     }
   }
   const colorsHue = colors.filter((color) => colorsQuantity.get(color) == max);
@@ -120,7 +197,105 @@ const fill = (rootNode, color) => {
   innerFill(rootNode);
 };
 
-const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
+
+const makePrevDesktop = async (themeBuffer) => {
+  const originalTheme = new TdesktopTheme(themeBuffer);
+  const theme = originalTheme.fallbackTo(defaultTheme);
+  originalTheme.free()
+
+  let accentHue;
+
+  const preview = parser.parseFromString(templates[DESKTOP_TEMPLATE]);
+  const variables = theme.variables()
+
+
+  let colors = [];
+  const dialogsBg = rgbToHsl(theme.resolveVariable(`dialogsBg`))
+  for (let variable in variables) {
+    variable = variables[variable]
+    const elements = getElementsByClassName(preview, variable);
+    const color = theme.resolveVariable(variable)
+    for (const element of elements) {
+      fill(element, color);
+    }
+    const chooseHsl = rgbToHsl(color);
+    let hueDifference = Math.abs(chooseHsl.hue - rgbToHsl(dialogsBg).hue);
+    if (hueDifference > 180) {
+      hueDifference = 360 - hueDifference;
+    }
+    let saturationDifference = Math.abs(chooseHsl.saturation - dialogsBg.saturation)
+    if (
+      hueDifference > 2 &&
+      chooseHsl.saturation > 0.04 &&
+      saturationDifference > 0.02
+    ) {
+      colors.push(Math.round(chooseHsl.hue));
+    }
+  }
+  if (colors.length > 0) {
+    accentHue = calculateAccentColor(colors);
+  } else {
+    accentHue = rgbToHsl(theme.resolveVariable(`windowActiveTextFg`)).hue;
+  }
+
+  for (const previewBack of getElementsByClassName(preview, `PreviewBack`)) {
+    fill(previewBack, { hue: accentHue, saturation: 1, lightness: 0.9 });
+  }
+  for (const PreviewShadow of getElementsByClassName(preview, `PreviewShadow`)) {
+    fill(PreviewShadow, { hue: accentHue, saturation: 1, lightness: 0.02 });
+  }
+
+  for (let background in variablesList) {
+    for (let elementName in variablesList[background]) {
+      const backgroundColor = theme.resolveVariable(background)
+      const elementColor = theme.resolveVariable(elementName)
+      const elementInnerColor = theme.resolveVariable(variablesList[background][elementName])
+
+      const difference = rgbDifference(backgroundColor,elementColor)
+      const differenceInner = rgbDifference(backgroundColor,elementInnerColor)
+
+      if (difference < 25 && differenceInner > difference || elementColor.alpha === 0) {
+        const elements = getElementsByClassName(preview, elementName);
+        for (const element of elements) {
+          fill(element, elementInnerColor)
+        }
+      }
+    }
+  }
+
+  for(let userPic in userPicList) {
+    userPic = userPicList[userPic]
+    const userPicElement = getElementsByClassName(preview, userPic)[0]
+    const userPicColor = userPicElement.getAttribute(`stop-color`)
+    const color = userPicColor.slice(5,-1).split(`,`)
+    const colorRgb = {
+      red:parseInt(color[0]),
+      green:parseInt(color[1]),
+      blue:parseInt(color[2]),
+      alpha:parseInt(color[3]),
+    }
+    const colorHsl = rgbToHsl(colorRgb)
+    colorHsl.lightness -= 0.2
+    const userPicShadow = `${userPic}Shadow`
+    const elements = getElementsByClassName(preview, userPicShadow)
+    for (const element of elements){
+      fill(element, colorHsl)
+    }
+  }
+
+  const elements = getElementsByClassName(preview, `IMG`);
+  
+  if (theme.wallpaper !== null) {
+    const imageBuffer = Buffer.from(theme.wallpaper.bytes)
+    if (imageBuffer.length !== 0) {
+      await addWallpaper(elements, imageBuffer)
+    }
+  }
+  theme.free()
+  return preview
+};
+
+const makePrevAndroid = async (themeBuffer, themeName, themeAuthor, template) => {
   let theme, accentHue;
 
   if (themeBuffer instanceof Buffer) {
@@ -314,46 +489,10 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
 
   const elements = getElementsByClassName(preview, `IMG`);
 
-  await Promise.all(
-    elements.map(async (element) => {
-      let chatWidth = Number(element.getAttribute(`width`));
-      let chatHeight = Number(element.getAttribute(`height`));
-      let ratio = chatHeight / chatWidth;
-
-      if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
-        const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
-
-        const { width, height } = sizeOf(imageBuffer);
-        const imageRatio = height / width;
-
-        let finalHeight;
-        let finalWidth;
-
-        if (ratio > imageRatio) {
-          finalHeight = chatHeight;
-          finalWidth = Math.round(chatHeight / imageRatio);
-        } else {
-          finalWidth = chatWidth;
-          finalHeight = Math.round(chatWidth * imageRatio);
-        }
-
-        const resizedImage = await sharp(imageBuffer)
-          .resize(finalWidth, finalHeight)
-          .png()
-          .toBuffer();
-
-        const croppedImage = await sharp(resizedImage)
-          .resize(chatWidth, chatHeight)
-          .png()
-          .toBuffer();
-
-        element.setAttribute(
-          `xlink:href`,
-          `data:image/png;base64,${croppedImage.toString(`base64`)}`
-        );
-      }
-    })
-  );
+  if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+    const imageBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
+    await addWallpaper(elements,imageBuffer)
+  }
 
   const authorIndex = themeName.search(/ [bB]y @?[a-zA-Z0-9]/);
 
@@ -368,6 +507,17 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
 
   for (const element of getElementsByClassName(preview, `theme_author`)) {
     element.textContent = themeAuthor;
+  }
+  return preview
+};
+
+const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
+  let preview;
+  
+  if (template == DESKTOP_TEMPLATE) {
+    preview = await makePrevDesktop(themeBuffer)
+  } else {
+    preview = await makePrevAndroid(themeBuffer, themeName, themeAuthor, template)
   }
 
   const svg = preview.getElementsByTagName(`svg`)[0];
@@ -398,5 +548,6 @@ module.exports = {
   MINIMALISTIC_TEMPLATE,
   REGULAR_TEMPLATE,
   NEW_TEMPLATE,
+  DESKTOP_TEMPLATE,
   makePrev,
 };
