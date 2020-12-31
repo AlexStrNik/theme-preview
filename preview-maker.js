@@ -7,17 +7,14 @@ const sizeOf = require(`image-size`);
 const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 const rgbToHsl = Color.rgbToHsl;
-const puppeteer = require("puppeteer");
+const puppeteer = require(`puppeteer`);
 
 const RENDER_CONFIG = {
   density: 150,
 };
 const parser = new DOMParser();
 
-let browser = null;
-const newBrowser = async () => {
-  browser = await puppeteer.launch();
-};
+let browser = puppeteer.launch();
 
 const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
@@ -124,9 +121,6 @@ const fill = (rootNode, color) => {
 };
 
 const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
-  if (browser === null) {
-    await newBrowser();
-  }
   let theme, accentHue;
 
   if (themeBuffer instanceof Buffer) {
@@ -377,10 +371,10 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   }
 
   const svg = preview.getElementsByTagName(`svg`)[0];
-  const widthSvg = parseInt(svg.getAttribute("width"));
-  const heightSvg = parseInt(svg.getAttribute("height"));
+  const widthSvg = parseInt(svg.getAttribute(`width`));
+  const heightSvg = parseInt(svg.getAttribute(`height`));
 
-  const page = await browser.newPage();
+  const page = await browser.then(browser => browser.newPage());
   await page.setViewport({
     width: widthSvg,
     height: heightSvg,
@@ -390,7 +384,7 @@ const makePrev = async (themeBuffer, themeName, themeAuthor, template) => {
   await page.setContent(`
     <style>
         * {
-            margin:0;
+            margin: 0;
         }
     </style>
     ${serialize(preview)}
