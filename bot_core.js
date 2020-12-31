@@ -3,12 +3,14 @@ const token = process.env.TOKEN;
 const Telegraf = require(`telegraf`);
 const bot = new Telegraf(token);
 const request = require(`request-promise`);
-const render = require(`./render-pool`);
 const atthemeEditorApi = require(`attheme-editor-api`);
+const render = require(`./render-pool`);
+const path = require(`path`);
 const {
   MINIMALISTIC_TEMPLATE,
   REGULAR_TEMPLATE,
   NEW_TEMPLATE,
+  DESKTOP_TEMPLATE,
 } = require(`./preview-maker`);
 const RESEND_ON_ERRORS = [`RequestError`, `FetchError`];
 
@@ -30,9 +32,12 @@ const handleStart = async (context) => {
   const id = context.message.text.slice(`/start `.length).trim();
 
   if (id.length === 0) {
-    await context.reply(`Send me an .attheme file to create its preview`);
+    await context.reply(
+      `Send me an .attheme or a .tdesktop-theme file to create its preview`
+    );
     return;
   }
+  const { name, theme } = await atthemeEditorApi.downloadTheme(id);
   const preview = await render({
     theme,
     name,
@@ -61,71 +66,73 @@ const handleStart = async (context) => {
 };
 const choose = async (context) => {
   const fileName = context.message.document.file_name;
-  if (fileName && fileName.endsWith(`.attheme`)) {
-    if ([`group`, `supergroup`].includes(context.message.chat.type)) {
-      bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
-      const theme = await context.downloadFile(
-        context.message.document.file_id
-      );
-      const preview = await render({
-        theme,
-        name: fileName.replace(`.attheme`, ``),
-        template: REGULAR_TEMPLATE,
-      });
-
-      const sendPreview = async () => {
-        try {
-          await context.replyWithPhoto(
-            { source: preview },
-            {
-              // eslint-disable-next-line camelcase
-              reply_to_message_id: context.message.message_id,
-              reply_markup: {
-                inline_keyboard: [
-                  [
-                    {
-                      text: `Minimalistic`,
-                      callback_data: `minimalistic`,
-                      hide: false,
-                    },
-                  ],
-                ],
-              },
-              caption: `Created by @ThemePreviewBot`,
-            }
-          );
-        } catch (error) {
-          if (RESEND_ON_ERRORS.includes(error.name)) {
-            process.nextTick(sendPreview);
-          } else {
-            console.error(error);
-          }
-        }
-      };
-
-      sendPreview();
-    } else {
-      context.reply(`Select the style`, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: `Ordinary`,
-                callback_data: `ordinary`,
-                hide: false,
-              },
-              {
-                text: `Minimalistic`,
-                callback_data: `minimalistic`,
-                hide: false,
-              },
-            ],
-          ],
-        },
-        reply_to_message_id: context.message.message_id,
-      });
-    }
+  if (!fileName) {
+    return;
   }
+  const extenstion = path.extname(fileName);
+  const name = path.basename(fileName, extenstion);
+
+  if (![`.attheme`, `.tdesktop-theme`].includes(extenstion)) {
+    return;
+  }
+  const isAttheme = extenstion === `.attheme`;
+  if (
+    isAttheme &&
+    ![`group`, `supergroup`].includes(context.message.chat.type)
+  ) {
+    context.reply(`Select the style`, {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: `Ordinary`, callback_data: `ordinary` },
+            { text: `Minimalistic`, callback_data: `minimalistic` },
+          ],
+        ],
+      },
+      reply_to_message_id: context.message.message_id,
+    });
+    return;
+  }
+
+  bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
+  let template = DESKTOP_TEMPLATE;
+  let reply_markup = {};
+  if (isAttheme) {
+    template = REGULAR_TEMPLATE;
+    reply_markup = {
+      inline_keyboard: [
+        [{ text: `Minimalistic`, callback_data: `minimalistic` }],
+      ],
+    };
+  }
+  const theme = await context.downloadFile(context.message.document.file_id);
+  const preview = await render({
+    theme,
+    name,
+    template,
+  });
+  const sendPreview = async () => {
+    try {
+      await context.replyWithPhoto(
+        { source: preview },
+        {
+          // eslint-disable-next-line camelcase
+          reply_to_message_id: context.message.message_id,
+          reply_markup,
+          caption: isAttheme
+            ? `Created by @ThemePreviewBot`
+            : `Design by @voidrainbow`,
+        }
+      );
+    } catch (error) {
+      if (RESEND_ON_ERRORS.includes(error.name)) {
+        process.nextTick(sendPreview);
+      } else {
+        console.error(error);
+      }
+    }
+  };
+  sendPreview();
 };
 
 const handleDocument = async (context) => {
@@ -161,7 +168,6 @@ const handleDocument = async (context) => {
               callbackQuery.data == `ordinary` ? `Minimalistic` : `Ordinary`,
             callback_data:
               callbackQuery.data == `ordinary` ? `minimalistic` : `ordinary`,
-            hide: false,
           },
         ],
       ],
