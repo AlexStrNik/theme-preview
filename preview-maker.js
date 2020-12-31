@@ -292,11 +292,8 @@ const makePrevDesktop = async (themeBuffer) => {
   const elements = getElementsByClassName(preview, `IMG`);
 
   const wallpaper = theme.wallpaper;
-  if (wallpaper?.bytes.length > 0) {
-    await addWallpaper(elements, Buffer.from(wallpaper.bytes));
-  } else {
-    await addWallpaper(elements, Buffer.from(defaultTheme.wallpaper.bytes));
-  }
+  const wallpaperBytes = wallpaper?.bytes.length > 0 ? wallpaper.bytes : defaultTheme.wallpaper.bytes;
+  await addWallpaper(elements, Buffer.from(wallpaperBuffer));
   wallpaper?.free();
   theme.free();
   return preview;
