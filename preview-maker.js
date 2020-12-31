@@ -63,7 +63,7 @@ const templates = {
   [NEW_TEMPLATE]: fs.readFileSync(`./new-preview.svg`, `utf8`),
   [DESKTOP_TEMPLATE]: fs.readFileSync(`./tdesktop-preview.svg`, `utf8`),
 };
-const defaultThemeBuffer = fs.readFileSync(`./classic.tdesktop-palette`);
+const defaultThemeBuffer = fs.readFileSync(`./classic.tdesktop-theme`);
 const defaultTheme = new TdesktopTheme(defaultThemeBuffer);
 
 const WALLPAPERS_AMOUNT = 32;
@@ -294,6 +294,8 @@ const makePrevDesktop = async (themeBuffer) => {
   const wallpaper = theme.wallpaper;
   if (wallpaper?.bytes.length > 0) {
     await addWallpaper(elements, Buffer.from(wallpaper.bytes));
+  } else {
+    await addWallpaper(elements, Buffer.from(defaultTheme.wallpaper.bytes));
   }
   wallpaper?.free();
   theme.free();
