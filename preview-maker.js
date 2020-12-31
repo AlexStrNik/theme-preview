@@ -14,7 +14,7 @@ const RENDER_CONFIG = {
 };
 const parser = new DOMParser();
 
-let browser = puppeteer.launch();
+const browser = puppeteer.launch();
 
 const MINIMALISTIC_TEMPLATE = Symbol();
 const REGULAR_TEMPLATE = Symbol();
