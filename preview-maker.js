@@ -129,34 +129,53 @@ const addWallpaper = async (elements, wallpaper) => {
   return result;
 };
 
-const accentColor = (colors, grey) => {
+const isGray = (hsl) =>
+  hsl.saturation < 0.05 || hsl.lightness > 0.92 || hsl.lightness < 0.08;
+
+const areColorsEqual = (firstColor, secondColor) =>
+  Math.abs(firstColor.hue - secondColor.hue) < Number.EPSILON &&
+  Math.abs(firstColor.saturation - secondColor.saturation) < Number.EPSILON &&
+  Math.abs(firstColor.lightness - secondColor.lightness) < Number.EPSILON;
+
+const calculateAccentColor = (colorsHsl) => {
+  const colors = [];
+  let gray = 0;
+  for (const colorHsl of colorsHsl) {
+    if (isGray(colorHsl)) {
+      gray += 1;
+    } else {
+      colors.push(Math.round(colorHsl.hue));
+    }
+  }
+  if (gray / 6 > colors.length) {
+    return {
+      background: { hue: 0, saturation: 0, lightness: 0.9 },
+      shadow: { hue: 0, saturation: 0, lightness: 0.3 },
+    };
+  }
   const quantity = new Map();
   let accentQuantity = 0;
   let accent;
   for (const color of colors) {
     quantity.set(color, (quantity.get(color) ?? 0) + 1);
     if (quantity.get(color) > accentQuantity) {
-      accent = {
-        background: { hue: color, saturation: 1, lightness: 0.9 },
-        shadow: { hue: color, saturation: 1, lightness: 0.02 },
-      };
+      accent = color;
       accentQuantity = quantity.get(color);
     }
   }
-  if (grey / 6 > colors.length) {
-    accent = {
-      background: { hue: 0, saturation: 0, lightness: 0.9 },
-      shadow: { hue: 0, saturation: 0, lightness: 0.3 },
-    };
-  }
-  return accent;
+  return {
+    background: { hue: accent, saturation: 1, lightness: 0.9 },
+    shadow: { hue: accent, saturation: 1, lightness: 0.02 },
+  };
 };
+
 const rgbDifference = (color1, color2) =>
   Math.hypot(
     color1.red - color2.red,
     color1.green - color2.green,
     color1.blue - color2.blue
   );
+
 const fill = (rootNode, color) => {
   const cssColor =
     `red` in color
@@ -186,12 +205,6 @@ const fill = (rootNode, color) => {
   innerFill(rootNode);
 };
 
-const isNotGrey = (hsl) =>
-  hsl.saturation > 0.05 && hsl.lightness < 0.92 && hsl.lightness > 0.08;
-
-const eqv = (x, y) =>
-  x.hue == y.hue && x.saturation == y.saturation && x.lightness == y.lightness;
-
 const makePrevDesktop = async (themeBuffer) => {
   const originalTheme = new TdesktopTheme(themeBuffer);
   const theme = originalTheme.fallbackTo(defaultTheme);
@@ -201,7 +214,6 @@ const makePrevDesktop = async (themeBuffer) => {
   const variables = theme.variables();
 
   let colors = [];
-  let grey = 0;
   for (const variable of variables) {
     const elements = getElementsByClassName(preview, variable);
     const color = theme.resolveVariable(variable);
@@ -210,16 +222,12 @@ const makePrevDesktop = async (themeBuffer) => {
     }
     const dialogsBg = rgbToHsl(theme.resolveVariable(`dialogsBg`));
     const colorHsl = rgbToHsl(color);
-    if (!eqv(dialogsBg, colorHsl) && elements.length > 0) {
-      if (isNotGrey(colorHsl)) {
-        colors.push(Math.round(colorHsl.hue));
-      } else {
-        grey += 1;
-      }
+    if (!areColorsEqual(dialogsBg, colorHsl) && elements.length > 0) {
+      colors.push(colorHsl);
     }
   }
 
-  let { background, shadow } = accentColor(colors, grey);
+  let { background, shadow } = calculateAccentColor(colors);
 
   for (const previewBack of getElementsByClassName(preview, `PreviewBack`)) {
     fill(previewBack, background);
@@ -324,7 +332,6 @@ const makePrevAndroid = async (
     theme[`chat_{in/out}Bubble__darkest`] = outBubble;
   }
   let colors = [];
-  let grey = 0;
   for (const variable in defaultVariablesValues) {
     if (variable === `chat_wallpaper` && !theme.chat_wallpaper) {
       continue;
@@ -336,16 +343,12 @@ const makePrevAndroid = async (
     }
     const colorHsl = rgbToHsl(color);
     const dialogsBg = rgbToHsl(windowBackgroundWhite);
-    if (!eqv(dialogsBg, colorHsl) && elements.length > 0) {
-      if (isNotGrey(colorHsl)) {
-        colors.push(Math.round(colorHsl.hue));
-      } else {
-        grey += 1;
-      }
+    if (!areColorsEqual(dialogsBg, colorHsl) && elements.length > 0) {
+      colors.push(colorHsl);
     }
   }
 
-  let { background, shadow } = accentColor(colors, grey);
+  let { background, shadow } = calculateAccentColor(colors);
 
   for (const outBubbleGradientelement of getElementsByClassName(
     preview,
@@ -364,7 +367,7 @@ const makePrevAndroid = async (
     preview,
     `PreviewBackLinear`
   )) {
-    const colorSaturation = isNotGrey(outBubbleGradientHsl) ? 1 : 0;
+    const colorSaturation = !isGray(outBubbleGradientHsl) ? 1 : 0;
     fill(previewBackLinear, {
       hue: outBubbleGradientHsl.hue,
       saturation: colorSaturation,
@@ -375,7 +378,7 @@ const makePrevAndroid = async (
     preview,
     `PreviewBackLinearShadow`
   )) {
-    const colorSaturation = isNotGrey(outBubbleHsl) ? 1 : 0;
+    const colorSaturation = !isGray(outBubbleHsl) ? 1 : 0;
     fill(previewBackLinearShadow, {
       hue: outBubbleHsl.hue,
       saturation: colorSaturation,
