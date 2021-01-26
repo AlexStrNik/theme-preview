@@ -367,7 +367,7 @@ const makePrevAndroid = async (
     preview,
     `PreviewBackLinear`
   )) {
-    const colorSaturation = !isGray(outBubbleGradientHsl) ? 1 : 0;
+    const colorSaturation = isGray(outBubbleGradientHsl) ? 0 : 1;
     fill(previewBackLinear, {
       hue: outBubbleGradientHsl.hue,
       saturation: colorSaturation,
@@ -378,7 +378,7 @@ const makePrevAndroid = async (
     preview,
     `PreviewBackLinearShadow`
   )) {
-    const colorSaturation = !isGray(outBubbleHsl) ? 1 : 0;
+    const colorSaturation = isGray(outBubbleHsl) ? 0 : 1;
     fill(previewBackLinearShadow, {
       hue: outBubbleHsl.hue,
       saturation: colorSaturation,
