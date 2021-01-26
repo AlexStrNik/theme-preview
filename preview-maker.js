@@ -139,15 +139,15 @@ const areColorsEqual = (firstColor, secondColor) =>
 
 const calculateAccentColor = (colorsHsl) => {
   const colors = [];
-  let gray = 0;
+  let grayColorsAmount = 0;
   for (const colorHsl of colorsHsl) {
     if (isGray(colorHsl)) {
-      gray += 1;
+      grayColorsAmount += 1;
     } else {
       colors.push(Math.round(colorHsl.hue));
     }
   }
-  if (gray / 6 > colors.length) {
+  if (grayColorsAmount / 6 > colors.length) {
     return {
       background: { hue: 0, saturation: 0, lightness: 0.9 },
       shadow: { hue: 0, saturation: 0, lightness: 0.3 },
