@@ -9,6 +9,7 @@ const { serializeToString: serialize } = new XMLSerializer();
 const Color = require(`@snejugal/color`);
 const rgbToHsl = Color.rgbToHsl;
 const puppeteer = require(`puppeteer`);
+const { fallbacks } = require(`./fallbacks`);
 
 const browser = puppeteer.launch();
 
@@ -307,6 +308,10 @@ const makePrevAndroid = async (
     theme = new Attheme(themeBuffer.toString(`binary`));
   } else {
     theme = themeBuffer;
+  }
+  for (const [variable, fallbackVariable] of fallbacks) {
+    theme[variable] ??=
+      theme[fallbackVariable] ?? defaultVariablesValues[variable];
   }
 
   const preview = parser.parseFromString(templates[template]);
