@@ -139,7 +139,11 @@ const handleDocument = async (context) => {
   const callbackQuery = context.callbackQuery;
   const callbackMessage = callbackQuery.message;
   if (callbackMessage.text == `Select the style`) {
-    context.deleteMessage(callbackMessage.message_id);
+    try {
+      context.deleteMessage(callbackMessage.message_id);
+    } catch {
+      return;
+    }
   } else {
     bot.telegram.editMessageCaption(
       callbackMessage.chat.id,
