@@ -32,10 +32,15 @@ const handleStart = async (context) => {
   const id = context.message.text.slice(`/start `.length).trim();
 
   if (id.length === 0) {
-    await context.reply(
-      `Send me an .attheme or a .tdesktop-theme file to create its preview`
-    );
-    return;
+    try {
+      await context.reply(
+        `Send me an .attheme or a .tdesktop-theme file to create its preview`
+      );
+      return;
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   }
   const { name, theme } = await atthemeEditorApi.downloadTheme(id);
   const preview = await render({
@@ -80,18 +85,23 @@ const choose = async (context) => {
     isAttheme &&
     ![`group`, `supergroup`].includes(context.message.chat.type)
   ) {
-    context.reply(`Select the style`, {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: `Ordinary`, callback_data: `ordinary` },
-            { text: `Minimalistic`, callback_data: `minimalistic` },
+    try {
+      await context.reply(`Select the style`, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: `Ordinary`, callback_data: `ordinary` },
+              { text: `Minimalistic`, callback_data: `minimalistic` },
+            ],
           ],
-        ],
-      },
-      reply_to_message_id: context.message.message_id,
-    });
-    return;
+        },
+        reply_to_message_id: context.message.message_id,
+      });
+      return;
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   }
 
   bot.telegram.sendChatAction(context.message.chat.id, `upload_photo`);
@@ -148,6 +158,7 @@ const handleDocument = async (context) => {
       `Updating the preview...`
     );
   }
+  if (!callbackMessage.reply_to_message) return;
   bot.telegram.sendChatAction(callbackMessage.chat.id, `upload_photo`);
   const fileName = callbackMessage.reply_to_message.document.file_name;
   const theme = await context.downloadFile();
