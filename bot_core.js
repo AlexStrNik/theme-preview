@@ -160,13 +160,15 @@ const handleDocument = async (context) => {
       );
     }
   } catch (err) {
-    return console.error(err);
+    console.error(err);
+    return;
   }
   if (!callbackMessage.reply_to_message) return;
   try {
     await bot.telegram.sendChatAction(callbackMessage.chat.id, `upload_photo`);
   } catch (err) {
-    return console.error(err);
+    console.error(err);
+    return;
   }
   const fileName = callbackMessage.reply_to_message.document.file_name;
   const theme = await context.downloadFile();
