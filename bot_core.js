@@ -148,22 +148,28 @@ const choose = async (context) => {
 const handleDocument = async (context) => {
   const callbackQuery = context.callbackQuery;
   const callbackMessage = callbackQuery.message;
-  if (callbackMessage.text == `Select the style`) {
-    try {
-      context.deleteMessage(callbackMessage.message_id);
-    } catch {
-      return;
+  try {
+    if (callbackMessage.text == `Select the style`) {
+      await context.deleteMessage(callbackMessage.message_id);
+    } else {
+      await bot.telegram.editMessageCaption(
+        callbackMessage.chat.id,
+        callbackMessage.message_id,
+        callbackMessage.message_id,
+        `Updating the preview...`
+      );
     }
-  } else {
-    bot.telegram.editMessageCaption(
-      callbackMessage.chat.id,
-      callbackMessage.message_id,
-      callbackMessage.message_id,
-      `Updating the preview...`
-    );
+  } catch (err) {
+    console.error(err);
+    return;
   }
   if (!callbackMessage.reply_to_message) return;
-  bot.telegram.sendChatAction(callbackMessage.chat.id, `upload_photo`);
+  try {
+    await bot.telegram.sendChatAction(callbackMessage.chat.id, `upload_photo`);
+  } catch (err) {
+    console.error(err);
+    return;
+  }
   const fileName = callbackMessage.reply_to_message.document.file_name;
   const theme = await context.downloadFile();
   const preview = await render({
