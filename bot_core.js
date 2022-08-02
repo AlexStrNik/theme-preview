@@ -14,6 +14,21 @@ const {
 } = require(`./preview-maker`);
 const RESEND_ON_ERRORS = [`RequestError`, `FetchError`];
 
+const handleRenderError = async (context, error) => {
+  console.error(error);
+  if (
+    context.updateType == `callback_query` ||
+    context.message.chat.type === `private`
+  ) {
+    await context.reply(
+      `An error happened while making the preview. It may be a problem with your theme, or a bug in the bot. If you think it's the latter, please forward this message to @snejugal.
+
+<pre>${error}</pre>`,
+      { parse_mode: `HTML` }
+    );
+  }
+};
+
 bot.context.downloadFile = async function (fileId) {
   if (!fileId) {
     fileId = this.callbackQuery.message.reply_to_message.document.file_id;
@@ -43,11 +58,17 @@ const handleStart = async (context) => {
     }
   }
   const { name, theme } = await atthemeEditorApi.downloadTheme(id);
-  const preview = await render({
-    theme,
-    name,
-    template: NEW_TEMPLATE,
-  });
+  let preview;
+  try {
+    preview = await render({
+      theme,
+      name,
+      template: NEW_TEMPLATE,
+    });
+  } catch (error) {
+    handleRenderError(context, error);
+    return;
+  }
 
   const sendPreview = async () => {
     try {
@@ -116,11 +137,19 @@ const choose = async (context) => {
     };
   }
   const theme = await context.downloadFile(context.message.document.file_id);
-  const preview = await render({
-    theme,
-    name,
-    template,
-  });
+
+  let preview;
+  try {
+    preview = await render({
+      theme,
+      name,
+      template,
+    });
+  } catch (error) {
+    handleRenderError(context, error);
+    return;
+  }
+
   const sendPreview = async () => {
     try {
       await context.replyWithPhoto(
@@ -172,14 +201,22 @@ const handleDocument = async (context) => {
   }
   const fileName = callbackMessage.reply_to_message.document.file_name;
   const theme = await context.downloadFile();
-  const preview = await render({
-    theme,
-    name: fileName.replace(`.attheme`, ``),
-    template:
-      callbackQuery.data == `ordinary`
-        ? REGULAR_TEMPLATE
-        : MINIMALISTIC_TEMPLATE,
-  });
+
+  let preview;
+  try {
+    preview = await render({
+      theme,
+      name: fileName.replace(`.attheme`, ``),
+      template:
+        callbackQuery.data == `ordinary`
+          ? REGULAR_TEMPLATE
+          : MINIMALISTIC_TEMPLATE,
+    });
+  } catch (error) {
+    handleRenderError(context, error);
+    return;
+  }
+
   const sendPreview = async () => {
     const reply_markup = {
       inline_keyboard: [
