@@ -470,6 +470,16 @@ const makePrevAndroid = async (
     }
   }
 
+  if (theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
+    // Check that the wallpaper is valid, and delete it if it's invalid
+    try {
+      const wallpaperBuffer = Buffer.from(theme[Attheme.IMAGE_KEY], `binary`);
+      sizeOf(wallpaperBuffer);
+    } catch {
+      delete theme[Attheme.IMAGE_KEY];
+    }
+  }
+
   if (!theme[Attheme.IMAGE_KEY] && !theme.chat_wallpaper) {
     const randomWallpaper = Math.floor(Math.random() * WALLPAPERS_AMOUNT);
     const image = wallpapers[randomWallpaper];
